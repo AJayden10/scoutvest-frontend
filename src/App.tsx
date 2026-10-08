@@ -81,13 +81,13 @@ export default function App() {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden', background: '#060B14', fontFamily: 'IBM Plex Sans, system-ui, sans-serif' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden', background: '#000000', fontFamily: 'IBM Plex Sans, system-ui, sans-serif' }}>
       <Sidebar currentPage={page} onNavigate={navigate} />
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'hidden' }}>
         <TopBar onNavigate={navigate} onSelectPlayer={selectPlayer} />
 
-        <main style={{ flex: 1, overflowY: 'auto', background: '#060B14', position: 'relative' }} className="scrollbar-hide">
+        <main style={{ flex: 1, overflowY: 'auto', background: '#000000', position: 'relative' }} className="scrollbar-hide">
           {/* key restarts the short fade when the picture changes with the page */}
           <div key={BANNERS[page]} aria-hidden className="page-banner" style={{ backgroundImage: `url(${BANNERS[page]})` }} />
           <div style={{ position: 'relative', zIndex: 1, ...(page === 'scouting' ? { height: '100%' } : { minHeight: '100%' }) }}>
@@ -110,15 +110,15 @@ export default function App() {
           border: 'none', cursor: 'pointer',
           display: 'flex', alignItems: 'center', gap: 8,
           transition: 'all 0.2s',
-          fontFamily: 'Saira Condensed', fontSize: 17, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#060B14',
+          fontFamily: 'Saira Condensed', fontSize: 17, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#000000',
         }}
       >
         {assistantOpen ? (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#060B14" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
           </svg>
         ) : (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#060B14" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
           </svg>
         )}
@@ -129,19 +129,19 @@ export default function App() {
       {assistantOpen && (
         <div style={{
           position: 'fixed', bottom: 88, right: 24, zIndex: 49,
-          width: 360, height: 480, background: '#101A2C',
-          border: '1px solid #1F2E48', borderRadius: 14,
+          width: 360, height: 480, background: '#111111',
+          border: '1px solid #2A2A2A', borderRadius: 14,
           display: 'flex', flexDirection: 'column',
           boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
         }}>
-          <div style={{ padding: '16px 20px', borderBottom: '1px solid #1F2E48', display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ padding: '16px 20px', borderBottom: '1px solid #2A2A2A', display: 'flex', alignItems: 'center', gap: 10 }}>
             <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'rgba(245,184,46,0.12)', border: '1px solid rgba(245,184,46,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5B82E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
               </svg>
             </div>
             <div>
-              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, fontWeight: 600, color: '#E8EEF8' }}>Ask ScoutVest</div>
+              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, fontWeight: 600, color: '#F2F2F2' }}>Ask ScoutVest</div>
               <div style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: '#F5B82E' }}>AI SCOUTING ASSISTANT</div>
             </div>
           </div>
@@ -151,9 +151,9 @@ export default function App() {
               <div key={i} style={{ display: 'flex', justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start' }}>
                 <div style={{
                   maxWidth: '85%', padding: '10px 14px', borderRadius: m.role === 'user' ? '12px 12px 4px 12px' : '12px 12px 12px 4px',
-                  background: m.role === 'user' ? 'rgba(245,184,46,0.12)' : '#0B1220',
-                  border: `1px solid ${m.role === 'user' ? 'rgba(245,184,46,0.2)' : '#1F2E48'}`,
-                  fontFamily: 'IBM Plex Sans', fontSize: 12.5, color: '#C4D0E4', lineHeight: 1.6,
+                  background: m.role === 'user' ? 'rgba(245,184,46,0.12)' : '#0A0A0A',
+                  border: `1px solid ${m.role === 'user' ? 'rgba(245,184,46,0.2)' : '#2A2A2A'}`,
+                  fontFamily: 'IBM Plex Sans', fontSize: 12.5, color: '#CFCFCF', lineHeight: 1.6,
                   whiteSpace: 'pre-line',
                 }}>
                   {m.text}
@@ -162,20 +162,20 @@ export default function App() {
             ))}
           </div>
 
-          <div style={{ padding: '12px 16px', borderTop: '1px solid #1F2E48' }}>
+          <div style={{ padding: '12px 16px', borderTop: '1px solid #2A2A2A' }}>
             <div style={{ display: 'flex', gap: 8 }}>
               <input
                 value={chatInput}
                 onChange={e => setChatInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && sendChat()}
                 placeholder="Ask about players, targets..."
-                style={{ flex: 1, padding: '8px 12px', background: '#0B1220', border: '1px solid #1F2E48', borderRadius: 8, fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#E8EEF8', outline: 'none' }}
+                style={{ flex: 1, padding: '8px 12px', background: '#0A0A0A', border: '1px solid #2A2A2A', borderRadius: 8, fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#F2F2F2', outline: 'none' }}
               />
               <button onClick={sendChat} style={{
                 width: 34, height: 34, borderRadius: 8, background: '#F5B82E', border: 'none', cursor: 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
               }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#060B14" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
                 </svg>
               </button>
@@ -184,8 +184,8 @@ export default function App() {
               {["U23 midfielders <€15M", "Low risk wingers", "Expiring contracts"].map(hint => (
                 <button key={hint} onClick={() => { setChatInput(hint); }} style={{
                   padding: '3px 8px', borderRadius: 4, background: 'transparent',
-                  border: '1px solid #1F2E48', cursor: 'pointer',
-                  fontFamily: 'IBM Plex Sans', fontSize: 10, color: '#8493AD',
+                  border: '1px solid #2A2A2A', cursor: 'pointer',
+                  fontFamily: 'IBM Plex Sans', fontSize: 10, color: '#9A9A9A',
                 }}>
                   {hint}
                 </button>

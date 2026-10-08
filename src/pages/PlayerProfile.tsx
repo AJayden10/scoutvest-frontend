@@ -38,11 +38,11 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
 
       {/* Breadcrumb */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-        <button onClick={() => onNavigate('dashboard')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#8493AD', padding: 0 }}>
+        <button onClick={() => onNavigate('dashboard')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#9A9A9A', padding: 0 }}>
           Dashboard
         </button>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4C5B76" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-        <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#E8EEF8' }}>Player Intelligence</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5E5E5E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#F2F2F2' }}>Player Intelligence</span>
       </div>
 
       {/* ── Investment Opportunity Hero (spec §37 — investment case first) ── */}
@@ -53,7 +53,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
         overflow: 'hidden',
       }}>
         {/* Top accent bar */}
-        <div style={{ height: 3, background: 'linear-gradient(90deg, #F5B82E, #A8CC2C 60%, transparent)' }} />
+        <div style={{ height: 3, background: 'linear-gradient(90deg, #F5B82E, #D9A21E 60%, transparent)' }} />
 
         <div style={{ padding: '28px 32px' }}>
           <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'flex-start' }}>
@@ -66,16 +66,16 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
                   <InvestmentBadge signal={player.signal} />
                   <RiskBadge risk={player.risk} />
                 </div>
-                <h1 style={{ fontFamily: 'Saira Condensed', fontSize: 26, fontWeight: 700, color: '#E8EEF8', margin: 0, letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+                <h1 style={{ fontFamily: 'Saira Condensed', fontSize: 26, fontWeight: 700, color: '#F2F2F2', margin: 0, letterSpacing: '-0.02em', lineHeight: 1.1 }}>
                   {player.name}
                 </h1>
                 <div style={{ display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap', alignItems: 'center' }}>
                   <PositionTag pos={player.position} />
-                  <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#8493AD' }}>Age {player.age}</span>
-                  <span style={{ color: '#1F2E48' }}>·</span>
-                  <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#8493AD' }}>{player.club}</span>
-                  <span style={{ color: '#1F2E48' }}>·</span>
-                  <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#8493AD' }}>{player.league}</span>
+                  <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9A9A9A' }}>Age {player.age}</span>
+                  <span style={{ color: '#2A2A2A' }}>·</span>
+                  <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9A9A9A' }}>{player.club}</span>
+                  <span style={{ color: '#2A2A2A' }}>·</span>
+                  <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9A9A9A' }}>{player.league}</span>
                 </div>
                 <div style={{ marginTop: 16, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
                   <Btn variant="primary">+ Add to Watchlist</Btn>
@@ -88,17 +88,17 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
             {/* The investment numbers — right-aligned, spec §11 & §37 */}
             <div style={{ marginLeft: 'auto', display: 'flex', gap: 0, alignItems: 'stretch', flexShrink: 0 }}>
               {[
-                { label: 'CURRENT VALUE', value: fmt(player.currentValue), color: '#C4D0E4', dim: true },
+                { label: 'CURRENT VALUE', value: fmt(player.currentValue), color: '#CFCFCF', dim: true },
                 { label: 'PREDICTED VALUE', value: fmt(player.predictedValue), color: '#3DDC97', dim: false },
                 { label: 'EXPECTED UPSIDE', value: `+${player.upside}%`, color: '#3DDC97', dim: false, big: true },
               ].map((m, i) => (
                 <div key={m.label} style={{
                   padding: '0 28px',
-                  borderLeft: i > 0 ? '1px solid rgba(31,46,72,0.6)' : 'none',
+                  borderLeft: i > 0 ? '1px solid rgba(42,42,42,0.6)' : 'none',
                   textAlign: 'center',
                   display: 'flex', flexDirection: 'column', justifyContent: 'center',
                 }}>
-                  <div style={{ fontFamily: 'JetBrains Mono', fontSize: 8, fontWeight: 700, color: '#4C5B76', marginBottom: 8 }}>
+                  <div style={{ fontFamily: 'JetBrains Mono', fontSize: 8, fontWeight: 700, color: '#5E5E5E', marginBottom: 8 }}>
                     {m.label}
                   </div>
                   <div style={{
@@ -121,7 +121,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
             padding: '14px 18px',
             background: 'rgba(0,0,0,0.25)',
             borderRadius: 8,
-            border: '1px solid rgba(31,46,72,0.5)',
+            border: '1px solid rgba(42,42,42,0.5)',
             display: 'flex', gap: 24, flexWrap: 'wrap',
           }}>
             <div style={{ fontFamily: 'JetBrains Mono', fontSize: 8, color: '#F5B82E', alignSelf: 'center', flexShrink: 0 }}>
@@ -133,7 +133,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
                   <div style={{ width: 16, height: 16, borderRadius: '50%', background: 'rgba(245,184,46,0.12)', border: '1px solid rgba(245,184,46,0.22)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
                     <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#F5B82E" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                   </div>
-                  <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#C4D0E4', lineHeight: 1.45 }}>{r}</span>
+                  <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#CFCFCF', lineHeight: 1.45 }}>{r}</span>
                 </div>
               ))}
             </div>
@@ -142,12 +142,12 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
       </div>
 
       {/* Tabs */}
-      <div style={{ display: 'flex', borderBottom: '1px solid rgba(31,46,72,0.7)', gap: 0 }}>
+      <div style={{ display: 'flex', borderBottom: '1px solid rgba(42,42,42,0.7)', gap: 0 }}>
         {tabs.map(t => (
           <button key={t} onClick={() => setTab(t)} style={{
             background: 'none', border: 'none', cursor: 'pointer',
             padding: '10px 20px', fontFamily: 'IBM Plex Sans', fontSize: 13, fontWeight: tab === t ? 600 : 400,
-            color: tab === t ? '#E8EEF8' : '#8493AD',
+            color: tab === t ? '#F2F2F2' : '#9A9A9A',
             borderBottom: tab === t ? '2px solid #F5B82E' : '2px solid transparent',
             marginBottom: -1, transition: 'color 0.15s',
           }}>
@@ -193,7 +193,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
               extra: (
                 <div style={{ marginTop: 14 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 7 }}>
-                    <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#8493AD' }}>Model Confidence</span>
+                    <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#9A9A9A' }}>Model Confidence</span>
                     <span style={{ fontFamily: 'JetBrains Mono', fontSize: 12, fontWeight: 700, color: '#F5B82E' }}>{player.confidence}%</span>
                   </div>
                   <ConfidenceBar pct={player.confidence} />
@@ -204,7 +204,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
             <Card key={section.title} style={{ padding: '20px 22px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
                 <div style={{ width: 3, height: 16, borderRadius: 8, background: section.color }} />
-                <div style={{ fontFamily: 'JetBrains Mono', fontSize: 9, fontWeight: 700, color: '#8493AD', }}>{section.title}</div>
+                <div style={{ fontFamily: 'JetBrains Mono', fontSize: 9, fontWeight: 700, color: '#9A9A9A', }}>{section.title}</div>
               </div>
               {section.rows.map(r => <StatRow key={r.label} label={r.label} value={r.value} mono highlight={(r as any).hi} />)}
               {(section as any).extra}
@@ -229,11 +229,11 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
             ].map(m => {
               const pct = Math.min(100, ((m.raw ?? +m.value) / m.max) * 100)
               return (
-                <div key={m.label} style={{ background: '#0B1220', borderRadius: 8, padding: '16px' }}>
-                  <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#8493AD', marginBottom: 10 }}>{m.label}</div>
-                  <div style={{ fontFamily: 'JetBrains Mono', fontSize: 24, fontWeight: 700, color: '#E8EEF8', marginBottom: 12, letterSpacing: '-0.01em' }}>{m.value}</div>
-                  <div style={{ height: 4, background: 'rgba(31,46,72,0.8)', borderRadius: 8 }}>
-                    <div style={{ height: 4, width: `${pct}%`, background: 'linear-gradient(90deg, #A8CC2C, #F5B82E)', borderRadius: 8 }} />
+                <div key={m.label} style={{ background: '#0A0A0A', borderRadius: 8, padding: '16px' }}>
+                  <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#9A9A9A', marginBottom: 10 }}>{m.label}</div>
+                  <div style={{ fontFamily: 'JetBrains Mono', fontSize: 24, fontWeight: 700, color: '#F2F2F2', marginBottom: 12, letterSpacing: '-0.01em' }}>{m.value}</div>
+                  <div style={{ height: 4, background: 'rgba(42,42,42,0.8)', borderRadius: 8 }}>
+                    <div style={{ height: 4, width: `${pct}%`, background: 'linear-gradient(90deg, #D9A21E, #F5B82E)', borderRadius: 8 }} />
                   </div>
                 </div>
               )
@@ -256,22 +256,22 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
                   <stop offset="95%" stopColor="#F5B82E" stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(31,46,72,0.7)" />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(42,42,42,0.7)" />
               <XAxis dataKey="date"
-                tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#8493AD' }}
-                axisLine={{ stroke: '#1F2E48' }} tickLine={false}
+                tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#9A9A9A' }}
+                axisLine={{ stroke: '#2A2A2A' }} tickLine={false}
               />
               <YAxis
-                tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#8493AD' }}
-                axisLine={{ stroke: '#1F2E48' }} tickLine={false}
+                tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#9A9A9A' }}
+                axisLine={{ stroke: '#2A2A2A' }} tickLine={false}
                 tickFormatter={v => `€${v}M`}
               />
               <Tooltip
                 formatter={(v: any) => [`€${Number(v).toFixed(1)}M`]}
-                contentStyle={{ background: '#0C1626', border: '1px solid #1F2E48', fontFamily: 'IBM Plex Sans', fontSize: 12, borderRadius: 8 }}
+                contentStyle={{ background: '#0D0D0D', border: '1px solid #2A2A2A', fontFamily: 'IBM Plex Sans', fontSize: 12, borderRadius: 8 }}
               />
-              <ReferenceLine x="Jul 24" stroke="#1F2E48" strokeDasharray="4 4"
-                label={{ value: 'NOW', fill: '#4C5B76', fontSize: 9, fontFamily: 'JetBrains Mono', }}
+              <ReferenceLine x="Jul 24" stroke="#2A2A2A" strokeDasharray="4 4"
+                label={{ value: 'NOW', fill: '#5E5E5E', fontSize: 9, fontFamily: 'JetBrains Mono', }}
               />
               <Line dataKey="actual" stroke="#3DD6F5" strokeWidth={2.5} dot={{ fill: '#3DD6F5', r: 4, strokeWidth: 0 }} connectNulls={false} name="Historical" />
               <Area dataKey="predicted" stroke="#F5B82E" strokeWidth={2} strokeDasharray="7 4"
@@ -285,7 +285,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
                 <svg width="22" height="6" viewBox="0 0 22 6">
                   <line x1="0" y1="3" x2="22" y2="3" stroke={color as string} strokeWidth="2" strokeDasharray={dashed ? '5 3' : undefined} strokeLinecap="round"/>
                 </svg>
-                <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#8493AD' }}>{label as string}</span>
+                <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#9A9A9A' }}>{label as string}</span>
               </div>
             ))}
           </div>
@@ -300,14 +300,14 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
             <SectionTitle>Value Trajectory</SectionTitle>
 
             <div style={{ marginTop: 20 }}>
-              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#8493AD', marginBottom: 4 }}>Current Value</div>
-              <div style={{ fontFamily: 'Saira Condensed', fontSize: 36, fontWeight: 700, color: '#E8EEF8', letterSpacing: '-0.02em', marginBottom: 20 }}>{fmt(player.currentValue)}</div>
+              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#9A9A9A', marginBottom: 4 }}>Current Value</div>
+              <div style={{ fontFamily: 'Saira Condensed', fontSize: 36, fontWeight: 700, color: '#F2F2F2', letterSpacing: '-0.02em', marginBottom: 20 }}>{fmt(player.currentValue)}</div>
 
               {projections.map((p, i) => (
-                <div key={p.label} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 0', borderBottom: '1px solid rgba(31,46,72,0.5)' }}>
+                <div key={p.label} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 0', borderBottom: '1px solid rgba(42,42,42,0.5)' }}>
                   <div>
-                    <div style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: '#8493AD', marginBottom: 2 }}>{p.note.toUpperCase()}</div>
-                    <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#C4D0E4' }}>{p.label} Projection</div>
+                    <div style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: '#9A9A9A', marginBottom: 2 }}>{p.note.toUpperCase()}</div>
+                    <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#CFCFCF' }}>{p.label} Projection</div>
                   </div>
                   <div style={{ fontFamily: 'Saira Condensed', fontSize: 22, fontWeight: 700, color: '#F5B82E', letterSpacing: '-0.01em' }}>
                     {fmt(p.value)}
@@ -317,7 +317,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
 
               <div style={{ marginTop: 20 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                  <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#8493AD' }}>Model Confidence</span>
+                  <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9A9A9A' }}>Model Confidence</span>
                   <span style={{ fontFamily: 'JetBrains Mono', fontSize: 14, fontWeight: 700, color: '#F5B82E' }}>{player.confidence}%</span>
                 </div>
                 <ConfidenceBar pct={player.confidence} />
@@ -344,7 +344,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
                       <polyline points="20 6 9 17 4 12"/>
                     </svg>
                   </div>
-                  <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#C4D0E4', lineHeight: 1.5 }}>{r}</span>
+                  <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#CFCFCF', lineHeight: 1.5 }}>{r}</span>
                 </div>
               ))}
             </div>
@@ -356,10 +356,10 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
       {tab === 'Risk Analysis' && (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 16 }}>
           <Card style={{ padding: '24px', textAlign: 'center' }}>
-            <div style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: '#8493AD', marginBottom: 20 }}>RISK SCORE</div>
+            <div style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: '#9A9A9A', marginBottom: 20 }}>RISK SCORE</div>
             <div style={{ position: 'relative', width: 110, height: 110, margin: '0 auto 16px' }}>
               <svg width="110" height="110" viewBox="0 0 110 110">
-                <circle cx="55" cy="55" r="46" fill="none" stroke="#17243B" strokeWidth="10"/>
+                <circle cx="55" cy="55" r="46" fill="none" stroke="#1A1A1A" strokeWidth="10"/>
                 <circle cx="55" cy="55" r="46" fill="none"
                   stroke="#F5B82E" strokeWidth="10"
                   strokeDasharray={`${(player.riskScore / 100) * 289} 289`}
@@ -368,17 +368,17 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
                 />
               </svg>
               <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                <span style={{ fontFamily: 'Saira Condensed', fontSize: 26, fontWeight: 700, color: '#E8EEF8' }}>{player.riskScore}</span>
-                <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 10, color: '#8493AD' }}>/ 100</span>
+                <span style={{ fontFamily: 'Saira Condensed', fontSize: 26, fontWeight: 700, color: '#F2F2F2' }}>{player.riskScore}</span>
+                <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 10, color: '#9A9A9A' }}>/ 100</span>
               </div>
             </div>
             <RiskBadge risk={player.risk} />
-            <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#8493AD', marginTop: 12, lineHeight: 1.5 }}>
+            <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#9A9A9A', marginTop: 12, lineHeight: 1.5 }}>
               Lower score indicates a safer investment profile
             </div>
           </Card>
           <Card style={{ padding: '24px' }}>
-            <div style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: '#8493AD', marginBottom: 20 }}>RISK FACTORS</div>
+            <div style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: '#9A9A9A', marginBottom: 20 }}>RISK FACTORS</div>
             {[
               { factor: 'Age Profile',             level: 'Low'    as const },
               { factor: 'Injury History',           level: player.riskScore > 35 ? 'Medium' as const : 'Low' as const },
@@ -387,8 +387,8 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
               { factor: 'Contract Status',          level: 'Low'    as const },
               { factor: 'Model Uncertainty',        level: player.confidence > 80 ? 'Low' as const : 'Medium' as const },
             ].map(f => (
-              <div key={f.factor} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '11px 0', borderBottom: '1px solid rgba(31,46,72,0.5)' }}>
-                <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#C4D0E4' }}>{f.factor}</span>
+              <div key={f.factor} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '11px 0', borderBottom: '1px solid rgba(42,42,42,0.5)' }}>
+                <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#CFCFCF' }}>{f.factor}</span>
                 <RiskBadge risk={f.level} />
               </div>
             ))}

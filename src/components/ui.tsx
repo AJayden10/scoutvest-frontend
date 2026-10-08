@@ -65,7 +65,7 @@ export function StadiumPattern() {
                 key={i}
                 d={`M ${x0} ${y0} A ${r} ${r} 0 0 1 ${x1} ${y1}`}
                 fill="none"
-                stroke={ri === 0 ? '#F5B82E' : '#1F2E48'}
+                stroke={ri === 0 ? '#F5B82E' : '#2A2A2A'}
                 strokeWidth={ri === 0 ? 1.4 : 1}
                 strokeOpacity={ri === 0 ? 0.35 : 0.5}
               />
@@ -73,7 +73,7 @@ export function StadiumPattern() {
           })}
         </g>
       ))}
-      <circle cx="400" cy="400" r="90" fill="none" stroke="#1F2E48" strokeWidth="1" strokeOpacity="0.5" />
+      <circle cx="400" cy="400" r="90" fill="none" stroke="#2A2A2A" strokeWidth="1" strokeOpacity="0.5" />
     </svg>
   )
 }
@@ -81,7 +81,7 @@ export function StadiumPattern() {
 export function Card({ children, style, onClick }: { children: ReactNode; style?: CSSProperties; onClick?: () => void }) {
   return (
     <div onClick={onClick} style={{
-      background: 'linear-gradient(180deg, #14213A 0%, #101A2C 100%)', border: '1px solid #1F2E48', borderRadius: 10,
+      background: 'linear-gradient(180deg, #171717 0%, #111111 100%)', border: '1px solid #2A2A2A', borderRadius: 10,
       cursor: onClick ? 'pointer' : undefined,
       ...style,
     }}>
@@ -102,7 +102,7 @@ export function KpiCard({
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
         <div style={{
           fontFamily: 'IBM Plex Sans', fontSize: 13, fontWeight: 500,
-          color: '#8493AD',
+          color: '#9A9A9A',
         }}>
           {label}
         </div>
@@ -114,7 +114,7 @@ export function KpiCard({
       </div>
       <div style={{
         fontFamily: 'Saira Condensed', fontStyle: 'italic', fontSize: 44, fontWeight: 800, lineHeight: 1,
-        color: accent ? '#F5B82E' : '#E8EEF8',
+        color: accent ? '#F5B82E' : '#F2F2F2',
         letterSpacing: '0',
         marginBottom: 10,
       }}>
@@ -132,7 +132,7 @@ export function KpiCard({
           </span>
         )}
         {sub && (
-          <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#8493AD' }}>{sub}</span>
+          <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#9A9A9A' }}>{sub}</span>
         )}
       </div>
     </Card>
@@ -142,8 +142,8 @@ export function KpiCard({
 export function SectionTitle({ children, sub }: { children: ReactNode; sub?: string }) {
   return (
     <div>
-      <h2 style={{ fontFamily: 'Saira Condensed', color: '#E8EEF8', margin: 0, lineHeight: 1.1 }}>{children}</h2>
-      {sub && <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#8493AD', margin: '5px 0 0' }}>{sub}</p>}
+      <h2 style={{ fontFamily: 'Saira Condensed', color: '#F2F2F2', margin: 0, lineHeight: 1.1 }}>{children}</h2>
+      {sub && <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9A9A9A', margin: '5px 0 0' }}>{sub}</p>}
     </div>
   )
 }
@@ -155,9 +155,9 @@ export function Btn({
   onClick?: () => void; style?: CSSProperties; disabled?: boolean
 }) {
   const map = {
-    primary:   { bg: '#F5B82E', color: '#060B14', border: '#F5B82E', hoverBg: '#DCFF5E' },
-    secondary: { bg: '#14213A', color: '#E8EEF8', border: '#1F2E48', hoverBg: '#1B2C4A' },
-    ghost:     { bg: 'transparent', color: '#8493AD', border: '#1F2E48', hoverBg: 'rgba(255,255,255,0.04)' },
+    primary:   { bg: '#F5B82E', color: '#000000', border: '#F5B82E', hoverBg: '#DCFF5E' },
+    secondary: { bg: '#171717', color: '#F2F2F2', border: '#2A2A2A', hoverBg: '#1F1F1F' },
+    ghost:     { bg: 'transparent', color: '#9A9A9A', border: '#2A2A2A', hoverBg: 'rgba(255,255,255,0.04)' },
     danger:    { bg: 'rgba(255,90,79,0.1)', color: '#FF5A4F', border: 'rgba(255,90,79,0.25)', hoverBg: 'rgba(255,90,79,0.18)' },
   }
   const s = map[variant]
@@ -185,11 +185,11 @@ export function Btn({
 
 export function StatRow({ label, value, mono, highlight }: { label: string; value: string | number; mono?: boolean; highlight?: boolean }) {
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '9px 0', borderBottom: '1px solid rgba(31,46,72,0.7)' }}>
-      <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#8493AD' }}>{label}</span>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '9px 0', borderBottom: '1px solid rgba(42,42,42,0.7)' }}>
+      <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9A9A9A' }}>{label}</span>
       <span style={{
         fontFamily: mono ? 'JetBrains Mono' : 'IBM Plex Sans', fontSize: 13, fontWeight: 600,
-        color: highlight ? '#F5B82E' : '#E8EEF8',
+        color: highlight ? '#F5B82E' : '#F2F2F2',
       }}>
         {value}
       </span>
@@ -237,7 +237,7 @@ export function fmt(val: number) {
 export function ValueArrow({ from, to }: { from: string; to: string }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-      <span style={{ fontFamily: 'JetBrains Mono', fontSize: 13, fontWeight: 600, color: '#8493AD' }}>{from}</span>
+      <span style={{ fontFamily: 'JetBrains Mono', fontSize: 13, fontWeight: 600, color: '#9A9A9A' }}>{from}</span>
       <svg width="28" height="10" viewBox="0 0 28 10" fill="none">
         <path d="M0 5h24M19 1l5 4-5 4" stroke="#F5B82E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
@@ -248,7 +248,7 @@ export function ValueArrow({ from, to }: { from: string; to: string }) {
 
 export function ConfidenceBar({ pct, color = '#F5B82E' }: { pct: number; color?: string }) {
   return (
-    <div style={{ position: 'relative', height: 6, background: 'rgba(31,46,72,0.8)', borderRadius: 2, overflow: 'hidden' }}>
+    <div style={{ position: 'relative', height: 6, background: 'rgba(42,42,42,0.8)', borderRadius: 2, overflow: 'hidden' }}>
       <div style={{
         position: 'absolute', left: 0, top: 0, height: '100%',
         width: `${pct}%`,
@@ -261,5 +261,5 @@ export function ConfidenceBar({ pct, color = '#F5B82E' }: { pct: number; color?:
 }
 
 export function Divider() {
-  return <div style={{ height: 1, background: 'rgba(31,46,72,0.7)', margin: '0' }} />
+  return <div style={{ height: 1, background: 'rgba(42,42,42,0.7)', margin: '0' }} />
 }

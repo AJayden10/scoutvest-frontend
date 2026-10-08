@@ -50,23 +50,23 @@ const ChartTooltip = ({ active, payload }: any) => {
   const d = payload[0].payload
   return (
     <div style={{
-      background: '#0C1626', border: '1px solid #1F2E48', borderRadius: 8,
+      background: '#0D0D0D', border: '1px solid #2A2A2A', borderRadius: 8,
       padding: '12px 16px', fontFamily: 'IBM Plex Sans', fontSize: 12,
       boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
     }}>
-      <div style={{ fontWeight: 700, color: '#E8EEF8', marginBottom: 6, fontSize: 13 }}>{d.name}</div>
+      <div style={{ fontWeight: 700, color: '#F2F2F2', marginBottom: 6, fontSize: 13 }}>{d.name}</div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-          <span style={{ color: '#8493AD' }}>Current</span>
-          <span style={{ fontFamily: 'JetBrains Mono', color: '#E8EEF8', fontWeight: 600 }}>{fmt(d.x)}</span>
+          <span style={{ color: '#9A9A9A' }}>Current</span>
+          <span style={{ fontFamily: 'JetBrains Mono', color: '#F2F2F2', fontWeight: 600 }}>{fmt(d.x)}</span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-          <span style={{ color: '#8493AD' }}>Predicted</span>
+          <span style={{ color: '#9A9A9A' }}>Predicted</span>
           <span style={{ fontFamily: 'JetBrains Mono', color: '#F5B82E', fontWeight: 600 }}>{fmt(d.y)}</span>
         </div>
-        <div style={{ height: 1, background: '#1F2E48', margin: '4px 0' }} />
+        <div style={{ height: 1, background: '#2A2A2A', margin: '4px 0' }} />
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-          <span style={{ color: '#8493AD' }}>Upside</span>
+          <span style={{ color: '#9A9A9A' }}>Upside</span>
           <span style={{ fontFamily: 'IBM Plex Sans', color: '#3DDC97', fontWeight: 700 }}>+{d.upside}%</span>
         </div>
       </div>
@@ -85,10 +85,10 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
       {/* Page Header */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: 16 }}>
         <div>
-          <h1 style={{ fontFamily: 'Saira Condensed', fontSize: 32, fontWeight: 700, color: '#E8EEF8', margin: 0, letterSpacing: '-0.02em', lineHeight: 1 }}>
+          <h1 style={{ fontFamily: 'Saira Condensed', fontSize: 32, fontWeight: 700, color: '#F2F2F2', margin: 0, letterSpacing: '-0.02em', lineHeight: 1 }}>
             Market Overview
           </h1>
-          <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#8493AD', margin: '8px 0 0', lineHeight: 1.5 }}>
+          <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#9A9A9A', margin: '8px 0 0', lineHeight: 1.5 }}>
             Identify undervalued players and simulate future transfer returns.
           </p>
         </div>
@@ -111,7 +111,7 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
       {/* Overview: featured metric + compact supporting stats */}
       <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1.4fr', gap: 24, alignItems: 'stretch' }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', justifyContent: 'center', padding: '8px 4px' }}>
-          <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#8493AD', marginBottom: 6 }}>
+          <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#9A9A9A', marginBottom: 6 }}>
             Avg predicted upside this quarter
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: 12 }}>
@@ -122,9 +122,9 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
               <span>↑</span> +2.1pp
             </div>
           </div>
-          <div style={{ height: 1, background: '#1F2E48', margin: '18px auto 16px', maxWidth: 220 }} />
-          <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#8493AD', lineHeight: 1.6, maxWidth: 320 }}>
-            Across <span style={{ color: '#E8EEF8', fontWeight: 600 }}>184</span> flagged targets, spanning a recommended budget of <span style={{ color: '#E8EEF8', fontWeight: 600 }}>€74.2M</span>.
+          <div style={{ height: 1, background: '#2A2A2A', margin: '18px auto 16px', maxWidth: 220 }} />
+          <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9A9A9A', lineHeight: 1.6, maxWidth: 320 }}>
+            Across <span style={{ color: '#F2F2F2', fontWeight: 600 }}>184</span> flagged targets, spanning a recommended budget of <span style={{ color: '#F2F2F2', fontWeight: 600 }}>€74.2M</span>.
           </div>
         </div>
 
@@ -137,11 +137,11 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
             <div key={row.label} style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
               padding: '18px 24px',
-              borderBottom: i < 2 ? '1px solid #1F2E48' : 'none',
+              borderBottom: i < 2 ? '1px solid #2A2A2A' : 'none',
             }}>
-              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#8493AD' }}>{row.label}</div>
+              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9A9A9A' }}>{row.label}</div>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-                <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 22, fontWeight: 700, color: '#E8EEF8' }}>{row.value}</div>
+                <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 22, fontWeight: 700, color: '#F2F2F2' }}>{row.value}</div>
                 {row.trend && (
                   <div style={{ fontFamily: 'JetBrains Mono', fontSize: 11, fontWeight: 600, color: row.up ? '#3DDC97' : '#FF5A4F' }}>
                     ↑ {row.trend}
@@ -167,8 +167,8 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
                 padding: '4px 10px', borderRadius: 8, cursor: 'pointer',
                 fontFamily: 'JetBrains Mono', fontSize: 9, fontWeight: 700, letterSpacing: '0.06em',
                 background: posFilter === f ? '#F5B82E' : 'transparent',
-                color: posFilter === f ? '#060B14' : '#8493AD',
-                border: `1px solid ${posFilter === f ? '#F5B82E' : '#1F2E48'}`,
+                color: posFilter === f ? '#000000' : '#9A9A9A',
+                border: `1px solid ${posFilter === f ? '#F5B82E' : '#2A2A2A'}`,
                 transition: 'all 0.15s',
               }}>
                 {f}
@@ -182,14 +182,14 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
           {[['Low Risk', '#3DDC97'], ['Medium Risk', '#FF8A3D'], ['High Risk', '#FF5A4F']].map(([label, color]) => (
             <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <div style={{ width: 8, height: 8, borderRadius: '50%', background: color as string }} />
-              <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#8493AD' }}>{label}</span>
+              <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#9A9A9A' }}>{label}</span>
             </div>
           ))}
           <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 6 }}>
             <svg width="20" height="8" viewBox="0 0 20 8">
-              <line x1="0" y1="4" x2="20" y2="4" stroke="#1F2E48" strokeWidth="1.5" strokeDasharray="4 3"/>
+              <line x1="0" y1="4" x2="20" y2="4" stroke="#2A2A2A" strokeWidth="1.5" strokeDasharray="4 3"/>
             </svg>
-            <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#4C5B76' }}>Equal value line</span>
+            <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#5E5E5E' }}>Equal value line</span>
           </div>
         </div>
 
@@ -201,26 +201,26 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
                 <stop offset="100%" stopColor="#F5B82E" stopOpacity={0}/>
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(31,46,72,0.7)" />
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(42,42,42,0.7)" />
             <XAxis
               dataKey="x" type="number" name="Current Value"
               domain={[0, 65]} tickCount={7}
-              tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#8493AD' }}
-              axisLine={{ stroke: '#1F2E48' }} tickLine={false}
+              tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#9A9A9A' }}
+              axisLine={{ stroke: '#2A2A2A' }} tickLine={false}
               tickFormatter={v => `€${v}M`}
-              label={{ value: 'Current Market Value', position: 'insideBottom', offset: -16, fill: '#8493AD', fontFamily: 'IBM Plex Sans', fontSize: 11 }}
+              label={{ value: 'Current Market Value', position: 'insideBottom', offset: -16, fill: '#9A9A9A', fontFamily: 'IBM Plex Sans', fontSize: 11 }}
             />
             <YAxis
               dataKey="y" type="number" name="Predicted Value"
               domain={[0, 70]} tickCount={7}
-              tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#8493AD' }}
-              axisLine={{ stroke: '#1F2E48' }} tickLine={false}
+              tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#9A9A9A' }}
+              axisLine={{ stroke: '#2A2A2A' }} tickLine={false}
               tickFormatter={v => `€${v}M`}
-              label={{ value: 'Predicted Future Value', angle: -90, position: 'insideLeft', offset: 14, fill: '#8493AD', fontFamily: 'IBM Plex Sans', fontSize: 11 }}
+              label={{ value: 'Predicted Future Value', angle: -90, position: 'insideLeft', offset: 14, fill: '#9A9A9A', fontFamily: 'IBM Plex Sans', fontSize: 11 }}
             />
             <ReferenceLine
               segment={[{ x: 0, y: 0 }, { x: 65, y: 65 }]}
-              stroke="#1F2E48" strokeDasharray="5 4" strokeWidth={1.5}
+              stroke="#2A2A2A" strokeDasharray="5 4" strokeWidth={1.5}
             />
             <Tooltip content={<ChartTooltip />} />
             <Scatter data={scatterData} shape={<CustomDot />} />
@@ -276,7 +276,7 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
             style={{
               flex: 1, display: 'flex', gap: 14, alignItems: 'flex-start',
               padding: '20px 22px', cursor: 'pointer',
-              borderLeft: i > 0 ? '1px solid #1F2E48' : 'none',
+              borderLeft: i > 0 ? '1px solid #2A2A2A' : 'none',
               transition: 'background 0.15s',
             }}
             onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = `${item.color}08` }}
@@ -284,11 +284,11 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
           >
             <div style={{ width: 3, alignSelf: 'stretch', borderRadius: 8, background: item.color, flexShrink: 0 }} />
             <div>
-              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#8493AD', marginBottom: 10 }}>
+              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#9A9A9A', marginBottom: 10 }}>
                 {item.label}
               </div>
-              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 15, fontWeight: 700, color: '#E8EEF8', marginBottom: 4 }}>{item.value}</div>
-              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#8493AD' }}>{item.sub}</div>
+              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 15, fontWeight: 700, color: '#F2F2F2', marginBottom: 4 }}>{item.value}</div>
+              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#9A9A9A' }}>{item.sub}</div>
             </div>
           </div>
         ))}
