@@ -19,33 +19,33 @@ interface SidebarProps {
 export default function Sidebar({ currentPage, onNavigate }: SidebarProps) {
   return (
     <header style={{
-      height: 64, minHeight: 64, background: '#0D1117', borderBottom: '1px solid #2A2E37', boxShadow: 'inset 0 -2px 0 rgba(232,163,61,0.35)',
+      height: 64, minHeight: 64, background: '#080E19', borderBottom: '1px solid #1F2E48', boxShadow: 'inset 0 -2px 0 rgba(200,242,60,0.35)',
       display: 'flex', alignItems: 'center', padding: '0 20px', gap: 20, flexShrink: 0,
     }}>
       {/* Logo */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
         <div style={{
           width: 36, height: 36, borderRadius: 4,
-          background: 'linear-gradient(135deg, #1a3a2a 0%, #0f2318 100%)',
-          border: '1px solid #E8A33D',
+          background: 'linear-gradient(135deg, #1B2C4A 0%, #0C1626 100%)',
+          border: '1px solid #C8F23C',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           flexShrink: 0,
         }}>
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <rect x="3" y="4" width="14" height="12" rx="1" stroke="#E8A33D" strokeWidth="1.2" fill="none" opacity="0.4"/>
-            <line x1="10" y1="4" x2="10" y2="16" stroke="#E8A33D" strokeWidth="0.8" opacity="0.4"/>
-            <circle cx="10" cy="10" r="2.5" stroke="#E8A33D" strokeWidth="0.8" fill="none" opacity="0.4"/>
-            <polyline points="4,14 8,10 11,12 16,6" stroke="#E8A33D" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-            <polyline points="13,6 16,6 16,9" stroke="#E8A33D" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+            <rect x="3" y="4" width="14" height="12" rx="1" stroke="#C8F23C" strokeWidth="1.2" fill="none" opacity="0.4"/>
+            <line x1="10" y1="4" x2="10" y2="16" stroke="#C8F23C" strokeWidth="0.8" opacity="0.4"/>
+            <circle cx="10" cy="10" r="2.5" stroke="#C8F23C" strokeWidth="0.8" fill="none" opacity="0.4"/>
+            <polyline points="4,14 8,10 11,12 16,6" stroke="#C8F23C" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+            <polyline points="13,6 16,6 16,9" stroke="#C8F23C" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
           </svg>
         </div>
         <div>
-          <div style={{ fontFamily: 'Saira Condensed', fontStyle: 'italic', fontWeight: 800, fontSize: 24, color: '#E8E6DF', letterSpacing: '0.03em', lineHeight: 1 }}>SCOUTVEST</div>
-          <div style={{ fontFamily: 'Saira Condensed', fontSize: 12, color: '#E8A33D', fontWeight: 600, letterSpacing: '0.12em' }}>TRANSFER INTELLIGENCE</div>
+          <div style={{ fontFamily: 'Saira Condensed', fontStyle: 'italic', fontWeight: 800, fontSize: 24, color: '#E8EEF8', letterSpacing: '0.03em', lineHeight: 1 }}>SCOUTVEST</div>
+          <div style={{ fontFamily: 'Saira Condensed', fontSize: 12, color: '#C8F23C', fontWeight: 600, letterSpacing: '0.12em' }}>TRANSFER INTELLIGENCE</div>
         </div>
       </div>
 
-      <div style={{ width: 1, height: 28, background: '#2A2E37', flexShrink: 0 }} />
+      <div style={{ width: 1, height: 28, background: '#1F2E48', flexShrink: 0 }} />
 
       {/* Horizontal nav */}
       <nav style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 2, overflowX: 'auto', minWidth: 0 }} className="scrollbar-hide">
@@ -55,26 +55,26 @@ export default function Sidebar({ currentPage, onNavigate }: SidebarProps) {
           const showDivider = item.group !== prevGroup
           return (
             <div key={item.id} style={{ display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0 }}>
-              {showDivider && <div style={{ width: 1, height: 20, background: '#2A2E37', margin: '0 4px' }} />}
+              {showDivider && <div style={{ width: 1, height: 20, background: '#1F2E48', margin: '0 4px' }} />}
               <button
                 onClick={() => onNavigate(item.id)}
                 aria-current={active ? 'page' : undefined}
                 style={{
                   display: 'flex', alignItems: 'center',
                   padding: '9px 12px', borderRadius: 0,
-                  background: active ? '#E8A33D' : 'transparent',
+                  background: active ? '#C8F23C' : 'transparent',
                   border: 'none', transform: 'skewX(-14deg)',
                   cursor: 'pointer', whiteSpace: 'nowrap',
                   transition: 'background 0.15s',
                 }}
-                onMouseEnter={e => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(232,163,61,0.12)' }}
+                onMouseEnter={e => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(200,242,60,0.12)' }}
                 onMouseLeave={e => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = 'transparent' }}
               >
                 {/* counter-skew keeps the label upright inside the slanted tab */}
                 <span style={{
                   display: 'flex', alignItems: 'center', gap: 7, transform: 'skewX(14deg)',
                   fontFamily: 'Saira Condensed', fontSize: 16, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase',
-                  color: active ? '#0A0C10' : '#9B9891',
+                  color: active ? '#060B14' : '#8493AD',
                 }}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d={item.icon}/>
@@ -89,8 +89,8 @@ export default function Sidebar({ currentPage, onNavigate }: SidebarProps) {
 
       {/* Status */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
-        <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#E8A33D', boxShadow: '0 0 6px #E8A33D' }} />
-        <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#9B9891' }}>Model v2.1 active</span>
+        <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#C8F23C', boxShadow: '0 0 6px #C8F23C' }} />
+        <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#8493AD' }}>Model v2.1 active</span>
       </div>
     </header>
   )

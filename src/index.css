@@ -2,18 +2,18 @@
 @import 'tailwindcss';
 
 @theme inline {
-  --color-background: #0A0C10;
-  --color-surface: #14171D;
-  --color-card: #191D24;
-  --color-border: #2A2E37;
-  --color-text-primary: #E8E6DF;
-  --color-text-secondary: #9B9891;
-  --color-accent: #E8A33D;
-  --color-accent-dim: rgba(232,163,61,0.12);
-  --color-positive: #4FA97C;
-  --color-amber: #D99A3D;
-  --color-red: #C1554A;
-  --color-blue: #5B8DBE;
+  --color-background: #060B14;
+  --color-surface: #0B1220;
+  --color-card: #101A2C;
+  --color-border: #1F2E48;
+  --color-text-primary: #E8EEF8;
+  --color-text-secondary: #8493AD;
+  --color-accent: #C8F23C;
+  --color-accent-dim: rgba(200,242,60,0.12);
+  --color-positive: #3DDC97;
+  --color-amber: #FFB84D;
+  --color-red: #FF5A4F;
+  --color-blue: #3DD6F5;
   --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
   --font-display: 'Saira Condensed', 'IBM Plex Sans', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
@@ -31,8 +31,8 @@ html, body, #root {
 
 body {
   font-family: 'IBM Plex Sans', system-ui, sans-serif;
-  background-color: #0A0C10;
-  color: #E8E6DF;
+  background-color: #060B14;
+  color: #E8EEF8;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -49,14 +49,14 @@ h1 {
   display: flex;
   align-items: center;
 }
-/* The one recurring mark: a slanted gold bar in front of each page title. */
+/* The one recurring mark: a slanted volt bar in front of each page title. */
 h1::before {
   content: '';
   flex: none;
   width: 9px;
   height: 0.78em;
   margin-right: 14px;
-  background: #E8A33D;
+  background: #C8F23C;
   transform: skewX(-16deg);
 }
 h2 {
@@ -74,15 +74,42 @@ h2 {
   opacity: 0;
 }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #3a3f4a; border-radius: 2px; }
-:hover::-webkit-scrollbar-thumb { background: #5a6070; }
+::-webkit-scrollbar-thumb { background: #2A3A58; border-radius: 2px; }
+:hover::-webkit-scrollbar-thumb { background: #44587A; }
 
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
+/* Photo backdrop behind each page's header. It fades out downwards and is darkened
+   from the sides so titles stay readable on top of it. */
+.page-banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 300px;
+  z-index: 0;
+  pointer-events: none;
+  background-size: cover;
+  background-position: center 30%;
+  opacity: 0.7;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 100%);
+  animation: banner-in 0.5s ease both;
+}
+.page-banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(6, 11, 20, 0.9) 0%, rgba(6, 11, 20, 0.55) 45%, rgba(6, 11, 20, 0.8) 100%),
+    linear-gradient(to bottom, rgba(6, 11, 20, 0.5), transparent 70%);
+}
+@keyframes banner-in { from { opacity: 0; } to { opacity: 0.7; } }
+
 /* Keyboard focus is always visible. */
 button:focus-visible, input:focus-visible, select:focus-visible {
-  outline: 2px solid #E8A33D;
+  outline: 2px solid #C8F23C;
   outline-offset: 2px;
 }
 
@@ -97,14 +124,14 @@ button:focus-visible, input:focus-visible, select:focus-visible {
   background: none;
   text-align: left;
   transition: transform 0.18s ease, filter 0.18s ease;
-  filter: drop-shadow(0 0.6em 0.8em rgba(0, 0, 0, 0.55));
+  filter: drop-shadow(0 0.6em 0.8em rgba(0,0,0, 0.55));
 }
 button.pcard { cursor: pointer; }
 button.pcard:hover,
 button.pcard:focus-visible {
   transform: translateY(-0.4em);
   filter:
-    drop-shadow(0 0.9em 1em rgba(0, 0, 0, 0.6))
+    drop-shadow(0 0.9em 1em rgba(0,0,0, 0.6))
     drop-shadow(0 0 0.7em color-mix(in srgb, var(--glow) 55%, transparent));
 }
 button.pcard:focus-visible {
@@ -114,7 +141,7 @@ button.pcard:focus-visible {
 .pcard .streak {
   position: absolute;
   inset: 0;
-  background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, 0.38) 50%, transparent 62%);
+  background: linear-gradient(105deg, transparent 38%, rgba(255,255,255, 0.38) 50%, transparent 62%);
   transform: translateX(-120%);
   pointer-events: none;
 }
@@ -126,9 +153,10 @@ button.pcard:hover .streak { transform: translateX(120%); transition: transform 
   cursor: pointer;
   transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
 }
-.slot:hover { border-color: #E8A33D; color: #E8A33D; background: rgba(232, 163, 61, 0.08); }
+.slot:hover { border-color: #C8F23C; color: #C8F23C; background: rgba(200,242,60, 0.08); }
 
 @media (prefers-reduced-motion: reduce) {
+  .page-banner { animation: none; }
   .pcard, .slot { transition: none; }
   button.pcard:hover, button.pcard:focus-visible { transform: none; }
   button.pcard:hover .streak { transform: translateX(-120%); transition: none; }

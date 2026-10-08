@@ -6,7 +6,7 @@ import type { Page } from '../App'
 
 interface Props { onNavigate: (page: Page) => void; onSelectPlayer: (id: number) => void }
 
-const COLORS = ['#E8A33D', '#5B8DBE', '#D99A3D', '#C1554A']
+const COLORS = ['#C8F23C', '#3DD6F5', '#FFB84D', '#FF5A4F']
 
 const radarMetrics = ['Finishing', 'Passing', 'Creativity', 'Ball Progression', 'Defending', 'Physical']
 
@@ -59,23 +59,23 @@ export default function Compare({ onNavigate, onSelectPlayer }: Props) {
   return (
     <div style={{ padding: '28px 32px', display: 'flex', flexDirection: 'column', gap: 24, maxWidth: 1100 }}>
       <div>
-        <h1 style={{ fontFamily: 'IBM Plex Sans', fontSize: 28, fontWeight: 700, color: '#E8E6DF', margin: 0 }}>Compare Players</h1>
-        <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#9B9891', margin: '6px 0 0' }}>Side-by-side analysis of up to 4 players.</p>
+        <h1 style={{ fontFamily: 'IBM Plex Sans', fontSize: 28, fontWeight: 700, color: '#E8EEF8', margin: 0 }}>Compare Players</h1>
+        <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#8493AD', margin: '6px 0 0' }}>Side-by-side analysis of up to 4 players.</p>
       </div>
 
       {/* Player selector */}
       <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
         {selectedPlayers.map((p, i) => (
-          <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 12px', background: '#191D24', border: `1px solid ${COLORS[i]}40`, borderRadius: 3 }}>
+          <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 12px', background: '#101A2C', border: `1px solid ${COLORS[i]}40`, borderRadius: 3 }}>
             <div style={{ width: 8, height: 8, borderRadius: '50%', background: COLORS[i] }} />
             <Avatar name={p.name} size={24} />
-            <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, fontWeight: 500, color: '#E8E6DF' }}>{p.name}</span>
-            <button onClick={() => removePlayer(p.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9B9891', padding: 0, marginLeft: 4, fontSize: 16, lineHeight: 1 }}>×</button>
+            <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, fontWeight: 500, color: '#E8EEF8' }}>{p.name}</span>
+            <button onClick={() => removePlayer(p.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#8493AD', padding: 0, marginLeft: 4, fontSize: 16, lineHeight: 1 }}>×</button>
           </div>
         ))}
         {selected.length < 4 && (
           <select onChange={e => addPlayer(+e.target.value)} value=""
-            style={{ padding: '6px 12px', background: '#14171D', border: '1px solid #2A2E37', borderRadius: 3, fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9B9891', cursor: 'pointer' }}>
+            style={{ padding: '6px 12px', background: '#0B1220', border: '1px solid #1F2E48', borderRadius: 3, fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#8493AD', cursor: 'pointer' }}>
             <option value="" disabled>+ Add player</option>
             {players.filter(p => !selected.includes(p.id)).map(p => (
               <option key={p.id} value={p.id}>{p.name}</option>
@@ -88,14 +88,14 @@ export default function Compare({ onNavigate, onSelectPlayer }: Props) {
       <Card>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
-            <tr style={{ borderBottom: '1px solid #1d2d3d' }}>
-              <th style={{ padding: '14px 20px', textAlign: 'left', fontFamily: 'JetBrains Mono', fontSize: 9, color: '#3a4d62', width: 160 }}>METRIC</th>
+            <tr style={{ borderBottom: '1px solid #17243B' }}>
+              <th style={{ padding: '14px 20px', textAlign: 'left', fontFamily: 'JetBrains Mono', fontSize: 9, color: '#4C5B76', width: 160 }}>METRIC</th>
               {selectedPlayers.map((p, i) => (
                 <th key={p.id} style={{ padding: '14px 20px', textAlign: 'center' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
                     <div style={{ width: 3, height: 24, background: COLORS[i], borderRadius: 8 }} />
                     <Avatar name={p.name} size={32} />
-                    <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, fontWeight: 600, color: '#E8E6DF' }}>{p.name}</span>
+                    <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, fontWeight: 600, color: '#E8EEF8' }}>{p.name}</span>
                     <PositionTag pos={p.position} />
                   </div>
                 </th>
@@ -104,8 +104,8 @@ export default function Compare({ onNavigate, onSelectPlayer }: Props) {
           </thead>
           <tbody>
             {rows.map((row, i) => (
-              <tr key={row.label} style={{ borderBottom: '1px solid #1d2d3d', background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.01)' }}>
-                <td style={{ padding: '10px 20px', fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#9B9891' }}>{row.label}</td>
+              <tr key={row.label} style={{ borderBottom: '1px solid #17243B', background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.01)' }}>
+                <td style={{ padding: '10px 20px', fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#8493AD' }}>{row.label}</td>
                 {selectedPlayers.map((p, pi) => {
                   const val = row.fn(p)
                   const isUpside = row.label === 'Expected Upside'
@@ -115,7 +115,7 @@ export default function Compare({ onNavigate, onSelectPlayer }: Props) {
                       {row.label === 'Risk Score' ? (
                         <RiskBadge risk={p.risk} />
                       ) : (
-                        <span style={{ fontFamily: isUpside || isPredicted ? 'IBM Plex Sans' : 'JetBrains Mono', fontSize: isUpside ? 15 : 13, fontWeight: isUpside || isPredicted ? 700 : 400, color: isUpside || isPredicted ? '#E8A33D' : '#E8E6DF' }}>
+                        <span style={{ fontFamily: isUpside || isPredicted ? 'IBM Plex Sans' : 'JetBrains Mono', fontSize: isUpside ? 15 : 13, fontWeight: isUpside || isPredicted ? 700 : 400, color: isUpside || isPredicted ? '#C8F23C' : '#E8EEF8' }}>
                           {val}
                         </span>
                       )}
@@ -131,22 +131,22 @@ export default function Compare({ onNavigate, onSelectPlayer }: Props) {
       {/* Radar Chart */}
       <Card style={{ padding: '24px' }}>
         <SectionTitle>Performance Radar</SectionTitle>
-        <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9B9891', margin: '4px 0 20px' }}>Multi-dimensional performance comparison</p>
+        <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#8493AD', margin: '4px 0 20px' }}>Multi-dimensional performance comparison</p>
         <ResponsiveContainer width="100%" height={320}>
           <RadarChart data={radarData} cx="50%" cy="50%" outerRadius={110}>
-            <PolarGrid stroke="#1d2d3d" />
-            <PolarAngleAxis dataKey="metric" tick={{ fontFamily: 'IBM Plex Sans', fontSize: 11, fill: '#9B9891' }} />
+            <PolarGrid stroke="#17243B" />
+            <PolarAngleAxis dataKey="metric" tick={{ fontFamily: 'IBM Plex Sans', fontSize: 11, fill: '#8493AD' }} />
             {selectedPlayers.map((p, i) => (
               <Radar key={p.id} name={p.name} dataKey={p.name} stroke={COLORS[i]} fill={COLORS[i]} fillOpacity={0.08} strokeWidth={2} />
             ))}
-            <Tooltip contentStyle={{ background: '#1a2535', border: '1px solid #2A2E37', fontFamily: 'IBM Plex Sans', fontSize: 12 }} />
+            <Tooltip contentStyle={{ background: '#14213A', border: '1px solid #1F2E48', fontFamily: 'IBM Plex Sans', fontSize: 12 }} />
           </RadarChart>
         </ResponsiveContainer>
         <div style={{ display: 'flex', gap: 20, justifyContent: 'center', marginTop: 8 }}>
           {selectedPlayers.map((p, i) => (
             <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <div style={{ width: 12, height: 12, borderRadius: '50%', background: COLORS[i] }} />
-              <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#9B9891' }}>{p.name}</span>
+              <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#8493AD' }}>{p.name}</span>
             </div>
           ))}
         </div>

@@ -11,11 +11,11 @@ export interface Tier {
 }
 
 export const TIERS: Record<InvestmentSignal, Tier> = {
-  'STRONG BUY': { label: 'Strong buy', accent: '#E8A33D', light: '#F8DA94', dark: '#B87A1C', ink: '#1d1405' },
-  'UNDERVALUED': { label: 'Undervalued', accent: '#4FA97C', light: '#A5E3C4', dark: '#2E7A56', ink: '#06180f' },
-  'BREAKOUT': { label: 'Breakout', accent: '#5B8DBE', light: '#B1D0F0', dark: '#3A6794', ink: '#07131f' },
-  'MONITOR': { label: 'Monitor', accent: '#9AA3AD', light: '#DDE2E7', dark: '#69737E', ink: '#12161b' },
-  'OVERVALUED': { label: 'Overvalued', accent: '#C1554A', light: '#EBA39B', dark: '#8E3329', ink: '#1f0907' },
+  'STRONG BUY': { label: 'Strong buy', accent: '#C8F23C', light: '#EAFF9A', dark: '#8BAE17', ink: '#121a02' },
+  'UNDERVALUED': { label: 'Undervalued', accent: '#3DD6F5', light: '#B4F1FF', dark: '#1B8FAE', ink: '#031318' },
+  'BREAKOUT': { label: 'Breakout', accent: '#A58BFF', light: '#D6CBFF', dark: '#6A4FD4', ink: '#0d0821' },
+  'MONITOR': { label: 'Monitor', accent: '#8FA0B8', light: '#D9E1EC', dark: '#586882', ink: '#0d121b' },
+  'OVERVALUED': { label: 'Overvalued', accent: '#FF5A4F', light: '#FFB4AC', dark: '#B5322A', ink: '#220807' },
 }
 
 /**

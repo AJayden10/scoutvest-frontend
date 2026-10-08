@@ -10,9 +10,9 @@ export type InvestmentSignal = 'UNDERVALUED' | 'BREAKOUT' | 'STRONG BUY' | 'OVER
 
 export function RiskBadge({ risk }: { risk: RiskLevel }) {
   const map: Record<RiskLevel, { bg: string; color: string; border: string }> = {
-    Low: { bg: 'rgba(232,163,61,0.1)', color: '#E8A33D', border: 'rgba(232,163,61,0.22)' },
-    Medium: { bg: 'rgba(245,185,66,0.1)', color: '#D99A3D', border: 'rgba(245,185,66,0.22)' },
-    High: { bg: 'rgba(240,93,94,0.1)', color: '#C1554A', border: 'rgba(240,93,94,0.22)' },
+    Low: { bg: 'rgba(200,242,60,0.1)', color: '#C8F23C', border: 'rgba(200,242,60,0.22)' },
+    Medium: { bg: 'rgba(255,184,77,0.1)', color: '#FFB84D', border: 'rgba(255,184,77,0.22)' },
+    High: { bg: 'rgba(255,90,79,0.1)', color: '#FF5A4F', border: 'rgba(255,90,79,0.22)' },
   }
   const s = map[risk]
   return (
@@ -67,7 +67,7 @@ export function StadiumPattern() {
                 key={i}
                 d={`M ${x0} ${y0} A ${r} ${r} 0 0 1 ${x1} ${y1}`}
                 fill="none"
-                stroke={ri === 0 ? '#E8A33D' : '#2A2E37'}
+                stroke={ri === 0 ? '#C8F23C' : '#1F2E48'}
                 strokeWidth={ri === 0 ? 1.4 : 1}
                 strokeOpacity={ri === 0 ? 0.35 : 0.5}
               />
@@ -75,7 +75,7 @@ export function StadiumPattern() {
           })}
         </g>
       ))}
-      <circle cx="400" cy="400" r="90" fill="none" stroke="#2A2E37" strokeWidth="1" strokeOpacity="0.5" />
+      <circle cx="400" cy="400" r="90" fill="none" stroke="#1F2E48" strokeWidth="1" strokeOpacity="0.5" />
     </svg>
   )
 }
@@ -83,7 +83,7 @@ export function StadiumPattern() {
 export function Card({ children, style, onClick }: { children: ReactNode; style?: CSSProperties; onClick?: () => void }) {
   return (
     <div onClick={onClick} style={{
-      background: 'linear-gradient(180deg, #1c2129 0%, #191D24 100%)', border: '1px solid #2A2E37', borderRadius: 0,
+      background: 'linear-gradient(180deg, #14213A 0%, #101A2C 100%)', border: '1px solid #1F2E48', borderRadius: 0,
       clipPath: PANEL_CUT,
       cursor: onClick ? 'pointer' : undefined,
       ...style,
@@ -105,19 +105,19 @@ export function KpiCard({
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
         <div style={{
           fontFamily: 'IBM Plex Sans', fontSize: 13, fontWeight: 500,
-          color: '#9B9891',
+          color: '#8493AD',
         }}>
           {label}
         </div>
         {icon && (
-          <div style={{ width: 28, height: 28, borderRadius: 4, background: accent ? 'rgba(232,163,61,0.1)' : 'rgba(78,161,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: 28, height: 28, borderRadius: 4, background: accent ? 'rgba(200,242,60,0.1)' : 'rgba(61,214,245,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             {icon}
           </div>
         )}
       </div>
       <div style={{
         fontFamily: 'Saira Condensed', fontStyle: 'italic', fontSize: 44, fontWeight: 800, lineHeight: 1,
-        color: accent ? '#E8A33D' : '#E8E6DF',
+        color: accent ? '#C8F23C' : '#E8EEF8',
         letterSpacing: '0',
         marginBottom: 10,
       }}>
@@ -128,14 +128,14 @@ export function KpiCard({
           <span style={{
             display: 'inline-flex', alignItems: 'center', gap: 3,
             fontFamily: 'JetBrains Mono', fontSize: 10, fontWeight: 600,
-            color: trend.up ? '#E8A33D' : '#C1554A',
+            color: trend.up ? '#C8F23C' : '#FF5A4F',
           }}>
             <span>{trend.up ? '↑' : '↓'}</span>
             {trend.value}
           </span>
         )}
         {sub && (
-          <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#9B9891' }}>{sub}</span>
+          <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#8493AD' }}>{sub}</span>
         )}
       </div>
     </Card>
@@ -145,8 +145,8 @@ export function KpiCard({
 export function SectionTitle({ children, sub }: { children: ReactNode; sub?: string }) {
   return (
     <div>
-      <h2 style={{ fontFamily: 'Saira Condensed', color: '#E8E6DF', margin: 0, lineHeight: 1.1 }}>{children}</h2>
-      {sub && <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9B9891', margin: '5px 0 0' }}>{sub}</p>}
+      <h2 style={{ fontFamily: 'Saira Condensed', color: '#E8EEF8', margin: 0, lineHeight: 1.1 }}>{children}</h2>
+      {sub && <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#8493AD', margin: '5px 0 0' }}>{sub}</p>}
     </div>
   )
 }
@@ -158,10 +158,10 @@ export function Btn({
   onClick?: () => void; style?: CSSProperties; disabled?: boolean
 }) {
   const map = {
-    primary:   { bg: '#E8A33D', color: '#0A0C10', border: '#E8A33D', hoverBg: '#F2BA5E' },
-    secondary: { bg: '#1a2a3a', color: '#E8E6DF', border: '#2A2E37', hoverBg: '#1f3347' },
-    ghost:     { bg: 'transparent', color: '#9B9891', border: '#2A2E37', hoverBg: 'rgba(255,255,255,0.04)' },
-    danger:    { bg: 'rgba(240,93,94,0.1)', color: '#C1554A', border: 'rgba(240,93,94,0.25)', hoverBg: 'rgba(240,93,94,0.18)' },
+    primary:   { bg: '#C8F23C', color: '#060B14', border: '#C8F23C', hoverBg: '#DCFF5E' },
+    secondary: { bg: '#14213A', color: '#E8EEF8', border: '#1F2E48', hoverBg: '#1B2C4A' },
+    ghost:     { bg: 'transparent', color: '#8493AD', border: '#1F2E48', hoverBg: 'rgba(255,255,255,0.04)' },
+    danger:    { bg: 'rgba(255,90,79,0.1)', color: '#FF5A4F', border: 'rgba(255,90,79,0.25)', hoverBg: 'rgba(255,90,79,0.18)' },
   }
   const s = map[variant]
   return (
@@ -188,11 +188,11 @@ export function Btn({
 
 export function StatRow({ label, value, mono, highlight }: { label: string; value: string | number; mono?: boolean; highlight?: boolean }) {
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '9px 0', borderBottom: '1px solid rgba(38,51,66,0.7)' }}>
-      <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9B9891' }}>{label}</span>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '9px 0', borderBottom: '1px solid rgba(31,46,72,0.7)' }}>
+      <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#8493AD' }}>{label}</span>
       <span style={{
         fontFamily: mono ? 'JetBrains Mono' : 'IBM Plex Sans', fontSize: 13, fontWeight: 600,
-        color: highlight ? '#E8A33D' : '#E8E6DF',
+        color: highlight ? '#C8F23C' : '#E8EEF8',
       }}>
         {value}
       </span>
@@ -222,8 +222,8 @@ export function PositionTag({ pos }: { pos: string }) {
   return (
     <span style={{
       display: 'inline-flex', padding: '2px 8px', borderRadius: 3,
-      background: 'rgba(78,161,255,0.1)', border: '1px solid rgba(78,161,255,0.18)',
-      fontFamily: 'JetBrains Mono', fontSize: 10, fontWeight: 600, color: '#5B8DBE',
+      background: 'rgba(61,214,245,0.1)', border: '1px solid rgba(61,214,245,0.18)',
+      fontFamily: 'JetBrains Mono', fontSize: 10, fontWeight: 600, color: '#3DD6F5',
       letterSpacing: '0.04em',
     }}>
       {pos}
@@ -240,18 +240,18 @@ export function fmt(val: number) {
 export function ValueArrow({ from, to }: { from: string; to: string }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-      <span style={{ fontFamily: 'JetBrains Mono', fontSize: 13, fontWeight: 600, color: '#9B9891' }}>{from}</span>
+      <span style={{ fontFamily: 'JetBrains Mono', fontSize: 13, fontWeight: 600, color: '#8493AD' }}>{from}</span>
       <svg width="28" height="10" viewBox="0 0 28 10" fill="none">
-        <path d="M0 5h24M19 1l5 4-5 4" stroke="#E8A33D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M0 5h24M19 1l5 4-5 4" stroke="#C8F23C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
-      <span style={{ fontFamily: 'JetBrains Mono', fontSize: 13, fontWeight: 700, color: '#E8A33D' }}>{to}</span>
+      <span style={{ fontFamily: 'JetBrains Mono', fontSize: 13, fontWeight: 700, color: '#C8F23C' }}>{to}</span>
     </div>
   )
 }
 
-export function ConfidenceBar({ pct, color = '#E8A33D' }: { pct: number; color?: string }) {
+export function ConfidenceBar({ pct, color = '#C8F23C' }: { pct: number; color?: string }) {
   return (
-    <div style={{ position: 'relative', height: 6, background: 'rgba(38,51,66,0.8)', borderRadius: 2, overflow: 'hidden' }}>
+    <div style={{ position: 'relative', height: 6, background: 'rgba(31,46,72,0.8)', borderRadius: 2, overflow: 'hidden' }}>
       <div style={{
         position: 'absolute', left: 0, top: 0, height: '100%',
         width: `${pct}%`,
@@ -264,5 +264,5 @@ export function ConfidenceBar({ pct, color = '#E8A33D' }: { pct: number; color?:
 }
 
 export function Divider() {
-  return <div style={{ height: 1, background: 'rgba(38,51,66,0.7)', margin: '0' }} />
+  return <div style={{ height: 1, background: 'rgba(31,46,72,0.7)', margin: '0' }} />
 }

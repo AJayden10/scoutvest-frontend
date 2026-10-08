@@ -3,7 +3,7 @@ import {
   ScatterChart, Scatter, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, ReferenceLine,
 } from 'recharts'
-import { Card, SectionTitle, Btn, StadiumPattern, fmt } from '../components/ui'
+import { Card, SectionTitle, Btn, fmt } from '../components/ui'
 import PlayerCard from '../components/PlayerCard'
 import { players, scatterData } from '../data/mockData'
 import type { Page } from '../App'
@@ -11,17 +11,17 @@ import type { Page } from '../App'
 const posFilters = ['All', 'GK', 'DEF', 'MID', 'FWD', 'U21', 'U23', 'U25']
 
 const signalColor: Record<string, string> = {
-  'UNDERVALUED': '#4FA97C',
-  'BREAKOUT': '#5B8DBE',
-  'STRONG BUY': '#4FA97C',
-  'OVERVALUED': '#C1554A',
-  'MONITOR': '#9AA3AD',
+  'UNDERVALUED': '#3DD6F5',
+  'BREAKOUT': '#A58BFF',
+  'STRONG BUY': '#C8F23C',
+  'OVERVALUED': '#FF5A4F',
+  'MONITOR': '#8FA0B8',
 }
 
 const riskColorMap: Record<string, string> = {
-  Low: '#4FA97C',
-  Medium: '#D99A3D',
-  High: '#C1554A',
+  Low: '#3DDC97',
+  Medium: '#FFB84D',
+  High: '#FF5A4F',
 }
 
 interface Props {
@@ -31,7 +31,7 @@ interface Props {
 
 const CustomDot = (props: any) => {
   const { cx, cy, payload } = props
-  const riskColor = { Low: '#E8A33D', Medium: '#D99A3D', High: '#C1554A' }[payload.risk as string] || '#5B8DBE'
+  const riskColor = { Low: '#C8F23C', Medium: '#FFB84D', High: '#FF5A4F' }[payload.risk as string] || '#3DD6F5'
   const big = payload.upside > 150
   return (
     <g>
@@ -50,24 +50,24 @@ const ChartTooltip = ({ active, payload }: any) => {
   const d = payload[0].payload
   return (
     <div style={{
-      background: '#0f1c29', border: '1px solid #2A2E37', borderRadius: 3,
+      background: '#0C1626', border: '1px solid #1F2E48', borderRadius: 3,
       padding: '12px 16px', fontFamily: 'IBM Plex Sans', fontSize: 12,
       boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
     }}>
-      <div style={{ fontWeight: 700, color: '#E8E6DF', marginBottom: 6, fontSize: 13 }}>{d.name}</div>
+      <div style={{ fontWeight: 700, color: '#E8EEF8', marginBottom: 6, fontSize: 13 }}>{d.name}</div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-          <span style={{ color: '#9B9891' }}>Current</span>
-          <span style={{ fontFamily: 'JetBrains Mono', color: '#E8E6DF', fontWeight: 600 }}>{fmt(d.x)}</span>
+          <span style={{ color: '#8493AD' }}>Current</span>
+          <span style={{ fontFamily: 'JetBrains Mono', color: '#E8EEF8', fontWeight: 600 }}>{fmt(d.x)}</span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-          <span style={{ color: '#9B9891' }}>Predicted</span>
-          <span style={{ fontFamily: 'JetBrains Mono', color: '#E8A33D', fontWeight: 600 }}>{fmt(d.y)}</span>
+          <span style={{ color: '#8493AD' }}>Predicted</span>
+          <span style={{ fontFamily: 'JetBrains Mono', color: '#C8F23C', fontWeight: 600 }}>{fmt(d.y)}</span>
         </div>
-        <div style={{ height: 1, background: '#2A2E37', margin: '4px 0' }} />
+        <div style={{ height: 1, background: '#1F2E48', margin: '4px 0' }} />
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-          <span style={{ color: '#9B9891' }}>Upside</span>
-          <span style={{ fontFamily: 'IBM Plex Sans', color: '#4FA97C', fontWeight: 700 }}>+{d.upside}%</span>
+          <span style={{ color: '#8493AD' }}>Upside</span>
+          <span style={{ fontFamily: 'IBM Plex Sans', color: '#3DDC97', fontWeight: 700 }}>+{d.upside}%</span>
         </div>
       </div>
     </div>
@@ -80,16 +80,15 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
 
   return (
     <div style={{ position: 'relative', overflow: 'hidden' }}>
-      <StadiumPattern />
       <div style={{ position: 'relative', zIndex: 1, padding: '28px 32px 40px', display: 'flex', flexDirection: 'column', gap: 24, maxWidth: 1240 }}>
 
       {/* Page Header */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: 16 }}>
         <div>
-          <h1 style={{ fontFamily: 'Saira Condensed', fontSize: 32, fontWeight: 700, color: '#E8E6DF', margin: 0, letterSpacing: '-0.02em', lineHeight: 1 }}>
+          <h1 style={{ fontFamily: 'Saira Condensed', fontSize: 32, fontWeight: 700, color: '#E8EEF8', margin: 0, letterSpacing: '-0.02em', lineHeight: 1 }}>
             Market Overview
           </h1>
-          <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#9B9891', margin: '8px 0 0', lineHeight: 1.5 }}>
+          <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#8493AD', margin: '8px 0 0', lineHeight: 1.5 }}>
             Identify undervalued players and simulate future transfer returns.
           </p>
         </div>
@@ -112,20 +111,20 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
       {/* Overview: featured metric + compact supporting stats */}
       <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1.4fr', gap: 24, alignItems: 'stretch' }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', justifyContent: 'center', padding: '8px 4px' }}>
-          <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#9B9891', marginBottom: 6 }}>
+          <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#8493AD', marginBottom: 6 }}>
             Avg predicted upside this quarter
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: 12 }}>
-            <div style={{ fontFamily: 'Saira Condensed', fontStyle: 'italic', fontSize: 76, fontWeight: 800, color: '#E8A33D', letterSpacing: '0', lineHeight: 1 }}>
+            <div style={{ fontFamily: 'Saira Condensed', fontStyle: 'italic', fontSize: 76, fontWeight: 800, color: '#C8F23C', letterSpacing: '0', lineHeight: 1 }}>
               +38.7%
             </div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontFamily: 'JetBrains Mono', fontSize: 13, fontWeight: 600, color: '#4FA97C' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontFamily: 'JetBrains Mono', fontSize: 13, fontWeight: 600, color: '#3DDC97' }}>
               <span>↑</span> +2.1pp
             </div>
           </div>
-          <div style={{ height: 1, background: '#2A2E37', margin: '18px auto 16px', maxWidth: 220 }} />
-          <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9B9891', lineHeight: 1.6, maxWidth: 320 }}>
-            Across <span style={{ color: '#E8E6DF', fontWeight: 600 }}>184</span> flagged targets, spanning a recommended budget of <span style={{ color: '#E8E6DF', fontWeight: 600 }}>€74.2M</span>.
+          <div style={{ height: 1, background: '#1F2E48', margin: '18px auto 16px', maxWidth: 220 }} />
+          <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#8493AD', lineHeight: 1.6, maxWidth: 320 }}>
+            Across <span style={{ color: '#E8EEF8', fontWeight: 600 }}>184</span> flagged targets, spanning a recommended budget of <span style={{ color: '#E8EEF8', fontWeight: 600 }}>€74.2M</span>.
           </div>
         </div>
 
@@ -138,13 +137,13 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
             <div key={row.label} style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
               padding: '18px 24px',
-              borderBottom: i < 2 ? '1px solid #2A2E37' : 'none',
+              borderBottom: i < 2 ? '1px solid #1F2E48' : 'none',
             }}>
-              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9B9891' }}>{row.label}</div>
+              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#8493AD' }}>{row.label}</div>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-                <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 22, fontWeight: 700, color: '#E8E6DF' }}>{row.value}</div>
+                <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 22, fontWeight: 700, color: '#E8EEF8' }}>{row.value}</div>
                 {row.trend && (
-                  <div style={{ fontFamily: 'JetBrains Mono', fontSize: 11, fontWeight: 600, color: row.up ? '#4FA97C' : '#C1554A' }}>
+                  <div style={{ fontFamily: 'JetBrains Mono', fontSize: 11, fontWeight: 600, color: row.up ? '#3DDC97' : '#FF5A4F' }}>
                     ↑ {row.trend}
                   </div>
                 )}
@@ -167,9 +166,9 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
               <button key={f} onClick={() => setPosFilter(f)} style={{
                 padding: '4px 10px', borderRadius: 3, cursor: 'pointer',
                 fontFamily: 'JetBrains Mono', fontSize: 9, fontWeight: 700, letterSpacing: '0.06em',
-                background: posFilter === f ? '#E8A33D' : 'transparent',
-                color: posFilter === f ? '#0A0C10' : '#9B9891',
-                border: `1px solid ${posFilter === f ? '#E8A33D' : '#2A2E37'}`,
+                background: posFilter === f ? '#C8F23C' : 'transparent',
+                color: posFilter === f ? '#060B14' : '#8493AD',
+                border: `1px solid ${posFilter === f ? '#C8F23C' : '#1F2E48'}`,
                 transition: 'all 0.15s',
               }}>
                 {f}
@@ -180,17 +179,17 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
 
         {/* Legend */}
         <div style={{ display: 'flex', gap: 18, marginBottom: 14, marginTop: 12 }}>
-          {[['Low Risk', '#E8A33D'], ['Medium Risk', '#D99A3D'], ['High Risk', '#C1554A']].map(([label, color]) => (
+          {[['Low Risk', '#C8F23C'], ['Medium Risk', '#FFB84D'], ['High Risk', '#FF5A4F']].map(([label, color]) => (
             <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <div style={{ width: 8, height: 8, borderRadius: '50%', background: color as string }} />
-              <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#9B9891' }}>{label}</span>
+              <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#8493AD' }}>{label}</span>
             </div>
           ))}
           <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 6 }}>
             <svg width="20" height="8" viewBox="0 0 20 8">
-              <line x1="0" y1="4" x2="20" y2="4" stroke="#2A2E37" strokeWidth="1.5" strokeDasharray="4 3"/>
+              <line x1="0" y1="4" x2="20" y2="4" stroke="#1F2E48" strokeWidth="1.5" strokeDasharray="4 3"/>
             </svg>
-            <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#3a4d62' }}>Equal value line</span>
+            <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#4C5B76' }}>Equal value line</span>
           </div>
         </div>
 
@@ -198,30 +197,30 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
           <ScatterChart margin={{ top: 10, right: 24, bottom: 28, left: 10 }}>
             <defs>
               <linearGradient id="oppZone" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#E8A33D" stopOpacity={0.03}/>
-                <stop offset="100%" stopColor="#E8A33D" stopOpacity={0}/>
+                <stop offset="0%" stopColor="#C8F23C" stopOpacity={0.03}/>
+                <stop offset="100%" stopColor="#C8F23C" stopOpacity={0}/>
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(38,51,66,0.7)" />
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(31,46,72,0.7)" />
             <XAxis
               dataKey="x" type="number" name="Current Value"
               domain={[0, 65]} tickCount={7}
-              tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#9B9891' }}
-              axisLine={{ stroke: '#2A2E37' }} tickLine={false}
+              tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#8493AD' }}
+              axisLine={{ stroke: '#1F2E48' }} tickLine={false}
               tickFormatter={v => `€${v}M`}
-              label={{ value: 'Current Market Value', position: 'insideBottom', offset: -16, fill: '#9B9891', fontFamily: 'IBM Plex Sans', fontSize: 11 }}
+              label={{ value: 'Current Market Value', position: 'insideBottom', offset: -16, fill: '#8493AD', fontFamily: 'IBM Plex Sans', fontSize: 11 }}
             />
             <YAxis
               dataKey="y" type="number" name="Predicted Value"
               domain={[0, 70]} tickCount={7}
-              tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#9B9891' }}
-              axisLine={{ stroke: '#2A2E37' }} tickLine={false}
+              tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#8493AD' }}
+              axisLine={{ stroke: '#1F2E48' }} tickLine={false}
               tickFormatter={v => `€${v}M`}
-              label={{ value: 'Predicted Future Value', angle: -90, position: 'insideLeft', offset: 14, fill: '#9B9891', fontFamily: 'IBM Plex Sans', fontSize: 11 }}
+              label={{ value: 'Predicted Future Value', angle: -90, position: 'insideLeft', offset: 14, fill: '#8493AD', fontFamily: 'IBM Plex Sans', fontSize: 11 }}
             />
             <ReferenceLine
               segment={[{ x: 0, y: 0 }, { x: 65, y: 65 }]}
-              stroke="#2A2E37" strokeDasharray="5 4" strokeWidth={1.5}
+              stroke="#1F2E48" strokeDasharray="5 4" strokeWidth={1.5}
             />
             <Tooltip content={<ChartTooltip />} />
             <Scatter data={scatterData} shape={<CustomDot />} />
@@ -254,20 +253,20 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
         {[
           {
             label: 'Highest upside this week',
-            value: 'Kai Fischer', sub: '+205% projected · Age 19 · AM',
-            color: '#E8A33D',
+            value: 'Jonas Drechsel', sub: '+205% projected · Age 19 · AM',
+            color: '#C8F23C',
             onClick: () => { onSelectPlayer(3); onNavigate('player-profile') }
           },
           {
             label: 'Fastest value growth',
-            value: 'Diego Vargas', sub: '+€7.2M in 6 months',
-            color: '#5B8DBE',
+            value: 'Emilio Cardona', sub: '+€7.2M in 6 months',
+            color: '#3DD6F5',
             onClick: () => { onSelectPlayer(4); onNavigate('player-profile') }
           },
           {
             label: 'Best risk / reward',
-            value: 'Lucas Fernández', sub: 'Low risk · +194% upside',
-            color: '#D99A3D',
+            value: 'Dario Montalvo', sub: 'Low risk · +194% upside',
+            color: '#FFB84D',
             onClick: () => { onSelectPlayer(1); onNavigate('player-profile') }
           },
         ].map((item, i) => (
@@ -277,7 +276,7 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
             style={{
               flex: 1, display: 'flex', gap: 14, alignItems: 'flex-start',
               padding: '20px 22px', cursor: 'pointer',
-              borderLeft: i > 0 ? '1px solid #2A2E37' : 'none',
+              borderLeft: i > 0 ? '1px solid #1F2E48' : 'none',
               transition: 'background 0.15s',
             }}
             onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = `${item.color}08` }}
@@ -285,11 +284,11 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
           >
             <div style={{ width: 3, alignSelf: 'stretch', borderRadius: 8, background: item.color, flexShrink: 0 }} />
             <div>
-              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#9B9891', marginBottom: 10 }}>
+              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#8493AD', marginBottom: 10 }}>
                 {item.label}
               </div>
-              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 15, fontWeight: 700, color: '#E8E6DF', marginBottom: 4 }}>{item.value}</div>
-              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#9B9891' }}>{item.sub}</div>
+              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 15, fontWeight: 700, color: '#E8EEF8', marginBottom: 4 }}>{item.value}</div>
+              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#8493AD' }}>{item.sub}</div>
             </div>
           </div>
         ))}

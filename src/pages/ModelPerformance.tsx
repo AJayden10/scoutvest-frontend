@@ -12,8 +12,8 @@ export default function ModelPerformance() {
   return (
     <div style={{ padding: '28px 32px', display: 'flex', flexDirection: 'column', gap: 24, maxWidth: 1100 }}>
       <div>
-        <h1 style={{ fontFamily: 'IBM Plex Sans', fontSize: 28, fontWeight: 700, color: '#E8E6DF', margin: 0 }}>Model Performance</h1>
-        <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#9B9891', margin: '6px 0 0' }}>Transparency and accountability for the AI prediction engine.</p>
+        <h1 style={{ fontFamily: 'IBM Plex Sans', fontSize: 28, fontWeight: 700, color: '#E8EEF8', margin: 0 }}>Model Performance</h1>
+        <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#8493AD', margin: '6px 0 0' }}>Transparency and accountability for the AI prediction engine.</p>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
@@ -24,29 +24,29 @@ export default function ModelPerformance() {
           { label: 'R² Score', value: '0.81', sub: 'Last training: Aug 10 2026' },
         ].map(m => (
           <Card key={m.label} style={{ padding: '20px' }}>
-            <div style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: '#3a4d62', marginBottom: 8 }}>{m.label}</div>
-            <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 22, fontWeight: 700, color: '#E8E6DF', marginBottom: 4 }}>{m.value}</div>
-            <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#9B9891' }}>{m.sub}</div>
+            <div style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: '#4C5B76', marginBottom: 8 }}>{m.label}</div>
+            <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 22, fontWeight: 700, color: '#E8EEF8', marginBottom: 4 }}>{m.value}</div>
+            <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#8493AD' }}>{m.sub}</div>
           </Card>
         ))}
       </div>
 
       <Card style={{ padding: '24px' }}>
         <SectionTitle>Predicted vs Actual Market Value</SectionTitle>
-        <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9B9891', margin: '4px 0 20px' }}>Each point is a validation-set player. The dashed line represents a perfect prediction.</p>
+        <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#8493AD', margin: '4px 0 20px' }}>Each point is a validation-set player. The dashed line represents a perfect prediction.</p>
         <ResponsiveContainer width="100%" height={340}>
           <ScatterChart margin={{ top: 10, right: 20, bottom: 30, left: 20 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#1d2d3d" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#17243B" />
             <XAxis dataKey="actual" type="number" name="Actual" unit="M"
-              tick={{ fontFamily: 'JetBrains Mono', fontSize: 10, fill: '#9B9891' }} axisLine={{ stroke: '#2A2E37' }} tickLine={false}
-              label={{ value: 'Actual Market Value (€M)', position: 'insideBottom', offset: -14, fill: '#9B9891', fontFamily: 'IBM Plex Sans', fontSize: 11 }} />
+              tick={{ fontFamily: 'JetBrains Mono', fontSize: 10, fill: '#8493AD' }} axisLine={{ stroke: '#1F2E48' }} tickLine={false}
+              label={{ value: 'Actual Market Value (€M)', position: 'insideBottom', offset: -14, fill: '#8493AD', fontFamily: 'IBM Plex Sans', fontSize: 11 }} />
             <YAxis dataKey="predicted" type="number" name="Predicted" unit="M"
-              tick={{ fontFamily: 'JetBrains Mono', fontSize: 10, fill: '#9B9891' }} axisLine={{ stroke: '#2A2E37' }} tickLine={false}
-              label={{ value: 'Predicted Value (€M)', angle: -90, position: 'insideLeft', offset: 14, fill: '#9B9891', fontFamily: 'IBM Plex Sans', fontSize: 11 }} />
-            <ReferenceLine segment={[{ x: 0, y: 0 }, { x: 60, y: 60 }]} stroke="#E8A33D" strokeDasharray="6 4" strokeOpacity={0.5} />
+              tick={{ fontFamily: 'JetBrains Mono', fontSize: 10, fill: '#8493AD' }} axisLine={{ stroke: '#1F2E48' }} tickLine={false}
+              label={{ value: 'Predicted Value (€M)', angle: -90, position: 'insideLeft', offset: 14, fill: '#8493AD', fontFamily: 'IBM Plex Sans', fontSize: 11 }} />
+            <ReferenceLine segment={[{ x: 0, y: 0 }, { x: 60, y: 60 }]} stroke="#C8F23C" strokeDasharray="6 4" strokeOpacity={0.5} />
             <Tooltip formatter={(v: any) => [`€${Number(v).toFixed(1)}M`]}
-              contentStyle={{ background: '#1a2535', border: '1px solid #2A2E37', fontFamily: 'IBM Plex Sans', fontSize: 12 }} />
-            <Scatter data={modelData} fill="#5B8DBE" fillOpacity={0.7} />
+              contentStyle={{ background: '#14213A', border: '1px solid #1F2E48', fontFamily: 'IBM Plex Sans', fontSize: 12 }} />
+            <Scatter data={modelData} fill="#3DD6F5" fillOpacity={0.7} />
           </ScatterChart>
         </ResponsiveContainer>
       </Card>
@@ -66,11 +66,11 @@ export default function ModelPerformance() {
             ].map(f => (
               <div key={f.feature}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                  <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#C8D3DF' }}>{f.feature}</span>
-                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: '#9B9891' }}>{(f.importance * 100).toFixed(0)}%</span>
+                  <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#C4D0E4' }}>{f.feature}</span>
+                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: '#8493AD' }}>{(f.importance * 100).toFixed(0)}%</span>
                 </div>
-                <div style={{ height: 5, background: '#1d2d3d', borderRadius: 9 }}>
-                  <div style={{ height: 5, width: `${f.importance * 100}%`, background: '#E8A33D', borderRadius: 9 }} />
+                <div style={{ height: 5, background: '#17243B', borderRadius: 9 }}>
+                  <div style={{ height: 5, width: `${f.importance * 100}%`, background: '#C8F23C', borderRadius: 9 }} />
                 </div>
               </div>
             ))}
@@ -88,9 +88,9 @@ export default function ModelPerformance() {
             <StatRow label="Retraining cadence" value="Monthly" />
             <StatRow label="Data sources" value="6 integrated" />
             <StatRow label="Leagues covered" value="32" mono />
-            <div style={{ marginTop: 16, padding: '12px', background: 'rgba(232,163,61,0.06)', border: '1px solid rgba(232,163,61,0.15)', borderRadius: 3 }}>
-              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#E8A33D', fontWeight: 600, marginBottom: 4 }}>Model Status</div>
-              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#9B9891' }}>All systems nominal. Next scheduled retraining: Sep 10, 2026.</div>
+            <div style={{ marginTop: 16, padding: '12px', background: 'rgba(200,242,60,0.06)', border: '1px solid rgba(200,242,60,0.15)', borderRadius: 3 }}>
+              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#C8F23C', fontWeight: 600, marginBottom: 4 }}>Model Status</div>
+              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#8493AD' }}>All systems nominal. Next scheduled retraining: Sep 10, 2026.</div>
             </div>
           </div>
         </Card>

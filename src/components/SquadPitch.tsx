@@ -19,7 +19,7 @@ const FORMATION: Slot[] = [
 ]
 
 // The pitch is drawn in a 76 x 70 box so circles stay circles.
-const LINE = 'rgba(232,230,223,0.26)'
+const LINE = 'rgba(232,238,248,0.26)'
 
 function Markings() {
   return (
@@ -63,7 +63,7 @@ export default function SquadPitch({ players, onSelectPlayer, onAddToSlot }: Pro
     <div style={{ overflowX: 'auto' }} className="scrollbar-hide">
       <div style={{
         position: 'relative', width: '100%', minWidth: 640, maxWidth: 780, aspectRatio: '76 / 70',
-        margin: '0 auto', border: '1px solid #2A2E37', overflow: 'hidden',
+        margin: '0 auto', border: '1px solid #1F2E48', overflow: 'hidden',
         clipPath: 'polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)',
       }}>
         <Markings />
@@ -80,8 +80,8 @@ export default function SquadPitch({ players, onSelectPlayer, onAddToSlot }: Pro
                 style={{
                   width: '5.4em', height: '7em', fontSize: 13, display: 'flex', flexDirection: 'column',
                   alignItems: 'center', justifyContent: 'center', gap: 4,
-                  background: 'rgba(10,12,16,0.35)', border: '1.5px dashed rgba(232,230,223,0.28)',
-                  color: 'rgba(232,230,223,0.55)', fontFamily: 'Saira Condensed', fontWeight: 700,
+                  background: 'rgba(6,11,20,0.35)', border: '1.5px dashed rgba(232,238,248,0.28)',
+                  color: 'rgba(232,238,248,0.55)', fontFamily: 'Saira Condensed', fontWeight: 700,
                 }}>
                 <span style={{ fontSize: '1.9em', lineHeight: 1 }}>+</span>
                 <span style={{ fontSize: '1.05em', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{slot.pos}</span>
@@ -91,7 +91,7 @@ export default function SquadPitch({ players, onSelectPlayer, onAddToSlot }: Pro
         ))}
       </div>
       {unplaced.length > 0 && (
-        <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#9B9891', textAlign: 'center', margin: '12px 0 0' }}>
+        <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#8493AD', textAlign: 'center', margin: '12px 0 0' }}>
           {unplaced.length} more on your watchlist {unplaced.length === 1 ? 'has' : 'have'} no free slot: {unplaced.map(p => p.name).join(', ')}.
         </p>
       )}

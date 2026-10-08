@@ -27,8 +27,8 @@ export default function MarketTrends() {
   return (
     <div style={{ padding: '28px 32px', display: 'flex', flexDirection: 'column', gap: 24, maxWidth: 1100 }}>
       <div>
-        <h1 style={{ fontFamily: 'IBM Plex Sans', fontSize: 28, fontWeight: 700, color: '#E8E6DF', margin: 0 }}>Market Trends</h1>
-        <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#9B9891', margin: '6px 0 0' }}>Broader transfer market intelligence and valuation trends.</p>
+        <h1 style={{ fontFamily: 'IBM Plex Sans', fontSize: 28, fontWeight: 700, color: '#E8EEF8', margin: 0 }}>Market Trends</h1>
+        <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#8493AD', margin: '6px 0 0' }}>Broader transfer market intelligence and valuation trends.</p>
       </div>
 
       <div style={{ display: 'flex', gap: 16 }}>
@@ -41,34 +41,34 @@ export default function MarketTrends() {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
         <Card style={{ padding: '24px' }}>
           <SectionTitle>Average Value by Position</SectionTitle>
-          <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9B9891', margin: '4px 0 20px' }}>Which positions command the highest transfer fees?</p>
+          <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#8493AD', margin: '4px 0 20px' }}>Which positions command the highest transfer fees?</p>
           <ResponsiveContainer width="100%" height={280}>
             <BarChart data={positionValues} layout="vertical" margin={{ top: 0, right: 20, bottom: 0, left: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1d2d3d" horizontal={false} />
-              <XAxis type="number" tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#9B9891' }} axisLine={false} tickLine={false} tickFormatter={v => `€${v}M`} />
-              <YAxis type="category" dataKey="position" tick={{ fontFamily: 'JetBrains Mono', fontSize: 10, fill: '#9B9891' }} axisLine={false} tickLine={false} width={44} />
-              <Tooltip formatter={(v: any) => [`€${v}M`, 'Avg Value']} contentStyle={{ background: '#1a2535', border: '1px solid #2A2E37', fontFamily: 'IBM Plex Sans', fontSize: 12 }} />
-              <Bar dataKey="value" fill="#E8A33D" radius={[0, 4, 4, 0]} fillOpacity={0.8} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#17243B" horizontal={false} />
+              <XAxis type="number" tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#8493AD' }} axisLine={false} tickLine={false} tickFormatter={v => `€${v}M`} />
+              <YAxis type="category" dataKey="position" tick={{ fontFamily: 'JetBrains Mono', fontSize: 10, fill: '#8493AD' }} axisLine={false} tickLine={false} width={44} />
+              <Tooltip formatter={(v: any) => [`€${v}M`, 'Avg Value']} contentStyle={{ background: '#14213A', border: '1px solid #1F2E48', fontFamily: 'IBM Plex Sans', fontSize: 12 }} />
+              <Bar dataKey="value" fill="#C8F23C" radius={[0, 4, 4, 0]} fillOpacity={0.8} />
             </BarChart>
           </ResponsiveContainer>
         </Card>
 
         <Card style={{ padding: '24px' }}>
           <SectionTitle>Average Market Value (2025)</SectionTitle>
-          <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9B9891', margin: '4px 0 20px' }}>Monthly trend across tracked players</p>
+          <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#8493AD', margin: '4px 0 20px' }}>Monthly trend across tracked players</p>
           <ResponsiveContainer width="100%" height={280}>
             <LineChart data={marketGrowth} margin={{ top: 10, right: 20, bottom: 0, left: 10 }}>
               <defs>
                 <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#E8A33D" stopOpacity={0.3}/>
-                  <stop offset="95%" stopColor="#E8A33D" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="#C8F23C" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#C8F23C" stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1d2d3d" />
-              <XAxis dataKey="month" tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#9B9891' }} axisLine={{ stroke: '#2A2E37' }} tickLine={false} />
-              <YAxis tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#9B9891' }} axisLine={{ stroke: '#2A2E37' }} tickLine={false} tickFormatter={v => `€${v}M`} domain={[14, 22]} />
-              <Tooltip formatter={(v: any) => [`€${v}M`, 'Avg Value']} contentStyle={{ background: '#1a2535', border: '1px solid #2A2E37', fontFamily: 'IBM Plex Sans', fontSize: 12 }} />
-              <Line type="monotone" dataKey="value" stroke="#E8A33D" strokeWidth={2.5} dot={{ fill: '#E8A33D', r: 4 }} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#17243B" />
+              <XAxis dataKey="month" tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#8493AD' }} axisLine={{ stroke: '#1F2E48' }} tickLine={false} />
+              <YAxis tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#8493AD' }} axisLine={{ stroke: '#1F2E48' }} tickLine={false} tickFormatter={v => `€${v}M`} domain={[14, 22]} />
+              <Tooltip formatter={(v: any) => [`€${v}M`, 'Avg Value']} contentStyle={{ background: '#14213A', border: '1px solid #1F2E48', fontFamily: 'IBM Plex Sans', fontSize: 12 }} />
+              <Line type="monotone" dataKey="value" stroke="#C8F23C" strokeWidth={2.5} dot={{ fill: '#C8F23C', r: 4 }} />
             </LineChart>
           </ResponsiveContainer>
         </Card>
@@ -85,11 +85,11 @@ export default function MarketTrends() {
             { league: 'Serie A', avg: '€18.9M', growth: '+6.8%', players: 3102 },
             { league: 'Ligue 1', avg: '€14.2M', growth: '+14.7%', players: 2513 },
           ].map(l => (
-            <div key={l.league} style={{ background: '#14171D', borderRadius: 3, padding: '16px' }}>
-              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, fontWeight: 600, color: '#E8E6DF', marginBottom: 10 }}>{l.league}</div>
-              <div style={{ fontFamily: 'JetBrains Mono', fontSize: 18, fontWeight: 700, color: '#E8E6DF', marginBottom: 4 }}>{l.avg}</div>
-              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, fontWeight: 600, color: '#E8A33D', marginBottom: 4 }}>{l.growth}</div>
-              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#9B9891' }}>{l.players.toLocaleString()} players</div>
+            <div key={l.league} style={{ background: '#0B1220', borderRadius: 3, padding: '16px' }}>
+              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, fontWeight: 600, color: '#E8EEF8', marginBottom: 10 }}>{l.league}</div>
+              <div style={{ fontFamily: 'JetBrains Mono', fontSize: 18, fontWeight: 700, color: '#E8EEF8', marginBottom: 4 }}>{l.avg}</div>
+              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, fontWeight: 600, color: '#C8F23C', marginBottom: 4 }}>{l.growth}</div>
+              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#8493AD' }}>{l.players.toLocaleString()} players</div>
             </div>
           ))}
         </div>
