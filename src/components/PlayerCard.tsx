@@ -3,8 +3,9 @@ import type { Player } from '../data/mockData'
 import { TIERS, scoutRating } from './tiers'
 import { fmt } from './ui'
 
-// Shield outline: clipped corners at the top, a point at the bottom.
-const SHAPE = 'polygon(0 5%, 10% 0, 90% 0, 100% 5%, 100% 91%, 50% 100%, 0 91%)'
+// Rounded shield: soft corners on top, a rounder curve toward the bottom.
+const RADIUS = '1.1em 1.1em 45% 45% / 1.1em 1.1em 14% 14%'
+const RADIUS_IN = '0.9em 0.9em 45% 45% / 0.9em 0.9em 14% 14%'
 
 interface Props {
   player: Player
@@ -44,12 +45,12 @@ export default function PlayerCard({ player: p, onClick, compact = false, size }
     <>
       {/* foil */}
       <div style={{
-        position: 'absolute', inset: 0, clipPath: SHAPE,
+        position: 'absolute', inset: 0, borderRadius: RADIUS,
         background: `linear-gradient(155deg, ${tier.light} 0%, ${tier.accent} 48%, ${tier.dark} 100%)`,
       }} />
       {/* bevel + diagonal sheen */}
       <div style={{
-        position: 'absolute', inset: '0.28em', clipPath: SHAPE,
+        position: 'absolute', inset: '0.28em', borderRadius: RADIUS_IN,
         background: `repeating-linear-gradient(115deg, rgba(255,255,255,0.08) 0 0.7em, transparent 0.7em 1.4em), linear-gradient(160deg, rgba(255,255,255,0.32), rgba(0,0,0,0.10))`,
       }} />
       {/* monogram stands in for a portrait until photos exist */}
@@ -63,7 +64,7 @@ export default function PlayerCard({ player: p, onClick, compact = false, size }
         </div>
       )}
       {/* the streak is clipped by its parent, so it cannot show outside the card while it waits off to the side */}
-      <div aria-hidden style={{ position: 'absolute', inset: 0, clipPath: SHAPE, overflow: 'hidden', pointerEvents: 'none' }}>
+      <div aria-hidden style={{ position: 'absolute', inset: 0, borderRadius: RADIUS, overflow: 'hidden', pointerEvents: 'none' }}>
         <div className="streak" />
       </div>
 

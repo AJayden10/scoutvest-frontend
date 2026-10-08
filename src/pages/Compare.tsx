@@ -6,7 +6,7 @@ import type { Page } from '../App'
 
 interface Props { onNavigate: (page: Page) => void; onSelectPlayer: (id: number) => void }
 
-const COLORS = ['#C8F23C', '#3DD6F5', '#FFB84D', '#FF5A4F']
+const COLORS = ['#F5B82E', '#3DD6F5', '#FF8A3D', '#FF5A4F']
 
 const radarMetrics = ['Finishing', 'Passing', 'Creativity', 'Ball Progression', 'Defending', 'Physical']
 
@@ -66,7 +66,7 @@ export default function Compare({ onNavigate, onSelectPlayer }: Props) {
       {/* Player selector */}
       <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
         {selectedPlayers.map((p, i) => (
-          <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 12px', background: '#101A2C', border: `1px solid ${COLORS[i]}40`, borderRadius: 3 }}>
+          <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 12px', background: '#101A2C', border: `1px solid ${COLORS[i]}40`, borderRadius: 8 }}>
             <div style={{ width: 8, height: 8, borderRadius: '50%', background: COLORS[i] }} />
             <Avatar name={p.name} size={24} />
             <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, fontWeight: 500, color: '#E8EEF8' }}>{p.name}</span>
@@ -75,7 +75,7 @@ export default function Compare({ onNavigate, onSelectPlayer }: Props) {
         ))}
         {selected.length < 4 && (
           <select onChange={e => addPlayer(+e.target.value)} value=""
-            style={{ padding: '6px 12px', background: '#0B1220', border: '1px solid #1F2E48', borderRadius: 3, fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#8493AD', cursor: 'pointer' }}>
+            style={{ padding: '6px 12px', background: '#0B1220', border: '1px solid #1F2E48', borderRadius: 8, fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#8493AD', cursor: 'pointer' }}>
             <option value="" disabled>+ Add player</option>
             {players.filter(p => !selected.includes(p.id)).map(p => (
               <option key={p.id} value={p.id}>{p.name}</option>
@@ -115,7 +115,7 @@ export default function Compare({ onNavigate, onSelectPlayer }: Props) {
                       {row.label === 'Risk Score' ? (
                         <RiskBadge risk={p.risk} />
                       ) : (
-                        <span style={{ fontFamily: isUpside || isPredicted ? 'IBM Plex Sans' : 'JetBrains Mono', fontSize: isUpside ? 15 : 13, fontWeight: isUpside || isPredicted ? 700 : 400, color: isUpside || isPredicted ? '#C8F23C' : '#E8EEF8' }}>
+                        <span style={{ fontFamily: isUpside || isPredicted ? 'IBM Plex Sans' : 'JetBrains Mono', fontSize: isUpside ? 15 : 13, fontWeight: isUpside || isPredicted ? 700 : 400, color: isUpside || isPredicted ? '#F5B82E' : '#E8EEF8' }}>
                           {val}
                         </span>
                       )}

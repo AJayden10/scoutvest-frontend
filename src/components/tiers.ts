@@ -11,7 +11,7 @@ export interface Tier {
 }
 
 export const TIERS: Record<InvestmentSignal, Tier> = {
-  'STRONG BUY': { label: 'Strong buy', accent: '#C8F23C', light: '#EAFF9A', dark: '#8BAE17', ink: '#121a02' },
+  'STRONG BUY': { label: 'Strong buy', accent: '#F5B82E', light: '#FFE29A', dark: '#B07F12', ink: '#1c1300' },
   'UNDERVALUED': { label: 'Undervalued', accent: '#3DD6F5', light: '#B4F1FF', dark: '#1B8FAE', ink: '#031318' },
   'BREAKOUT': { label: 'Breakout', accent: '#A58BFF', light: '#D6CBFF', dark: '#6A4FD4', ink: '#0d0821' },
   'MONITOR': { label: 'Monitor', accent: '#8FA0B8', light: '#D9E1EC', dark: '#586882', ink: '#0d121b' },

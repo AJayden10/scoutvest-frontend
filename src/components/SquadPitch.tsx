@@ -64,7 +64,7 @@ export default function SquadPitch({ players, onSelectPlayer, onAddToSlot }: Pro
       <div style={{
         position: 'relative', width: '100%', minWidth: 640, maxWidth: 780, aspectRatio: '76 / 70',
         margin: '0 auto', border: '1px solid #1F2E48', overflow: 'hidden',
-        clipPath: 'polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)',
+        borderRadius: 14,
       }}>
         <Markings />
         {filled.map(({ slot, player }, i) => (

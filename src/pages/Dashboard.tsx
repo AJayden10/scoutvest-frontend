@@ -13,14 +13,14 @@ const posFilters = ['All', 'GK', 'DEF', 'MID', 'FWD', 'U21', 'U23', 'U25']
 const signalColor: Record<string, string> = {
   'UNDERVALUED': '#3DD6F5',
   'BREAKOUT': '#A58BFF',
-  'STRONG BUY': '#C8F23C',
+  'STRONG BUY': '#F5B82E',
   'OVERVALUED': '#FF5A4F',
   'MONITOR': '#8FA0B8',
 }
 
 const riskColorMap: Record<string, string> = {
   Low: '#3DDC97',
-  Medium: '#FFB84D',
+  Medium: '#FF8A3D',
   High: '#FF5A4F',
 }
 
@@ -31,7 +31,7 @@ interface Props {
 
 const CustomDot = (props: any) => {
   const { cx, cy, payload } = props
-  const riskColor = { Low: '#C8F23C', Medium: '#FFB84D', High: '#FF5A4F' }[payload.risk as string] || '#3DD6F5'
+  const riskColor = { Low: '#3DDC97', Medium: '#FF8A3D', High: '#FF5A4F' }[payload.risk as string] || '#3DD6F5'
   const big = payload.upside > 150
   return (
     <g>
@@ -50,7 +50,7 @@ const ChartTooltip = ({ active, payload }: any) => {
   const d = payload[0].payload
   return (
     <div style={{
-      background: '#0C1626', border: '1px solid #1F2E48', borderRadius: 3,
+      background: '#0C1626', border: '1px solid #1F2E48', borderRadius: 8,
       padding: '12px 16px', fontFamily: 'IBM Plex Sans', fontSize: 12,
       boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
     }}>
@@ -62,7 +62,7 @@ const ChartTooltip = ({ active, payload }: any) => {
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
           <span style={{ color: '#8493AD' }}>Predicted</span>
-          <span style={{ fontFamily: 'JetBrains Mono', color: '#C8F23C', fontWeight: 600 }}>{fmt(d.y)}</span>
+          <span style={{ fontFamily: 'JetBrains Mono', color: '#F5B82E', fontWeight: 600 }}>{fmt(d.y)}</span>
         </div>
         <div style={{ height: 1, background: '#1F2E48', margin: '4px 0' }} />
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
@@ -115,7 +115,7 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
             Avg predicted upside this quarter
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: 12 }}>
-            <div style={{ fontFamily: 'Saira Condensed', fontStyle: 'italic', fontSize: 76, fontWeight: 800, color: '#C8F23C', letterSpacing: '0', lineHeight: 1 }}>
+            <div style={{ fontFamily: 'Saira Condensed', fontStyle: 'italic', fontSize: 76, fontWeight: 800, color: '#F5B82E', letterSpacing: '0', lineHeight: 1 }}>
               +38.7%
             </div>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontFamily: 'JetBrains Mono', fontSize: 13, fontWeight: 600, color: '#3DDC97' }}>
@@ -164,11 +164,11 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
           <div style={{ display: 'flex', gap: 5, flexShrink: 0, marginLeft: 16 }}>
             {posFilters.map(f => (
               <button key={f} onClick={() => setPosFilter(f)} style={{
-                padding: '4px 10px', borderRadius: 3, cursor: 'pointer',
+                padding: '4px 10px', borderRadius: 8, cursor: 'pointer',
                 fontFamily: 'JetBrains Mono', fontSize: 9, fontWeight: 700, letterSpacing: '0.06em',
-                background: posFilter === f ? '#C8F23C' : 'transparent',
+                background: posFilter === f ? '#F5B82E' : 'transparent',
                 color: posFilter === f ? '#060B14' : '#8493AD',
-                border: `1px solid ${posFilter === f ? '#C8F23C' : '#1F2E48'}`,
+                border: `1px solid ${posFilter === f ? '#F5B82E' : '#1F2E48'}`,
                 transition: 'all 0.15s',
               }}>
                 {f}
@@ -179,7 +179,7 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
 
         {/* Legend */}
         <div style={{ display: 'flex', gap: 18, marginBottom: 14, marginTop: 12 }}>
-          {[['Low Risk', '#C8F23C'], ['Medium Risk', '#FFB84D'], ['High Risk', '#FF5A4F']].map(([label, color]) => (
+          {[['Low Risk', '#3DDC97'], ['Medium Risk', '#FF8A3D'], ['High Risk', '#FF5A4F']].map(([label, color]) => (
             <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <div style={{ width: 8, height: 8, borderRadius: '50%', background: color as string }} />
               <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#8493AD' }}>{label}</span>
@@ -197,8 +197,8 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
           <ScatterChart margin={{ top: 10, right: 24, bottom: 28, left: 10 }}>
             <defs>
               <linearGradient id="oppZone" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#C8F23C" stopOpacity={0.03}/>
-                <stop offset="100%" stopColor="#C8F23C" stopOpacity={0}/>
+                <stop offset="0%" stopColor="#F5B82E" stopOpacity={0.03}/>
+                <stop offset="100%" stopColor="#F5B82E" stopOpacity={0}/>
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(31,46,72,0.7)" />
@@ -254,7 +254,7 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
           {
             label: 'Highest upside this week',
             value: 'Jonas Drechsel', sub: '+205% projected · Age 19 · AM',
-            color: '#C8F23C',
+            color: '#F5B82E',
             onClick: () => { onSelectPlayer(3); onNavigate('player-profile') }
           },
           {
@@ -266,7 +266,7 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
           {
             label: 'Best risk / reward',
             value: 'Dario Montalvo', sub: 'Low risk · +194% upside',
-            color: '#FFB84D',
+            color: '#FF8A3D',
             onClick: () => { onSelectPlayer(1); onNavigate('player-profile') }
           },
         ].map((item, i) => (

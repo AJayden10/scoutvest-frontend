@@ -38,16 +38,16 @@ export default function TopBar({ onNavigate, onSelectPlayer }: TopBarProps) {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8493AD" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/>
           </svg>
-          <div style={{ position: 'absolute', top: 3, right: 3, width: 6, height: 6, borderRadius: '50%', background: '#FFB84D', border: '1.5px solid #080E19' }} />
+          <div style={{ position: 'absolute', top: 3, right: 3, width: 6, height: 6, borderRadius: '50%', background: '#FF8A3D', border: '1.5px solid #080E19' }} />
         </button>
 
         {/* Profile */}
         <div style={{
           width: 32, height: 32, borderRadius: '50%',
           background: 'linear-gradient(135deg, #1E3A5F, #0C2220)',
-          border: '1.5px solid #C8F23C',
+          border: '1.5px solid #F5B82E',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontFamily: 'IBM Plex Sans', fontWeight: 700, fontSize: 12, color: '#C8F23C', cursor: 'pointer',
+          fontFamily: 'IBM Plex Sans', fontWeight: 700, fontSize: 12, color: '#F5B82E', cursor: 'pointer',
         }}>
           AO
         </div>

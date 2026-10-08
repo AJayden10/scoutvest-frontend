@@ -22,14 +22,14 @@ export default function Settings() {
         <SectionTitle>Data Sources</SectionTitle>
         <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', gap: 10 }}>
           {[
-            { source: 'StatsBomb', status: 'Connected', color: '#C8F23C' },
-            { source: 'Transfermarkt', status: 'Connected', color: '#C8F23C' },
-            { source: 'Wyscout', status: 'Connected', color: '#C8F23C' },
-            { source: 'FBREF', status: 'Connected', color: '#C8F23C' },
-            { source: 'Opta', status: 'Pending', color: '#FFB84D' },
+            { source: 'StatsBomb', status: 'Connected', color: '#F5B82E' },
+            { source: 'Transfermarkt', status: 'Connected', color: '#F5B82E' },
+            { source: 'Wyscout', status: 'Connected', color: '#F5B82E' },
+            { source: 'FBREF', status: 'Connected', color: '#F5B82E' },
+            { source: 'Opta', status: 'Pending', color: '#FF8A3D' },
             { source: 'InStat', status: 'Disconnected', color: '#FF5A4F' },
           ].map(s => (
-            <div key={s.source} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', background: '#0B1220', borderRadius: 3 }}>
+            <div key={s.source} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', background: '#0B1220', borderRadius: 8 }}>
               <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#E8EEF8' }}>{s.source}</span>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <div style={{ width: 7, height: 7, borderRadius: '50%', background: s.color }} />
@@ -52,8 +52,8 @@ export default function Settings() {
             <div key={n.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid #17243B' }}>
               <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#C4D0E4' }}>{n.label}</span>
               <div style={{
-                width: 40, height: 22, borderRadius: 3, cursor: 'pointer',
-                background: n.enabled ? '#C8F23C' : '#1F2E48',
+                width: 40, height: 22, borderRadius: 8, cursor: 'pointer',
+                background: n.enabled ? '#F5B82E' : '#1F2E48',
                 position: 'relative', transition: 'background 0.2s',
               }}>
                 <div style={{ width: 16, height: 16, borderRadius: '50%', background: '#fff', position: 'absolute', top: 3, left: n.enabled ? 21 : 3, transition: 'left 0.2s' }} />

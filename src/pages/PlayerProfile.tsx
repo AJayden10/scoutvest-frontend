@@ -48,12 +48,12 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
       {/* ── Investment Opportunity Hero (spec §37 — investment case first) ── */}
       <div style={{
         background: 'linear-gradient(135deg, #0C1828 0%, #0A1422 40%, #070D18 100%)',
-        border: '1px solid rgba(200,242,60,0.2)',
-        borderRadius: 3,
+        border: '1px solid rgba(245,184,46,0.2)',
+        borderRadius: 8,
         overflow: 'hidden',
       }}>
         {/* Top accent bar */}
-        <div style={{ height: 3, background: 'linear-gradient(90deg, #C8F23C, #A8CC2C 60%, transparent)' }} />
+        <div style={{ height: 3, background: 'linear-gradient(90deg, #F5B82E, #A8CC2C 60%, transparent)' }} />
 
         <div style={{ padding: '28px 32px' }}>
           <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'flex-start' }}>
@@ -106,7 +106,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
                     fontSize: m.big ? 38 : 30,
                     color: m.color,
                     letterSpacing: '-0.02em',
-                    filter: m.big ? 'drop-shadow(0 0 12px rgba(200,242,60,0.25))' : undefined,
+                    filter: m.big ? 'drop-shadow(0 0 12px rgba(245,184,46,0.25))' : undefined,
                   }}>
                     {m.value}
                   </div>
@@ -120,18 +120,18 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
             marginTop: 24,
             padding: '14px 18px',
             background: 'rgba(0,0,0,0.25)',
-            borderRadius: 3,
+            borderRadius: 8,
             border: '1px solid rgba(31,46,72,0.5)',
             display: 'flex', gap: 24, flexWrap: 'wrap',
           }}>
-            <div style={{ fontFamily: 'JetBrains Mono', fontSize: 8, color: '#C8F23C', alignSelf: 'center', flexShrink: 0 }}>
+            <div style={{ fontFamily: 'JetBrains Mono', fontSize: 8, color: '#F5B82E', alignSelf: 'center', flexShrink: 0 }}>
               WHY SCOUTVEST →
             </div>
             <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', flex: 1 }}>
               {player.reasons.slice(0, 3).map((r, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 7, flex: '0 0 auto', maxWidth: 260 }}>
-                  <div style={{ width: 16, height: 16, borderRadius: '50%', background: 'rgba(200,242,60,0.12)', border: '1px solid rgba(200,242,60,0.22)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
-                    <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#C8F23C" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  <div style={{ width: 16, height: 16, borderRadius: '50%', background: 'rgba(245,184,46,0.12)', border: '1px solid rgba(245,184,46,0.22)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
+                    <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#F5B82E" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                   </div>
                   <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#C4D0E4', lineHeight: 1.45 }}>{r}</span>
                 </div>
@@ -148,7 +148,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
             background: 'none', border: 'none', cursor: 'pointer',
             padding: '10px 20px', fontFamily: 'IBM Plex Sans', fontSize: 13, fontWeight: tab === t ? 600 : 400,
             color: tab === t ? '#E8EEF8' : '#8493AD',
-            borderBottom: tab === t ? '2px solid #C8F23C' : '2px solid transparent',
+            borderBottom: tab === t ? '2px solid #F5B82E' : '2px solid transparent',
             marginBottom: -1, transition: 'color 0.15s',
           }}>
             {t}
@@ -173,7 +173,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
               ],
             },
             {
-              title: 'Market', color: '#FFB84D',
+              title: 'Market', color: '#FF8A3D',
               rows: [
                 { label: 'Current Value', value: fmt(player.currentValue) },
                 { label: 'Peak Value', value: fmt(player.peakValue) },
@@ -183,7 +183,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
               ],
             },
             {
-              title: 'AI Model', color: '#C8F23C',
+              title: 'AI Model', color: '#F5B82E',
               rows: [
                 { label: 'Predicted Value', value: fmt(player.predictedValue), hi: true },
                 { label: 'Expected Growth', value: `+${player.upside}%`, hi: true },
@@ -194,7 +194,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
                 <div style={{ marginTop: 14 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 7 }}>
                     <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#8493AD' }}>Model Confidence</span>
-                    <span style={{ fontFamily: 'JetBrains Mono', fontSize: 12, fontWeight: 700, color: '#C8F23C' }}>{player.confidence}%</span>
+                    <span style={{ fontFamily: 'JetBrains Mono', fontSize: 12, fontWeight: 700, color: '#F5B82E' }}>{player.confidence}%</span>
                   </div>
                   <ConfidenceBar pct={player.confidence} />
                 </div>
@@ -229,11 +229,11 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
             ].map(m => {
               const pct = Math.min(100, ((m.raw ?? +m.value) / m.max) * 100)
               return (
-                <div key={m.label} style={{ background: '#0B1220', borderRadius: 3, padding: '16px' }}>
+                <div key={m.label} style={{ background: '#0B1220', borderRadius: 8, padding: '16px' }}>
                   <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#8493AD', marginBottom: 10 }}>{m.label}</div>
                   <div style={{ fontFamily: 'JetBrains Mono', fontSize: 24, fontWeight: 700, color: '#E8EEF8', marginBottom: 12, letterSpacing: '-0.01em' }}>{m.value}</div>
                   <div style={{ height: 4, background: 'rgba(31,46,72,0.8)', borderRadius: 8 }}>
-                    <div style={{ height: 4, width: `${pct}%`, background: 'linear-gradient(90deg, #A8CC2C, #C8F23C)', borderRadius: 8 }} />
+                    <div style={{ height: 4, width: `${pct}%`, background: 'linear-gradient(90deg, #A8CC2C, #F5B82E)', borderRadius: 8 }} />
                   </div>
                 </div>
               )
@@ -252,8 +252,8 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
             <ComposedChart data={chartData} margin={{ top: 10, right: 24, bottom: 20, left: 10 }}>
               <defs>
                 <linearGradient id="predAreaGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%"  stopColor="#C8F23C" stopOpacity={0.18}/>
-                  <stop offset="95%" stopColor="#C8F23C" stopOpacity={0}/>
+                  <stop offset="5%"  stopColor="#F5B82E" stopOpacity={0.18}/>
+                  <stop offset="95%" stopColor="#F5B82E" stopOpacity={0}/>
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(31,46,72,0.7)" />
@@ -268,19 +268,19 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
               />
               <Tooltip
                 formatter={(v: any) => [`€${Number(v).toFixed(1)}M`]}
-                contentStyle={{ background: '#0C1626', border: '1px solid #1F2E48', fontFamily: 'IBM Plex Sans', fontSize: 12, borderRadius: 3 }}
+                contentStyle={{ background: '#0C1626', border: '1px solid #1F2E48', fontFamily: 'IBM Plex Sans', fontSize: 12, borderRadius: 8 }}
               />
               <ReferenceLine x="Jul 24" stroke="#1F2E48" strokeDasharray="4 4"
                 label={{ value: 'NOW', fill: '#4C5B76', fontSize: 9, fontFamily: 'JetBrains Mono', }}
               />
               <Line dataKey="actual" stroke="#3DD6F5" strokeWidth={2.5} dot={{ fill: '#3DD6F5', r: 4, strokeWidth: 0 }} connectNulls={false} name="Historical" />
-              <Area dataKey="predicted" stroke="#C8F23C" strokeWidth={2} strokeDasharray="7 4"
-                fill="url(#predAreaGrad)" dot={{ fill: '#C8F23C', r: 4, strokeWidth: 0 }} connectNulls={false} name="AI Projection"
+              <Area dataKey="predicted" stroke="#F5B82E" strokeWidth={2} strokeDasharray="7 4"
+                fill="url(#predAreaGrad)" dot={{ fill: '#F5B82E', r: 4, strokeWidth: 0 }} connectNulls={false} name="AI Projection"
               />
             </ComposedChart>
           </ResponsiveContainer>
           <div style={{ display: 'flex', gap: 22, marginTop: 8 }}>
-            {[['Historical Value', '#3DD6F5', false], ['AI Projection (model)', '#C8F23C', true]].map(([label, color, dashed]) => (
+            {[['Historical Value', '#3DD6F5', false], ['AI Projection (model)', '#F5B82E', true]].map(([label, color, dashed]) => (
               <div key={label as string} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <svg width="22" height="6" viewBox="0 0 22 6">
                   <line x1="0" y1="3" x2="22" y2="3" stroke={color as string} strokeWidth="2" strokeDasharray={dashed ? '5 3' : undefined} strokeLinecap="round"/>
@@ -296,7 +296,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
       {tab === 'AI Prediction' && (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
           <Card style={{ padding: '24px' }}>
-            <div style={{ fontFamily: 'JetBrains Mono', fontSize: 9, fontWeight: 700, color: '#C8F23C', marginBottom: 4 }}>AI MARKET PROJECTION</div>
+            <div style={{ fontFamily: 'JetBrains Mono', fontSize: 9, fontWeight: 700, color: '#F5B82E', marginBottom: 4 }}>AI MARKET PROJECTION</div>
             <SectionTitle>Value Trajectory</SectionTitle>
 
             <div style={{ marginTop: 20 }}>
@@ -309,7 +309,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
                     <div style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: '#8493AD', marginBottom: 2 }}>{p.note.toUpperCase()}</div>
                     <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#C4D0E4' }}>{p.label} Projection</div>
                   </div>
-                  <div style={{ fontFamily: 'Saira Condensed', fontSize: 22, fontWeight: 700, color: '#C8F23C', letterSpacing: '-0.01em' }}>
+                  <div style={{ fontFamily: 'Saira Condensed', fontSize: 22, fontWeight: 700, color: '#F5B82E', letterSpacing: '-0.01em' }}>
                     {fmt(p.value)}
                   </div>
                 </div>
@@ -318,7 +318,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
               <div style={{ marginTop: 20 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
                   <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#8493AD' }}>Model Confidence</span>
-                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 14, fontWeight: 700, color: '#C8F23C' }}>{player.confidence}%</span>
+                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 14, fontWeight: 700, color: '#F5B82E' }}>{player.confidence}%</span>
                 </div>
                 <ConfidenceBar pct={player.confidence} />
               </div>
@@ -332,15 +332,15 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
               {player.reasons.map((r, i) => (
                 <div key={i} style={{
                   display: 'flex', gap: 12, alignItems: 'flex-start',
-                  padding: '12px 14px', borderRadius: 3,
-                  background: 'rgba(200,242,60,0.04)', border: '1px solid rgba(200,242,60,0.09)',
+                  padding: '12px 14px', borderRadius: 8,
+                  background: 'rgba(245,184,46,0.04)', border: '1px solid rgba(245,184,46,0.09)',
                 }}>
                   <div style={{
                     width: 20, height: 20, borderRadius: '50%', flexShrink: 0,
-                    background: 'rgba(200,242,60,0.1)', border: '1px solid rgba(200,242,60,0.22)',
+                    background: 'rgba(245,184,46,0.1)', border: '1px solid rgba(245,184,46,0.22)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
-                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#C8F23C" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#F5B82E" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="20 6 9 17 4 12"/>
                     </svg>
                   </div>
@@ -361,7 +361,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
               <svg width="110" height="110" viewBox="0 0 110 110">
                 <circle cx="55" cy="55" r="46" fill="none" stroke="#17243B" strokeWidth="10"/>
                 <circle cx="55" cy="55" r="46" fill="none"
-                  stroke="#C8F23C" strokeWidth="10"
+                  stroke="#F5B82E" strokeWidth="10"
                   strokeDasharray={`${(player.riskScore / 100) * 289} 289`}
                   strokeLinecap="round"
                   transform="rotate(-90 55 55)"

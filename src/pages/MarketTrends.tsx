@@ -48,7 +48,7 @@ export default function MarketTrends() {
               <XAxis type="number" tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#8493AD' }} axisLine={false} tickLine={false} tickFormatter={v => `€${v}M`} />
               <YAxis type="category" dataKey="position" tick={{ fontFamily: 'JetBrains Mono', fontSize: 10, fill: '#8493AD' }} axisLine={false} tickLine={false} width={44} />
               <Tooltip formatter={(v: any) => [`€${v}M`, 'Avg Value']} contentStyle={{ background: '#14213A', border: '1px solid #1F2E48', fontFamily: 'IBM Plex Sans', fontSize: 12 }} />
-              <Bar dataKey="value" fill="#C8F23C" radius={[0, 4, 4, 0]} fillOpacity={0.8} />
+              <Bar dataKey="value" fill="#F5B82E" radius={[0, 4, 4, 0]} fillOpacity={0.8} />
             </BarChart>
           </ResponsiveContainer>
         </Card>
@@ -60,15 +60,15 @@ export default function MarketTrends() {
             <LineChart data={marketGrowth} margin={{ top: 10, right: 20, bottom: 0, left: 10 }}>
               <defs>
                 <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#C8F23C" stopOpacity={0.3}/>
-                  <stop offset="95%" stopColor="#C8F23C" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="#F5B82E" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#F5B82E" stopOpacity={0}/>
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#17243B" />
               <XAxis dataKey="month" tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#8493AD' }} axisLine={{ stroke: '#1F2E48' }} tickLine={false} />
               <YAxis tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#8493AD' }} axisLine={{ stroke: '#1F2E48' }} tickLine={false} tickFormatter={v => `€${v}M`} domain={[14, 22]} />
               <Tooltip formatter={(v: any) => [`€${v}M`, 'Avg Value']} contentStyle={{ background: '#14213A', border: '1px solid #1F2E48', fontFamily: 'IBM Plex Sans', fontSize: 12 }} />
-              <Line type="monotone" dataKey="value" stroke="#C8F23C" strokeWidth={2.5} dot={{ fill: '#C8F23C', r: 4 }} />
+              <Line type="monotone" dataKey="value" stroke="#F5B82E" strokeWidth={2.5} dot={{ fill: '#F5B82E', r: 4 }} />
             </LineChart>
           </ResponsiveContainer>
         </Card>
@@ -85,10 +85,10 @@ export default function MarketTrends() {
             { league: 'Serie A', avg: '€18.9M', growth: '+6.8%', players: 3102 },
             { league: 'Ligue 1', avg: '€14.2M', growth: '+14.7%', players: 2513 },
           ].map(l => (
-            <div key={l.league} style={{ background: '#0B1220', borderRadius: 3, padding: '16px' }}>
+            <div key={l.league} style={{ background: '#0B1220', borderRadius: 8, padding: '16px' }}>
               <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, fontWeight: 600, color: '#E8EEF8', marginBottom: 10 }}>{l.league}</div>
               <div style={{ fontFamily: 'JetBrains Mono', fontSize: 18, fontWeight: 700, color: '#E8EEF8', marginBottom: 4 }}>{l.avg}</div>
-              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, fontWeight: 600, color: '#C8F23C', marginBottom: 4 }}>{l.growth}</div>
+              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, fontWeight: 600, color: '#F5B82E', marginBottom: 4 }}>{l.growth}</div>
               <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#8493AD' }}>{l.players.toLocaleString()} players</div>
             </div>
           ))}

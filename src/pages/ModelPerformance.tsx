@@ -43,7 +43,7 @@ export default function ModelPerformance() {
             <YAxis dataKey="predicted" type="number" name="Predicted" unit="M"
               tick={{ fontFamily: 'JetBrains Mono', fontSize: 10, fill: '#8493AD' }} axisLine={{ stroke: '#1F2E48' }} tickLine={false}
               label={{ value: 'Predicted Value (€M)', angle: -90, position: 'insideLeft', offset: 14, fill: '#8493AD', fontFamily: 'IBM Plex Sans', fontSize: 11 }} />
-            <ReferenceLine segment={[{ x: 0, y: 0 }, { x: 60, y: 60 }]} stroke="#C8F23C" strokeDasharray="6 4" strokeOpacity={0.5} />
+            <ReferenceLine segment={[{ x: 0, y: 0 }, { x: 60, y: 60 }]} stroke="#F5B82E" strokeDasharray="6 4" strokeOpacity={0.5} />
             <Tooltip formatter={(v: any) => [`€${Number(v).toFixed(1)}M`]}
               contentStyle={{ background: '#14213A', border: '1px solid #1F2E48', fontFamily: 'IBM Plex Sans', fontSize: 12 }} />
             <Scatter data={modelData} fill="#3DD6F5" fillOpacity={0.7} />
@@ -70,7 +70,7 @@ export default function ModelPerformance() {
                   <span style={{ fontFamily: 'JetBrains Mono', fontSize: 11, color: '#8493AD' }}>{(f.importance * 100).toFixed(0)}%</span>
                 </div>
                 <div style={{ height: 5, background: '#17243B', borderRadius: 9 }}>
-                  <div style={{ height: 5, width: `${f.importance * 100}%`, background: '#C8F23C', borderRadius: 9 }} />
+                  <div style={{ height: 5, width: `${f.importance * 100}%`, background: '#F5B82E', borderRadius: 9 }} />
                 </div>
               </div>
             ))}
@@ -88,8 +88,8 @@ export default function ModelPerformance() {
             <StatRow label="Retraining cadence" value="Monthly" />
             <StatRow label="Data sources" value="6 integrated" />
             <StatRow label="Leagues covered" value="32" mono />
-            <div style={{ marginTop: 16, padding: '12px', background: 'rgba(200,242,60,0.06)', border: '1px solid rgba(200,242,60,0.15)', borderRadius: 3 }}>
-              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#C8F23C', fontWeight: 600, marginBottom: 4 }}>Model Status</div>
+            <div style={{ marginTop: 16, padding: '12px', background: 'rgba(245,184,46,0.06)', border: '1px solid rgba(245,184,46,0.15)', borderRadius: 8 }}>
+              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#F5B82E', fontWeight: 600, marginBottom: 4 }}>Model Status</div>
               <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#8493AD' }}>All systems nominal. Next scheduled retraining: Sep 10, 2026.</div>
             </div>
           </div>

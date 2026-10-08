@@ -8,10 +8,10 @@
   --color-border: #1F2E48;
   --color-text-primary: #E8EEF8;
   --color-text-secondary: #8493AD;
-  --color-accent: #C8F23C;
-  --color-accent-dim: rgba(200,242,60,0.12);
+  --color-accent: #F5B82E;
+  --color-accent-dim: rgba(245,184,46,0.12);
   --color-positive: #3DDC97;
-  --color-amber: #FFB84D;
+  --color-amber: #FF8A3D;
   --color-red: #FF5A4F;
   --color-blue: #3DD6F5;
   --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
@@ -56,8 +56,8 @@ h1::before {
   width: 9px;
   height: 0.78em;
   margin-right: 14px;
-  background: #C8F23C;
-  transform: skewX(-16deg);
+  background: #F5B82E;
+  border-radius: 3px;
 }
 h2 {
   font-family: 'Saira Condensed', 'IBM Plex Sans', sans-serif !important;
@@ -109,7 +109,7 @@ h2 {
 
 /* Keyboard focus is always visible. */
 button:focus-visible, input:focus-visible, select:focus-visible {
-  outline: 2px solid #C8F23C;
+  outline: 2px solid #F5B82E;
   outline-offset: 2px;
 }
 
@@ -149,11 +149,12 @@ button.pcard:hover .streak { transform: translateX(120%); transition: transform 
 
 /* Empty pitch slot */
 .slot {
+  border-radius: 12px;
   font: inherit;
   cursor: pointer;
   transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
 }
-.slot:hover { border-color: #C8F23C; color: #C8F23C; background: rgba(200,242,60, 0.08); }
+.slot:hover { border-color: #F5B82E; color: #F5B82E; background: rgba(245,184,46, 0.08); }
 
 @media (prefers-reduced-motion: reduce) {
   .page-banner { animation: none; }
@@ -161,3 +162,7 @@ button.pcard:hover .streak { transform: translateX(120%); transition: transform 
   button.pcard:hover, button.pcard:focus-visible { transform: none; }
   button.pcard:hover .streak { transform: translateX(-120%); transition: none; }
 }
+
+/* Safety net: native controls and chart tooltips are rounded like everything else. */
+input, select, textarea { border-radius: 10px; }
+.recharts-tooltip-wrapper > div { border-radius: 10px !important; overflow: hidden; }

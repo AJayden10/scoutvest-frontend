@@ -2,23 +2,21 @@ import type { ReactNode, CSSProperties } from 'react'
 import { TIERS } from './tiers'
 
 // Broadcast-graphic corners: cut top-right on panels; top-right and bottom-left on buttons.
-const PANEL_CUT = 'polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%)'
-const BUTTON_CUT = 'polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 9px 100%, 0 calc(100% - 9px))'
 
 export type RiskLevel = 'Low' | 'Medium' | 'High'
 export type InvestmentSignal = 'UNDERVALUED' | 'BREAKOUT' | 'STRONG BUY' | 'OVERVALUED' | 'MONITOR'
 
 export function RiskBadge({ risk }: { risk: RiskLevel }) {
   const map: Record<RiskLevel, { bg: string; color: string; border: string }> = {
-    Low: { bg: 'rgba(200,242,60,0.1)', color: '#C8F23C', border: 'rgba(200,242,60,0.22)' },
-    Medium: { bg: 'rgba(255,184,77,0.1)', color: '#FFB84D', border: 'rgba(255,184,77,0.22)' },
+    Low: { bg: 'rgba(61,220,151,0.1)', color: '#3DDC97', border: 'rgba(61,220,151,0.22)' },
+    Medium: { bg: 'rgba(255,138,61,0.1)', color: '#FF8A3D', border: 'rgba(255,138,61,0.22)' },
     High: { bg: 'rgba(255,90,79,0.1)', color: '#FF5A4F', border: 'rgba(255,90,79,0.22)' },
   }
   const s = map[risk]
   return (
     <span style={{
       display: 'inline-flex', alignItems: 'center', gap: 4,
-      padding: '2px 8px', borderRadius: 3,
+      padding: '2px 8px', borderRadius: 8,
       background: s.bg, border: `1px solid ${s.border}`,
       fontFamily: 'JetBrains Mono', fontSize: 9, fontWeight: 600, color: s.color, }}>
       <span style={{ width: 5, height: 5, borderRadius: '50%', background: s.color, display: 'inline-block', flexShrink: 0 }} />
@@ -33,7 +31,7 @@ export function InvestmentBadge({ signal }: { signal: InvestmentSignal }) {
   return (
     <span style={{
       display: 'inline-flex', alignItems: 'center',
-      padding: '2px 8px', borderRadius: 3,
+      padding: '2px 8px', borderRadius: 8,
       background: `${accent}1f`, border: `1px solid ${accent}55`,
       fontFamily: 'JetBrains Mono', fontSize: 9, fontWeight: 700, color: accent, }}>
       {signal}
@@ -67,7 +65,7 @@ export function StadiumPattern() {
                 key={i}
                 d={`M ${x0} ${y0} A ${r} ${r} 0 0 1 ${x1} ${y1}`}
                 fill="none"
-                stroke={ri === 0 ? '#C8F23C' : '#1F2E48'}
+                stroke={ri === 0 ? '#F5B82E' : '#1F2E48'}
                 strokeWidth={ri === 0 ? 1.4 : 1}
                 strokeOpacity={ri === 0 ? 0.35 : 0.5}
               />
@@ -83,8 +81,7 @@ export function StadiumPattern() {
 export function Card({ children, style, onClick }: { children: ReactNode; style?: CSSProperties; onClick?: () => void }) {
   return (
     <div onClick={onClick} style={{
-      background: 'linear-gradient(180deg, #14213A 0%, #101A2C 100%)', border: '1px solid #1F2E48', borderRadius: 0,
-      clipPath: PANEL_CUT,
+      background: 'linear-gradient(180deg, #14213A 0%, #101A2C 100%)', border: '1px solid #1F2E48', borderRadius: 10,
       cursor: onClick ? 'pointer' : undefined,
       ...style,
     }}>
@@ -110,14 +107,14 @@ export function KpiCard({
           {label}
         </div>
         {icon && (
-          <div style={{ width: 28, height: 28, borderRadius: 4, background: accent ? 'rgba(200,242,60,0.1)' : 'rgba(61,214,245,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: 28, height: 28, borderRadius: 4, background: accent ? 'rgba(245,184,46,0.1)' : 'rgba(61,214,245,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             {icon}
           </div>
         )}
       </div>
       <div style={{
         fontFamily: 'Saira Condensed', fontStyle: 'italic', fontSize: 44, fontWeight: 800, lineHeight: 1,
-        color: accent ? '#C8F23C' : '#E8EEF8',
+        color: accent ? '#F5B82E' : '#E8EEF8',
         letterSpacing: '0',
         marginBottom: 10,
       }}>
@@ -128,7 +125,7 @@ export function KpiCard({
           <span style={{
             display: 'inline-flex', alignItems: 'center', gap: 3,
             fontFamily: 'JetBrains Mono', fontSize: 10, fontWeight: 600,
-            color: trend.up ? '#C8F23C' : '#FF5A4F',
+            color: trend.up ? '#F5B82E' : '#FF5A4F',
           }}>
             <span>{trend.up ? '↑' : '↓'}</span>
             {trend.value}
@@ -158,7 +155,7 @@ export function Btn({
   onClick?: () => void; style?: CSSProperties; disabled?: boolean
 }) {
   const map = {
-    primary:   { bg: '#C8F23C', color: '#060B14', border: '#C8F23C', hoverBg: '#DCFF5E' },
+    primary:   { bg: '#F5B82E', color: '#060B14', border: '#F5B82E', hoverBg: '#DCFF5E' },
     secondary: { bg: '#14213A', color: '#E8EEF8', border: '#1F2E48', hoverBg: '#1B2C4A' },
     ghost:     { bg: 'transparent', color: '#8493AD', border: '#1F2E48', hoverBg: 'rgba(255,255,255,0.04)' },
     danger:    { bg: 'rgba(255,90,79,0.1)', color: '#FF5A4F', border: 'rgba(255,90,79,0.25)', hoverBg: 'rgba(255,90,79,0.18)' },
@@ -170,7 +167,7 @@ export function Btn({
       disabled={disabled}
       style={{
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-        padding: '7px 18px', borderRadius: 0, clipPath: BUTTON_CUT,
+        padding: '7px 18px', borderRadius: 10,
         background: s.bg, color: s.color, border: `1px solid ${s.border}`,
         fontFamily: 'Saira Condensed', fontSize: 15, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase',
         cursor: disabled ? 'default' : 'pointer',
@@ -192,7 +189,7 @@ export function StatRow({ label, value, mono, highlight }: { label: string; valu
       <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#8493AD' }}>{label}</span>
       <span style={{
         fontFamily: mono ? 'JetBrains Mono' : 'IBM Plex Sans', fontSize: 13, fontWeight: 600,
-        color: highlight ? '#C8F23C' : '#E8EEF8',
+        color: highlight ? '#F5B82E' : '#E8EEF8',
       }}>
         {value}
       </span>
@@ -221,7 +218,7 @@ export function Avatar({ name, size = 32 }: { name: string; size?: number }) {
 export function PositionTag({ pos }: { pos: string }) {
   return (
     <span style={{
-      display: 'inline-flex', padding: '2px 8px', borderRadius: 3,
+      display: 'inline-flex', padding: '2px 8px', borderRadius: 8,
       background: 'rgba(61,214,245,0.1)', border: '1px solid rgba(61,214,245,0.18)',
       fontFamily: 'JetBrains Mono', fontSize: 10, fontWeight: 600, color: '#3DD6F5',
       letterSpacing: '0.04em',
@@ -242,14 +239,14 @@ export function ValueArrow({ from, to }: { from: string; to: string }) {
     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
       <span style={{ fontFamily: 'JetBrains Mono', fontSize: 13, fontWeight: 600, color: '#8493AD' }}>{from}</span>
       <svg width="28" height="10" viewBox="0 0 28 10" fill="none">
-        <path d="M0 5h24M19 1l5 4-5 4" stroke="#C8F23C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M0 5h24M19 1l5 4-5 4" stroke="#F5B82E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
-      <span style={{ fontFamily: 'JetBrains Mono', fontSize: 13, fontWeight: 700, color: '#C8F23C' }}>{to}</span>
+      <span style={{ fontFamily: 'JetBrains Mono', fontSize: 13, fontWeight: 700, color: '#F5B82E' }}>{to}</span>
     </div>
   )
 }
 
-export function ConfidenceBar({ pct, color = '#C8F23C' }: { pct: number; color?: string }) {
+export function ConfidenceBar({ pct, color = '#F5B82E' }: { pct: number; color?: string }) {
   return (
     <div style={{ position: 'relative', height: 6, background: 'rgba(31,46,72,0.8)', borderRadius: 2, overflow: 'hidden' }}>
       <div style={{

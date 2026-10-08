@@ -11,14 +11,14 @@ const positions = ['All', 'GK', 'CB', 'FB', 'DM', 'CM', 'AM', 'Winger', 'ST']
 const signalColor: Record<string, string> = {
   'UNDERVALUED': '#3DD6F5',
   'BREAKOUT': '#A58BFF',
-  'STRONG BUY': '#C8F23C',
+  'STRONG BUY': '#F5B82E',
   'OVERVALUED': '#FF5A4F',
   'MONITOR': '#8FA0B8',
 }
 
 const riskColor: Record<string, string> = {
   Low: '#3DDC97',
-  Medium: '#FFB84D',
+  Medium: '#FF8A3D',
   High: '#FF5A4F',
 }
 
@@ -44,11 +44,11 @@ export default function Players({ onNavigate, onSelectPlayer }: Props) {
           <div role="group" aria-label="View" style={{ display: 'flex' }}>
             {(['cards', 'list'] as const).map(v => (
               <button key={v} type="button" onClick={() => setView(v)} aria-pressed={view === v} style={{
-                padding: '7px 16px', cursor: 'pointer', borderRadius: 0,
+                padding: '7px 16px', cursor: 'pointer', borderRadius: 10,
                 fontFamily: 'Saira Condensed', fontSize: 15, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase',
-                background: view === v ? '#C8F23C' : 'transparent',
+                background: view === v ? '#F5B82E' : 'transparent',
                 color: view === v ? '#060B14' : '#8493AD',
-                border: `1px solid ${view === v ? '#C8F23C' : '#1F2E48'}`,
+                border: `1px solid ${view === v ? '#F5B82E' : '#1F2E48'}`,
                 marginLeft: v === 'list' ? -1 : 0,
               }}>{v}</button>
             ))}
@@ -65,14 +65,14 @@ export default function Players({ onNavigate, onSelectPlayer }: Props) {
             <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
           </svg>
           <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search players or clubs..."
-            style={{ width: '100%', height: 38, paddingLeft: 40, paddingRight: 14, background: '#0B1220', border: '1px solid #1F2E48', borderRadius: 3, fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#E8EEF8', outline: 'none' }} />
+            style={{ width: '100%', height: 38, paddingLeft: 40, paddingRight: 14, background: '#0B1220', border: '1px solid #1F2E48', borderRadius: 8, fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#E8EEF8', outline: 'none' }} />
         </div>
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
           {positions.map(pos => (
             <button key={pos} onClick={() => setPosFilter(pos)} style={{
-              padding: '7px 14px', borderRadius: 3, cursor: 'pointer',
+              padding: '7px 14px', borderRadius: 8, cursor: 'pointer',
               fontFamily: 'IBM Plex Sans', fontSize: 12, fontWeight: 600,
-              background: posFilter === pos ? '#C8F23C' : 'transparent',
+              background: posFilter === pos ? '#F5B82E' : 'transparent',
               color: posFilter === pos ? '#060B14' : '#8493AD',
               border: posFilter === pos ? 'none' : '1px solid #1F2E48',
             }}>{pos}</button>
@@ -116,7 +116,7 @@ export default function Players({ onNavigate, onSelectPlayer }: Props) {
               alignItems: 'center', gap: 12,
               padding: '14px 20px', cursor: 'pointer',
               background: i % 2 === 0 ? '#0B1220' : 'transparent',
-              borderRadius: 3,
+              borderRadius: 8,
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
@@ -139,7 +139,7 @@ export default function Players({ onNavigate, onSelectPlayer }: Props) {
             <div style={{ fontFamily: 'JetBrains Mono', fontSize: 13, color: '#E8EEF8', textAlign: 'right' }}>{fmt(p.currentValue)}</div>
 
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-              <span style={{ fontFamily: 'JetBrains Mono', fontSize: 13, fontWeight: 600, color: '#C8F23C' }}>{fmt(p.predictedValue)}</span>
+              <span style={{ fontFamily: 'JetBrains Mono', fontSize: 13, fontWeight: 600, color: '#F5B82E' }}>{fmt(p.predictedValue)}</span>
               <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: '#3DDC97' }}>↑ {p.upside}%</span>
             </div>
 
@@ -152,8 +152,8 @@ export default function Players({ onNavigate, onSelectPlayer }: Props) {
               <button
                 onClick={() => { onSelectPlayer(p.id); onNavigate('player-profile') }}
                 style={{
-                  padding: '6px 14px', borderRadius: 3, border: 'none', cursor: 'pointer',
-                  background: '#101A2C', color: '#C8F23C',
+                  padding: '6px 14px', borderRadius: 8, border: 'none', cursor: 'pointer',
+                  background: '#101A2C', color: '#F5B82E',
                   fontFamily: 'IBM Plex Sans', fontSize: 12, fontWeight: 600,
                 }}
               >View →</button>

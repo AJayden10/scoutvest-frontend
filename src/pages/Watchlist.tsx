@@ -27,11 +27,11 @@ export default function Watchlist({ onNavigate, onSelectPlayer }: Props) {
 
   const SortBtn = ({ k, label }: { k: SortKey; label: string }) => (
     <button onClick={() => toggleSort(k)} style={{
-      padding: '4px 10px', borderRadius: 3, cursor: 'pointer',
+      padding: '4px 10px', borderRadius: 8, cursor: 'pointer',
       fontFamily: 'JetBrains Mono', fontSize: 9, fontWeight: 600,
-      background: sortKey === k ? 'rgba(200,242,60,0.12)' : 'transparent',
-      color: sortKey === k ? '#C8F23C' : '#8493AD',
-      border: `1px solid ${sortKey === k ? '#C8F23C' : '#1F2E48'}`,
+      background: sortKey === k ? 'rgba(245,184,46,0.12)' : 'transparent',
+      color: sortKey === k ? '#F5B82E' : '#8493AD',
+      border: `1px solid ${sortKey === k ? '#F5B82E' : '#1F2E48'}`,
     }}>
       {label} {sortKey === k ? (sortDir === 'desc' ? '↓' : '↑') : ''}
     </button>
@@ -53,11 +53,11 @@ export default function Watchlist({ onNavigate, onSelectPlayer }: Props) {
           <div role="group" aria-label="View" style={{ display: 'flex', marginRight: 8 }}>
             {(['pitch', 'table'] as const).map(v => (
               <button key={v} type="button" onClick={() => setView(v)} aria-pressed={view === v} style={{
-                padding: '6px 16px', cursor: 'pointer', borderRadius: 0,
+                padding: '6px 16px', cursor: 'pointer', borderRadius: 10,
                 fontFamily: 'Saira Condensed', fontSize: 15, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase',
-                background: view === v ? '#C8F23C' : 'transparent',
+                background: view === v ? '#F5B82E' : 'transparent',
                 color: view === v ? '#060B14' : '#8493AD',
-                border: `1px solid ${view === v ? '#C8F23C' : '#1F2E48'}`,
+                border: `1px solid ${view === v ? '#F5B82E' : '#1F2E48'}`,
                 marginLeft: v === 'table' ? -1 : 0,
               }}>{v}</button>
             ))}
@@ -79,9 +79,9 @@ export default function Watchlist({ onNavigate, onSelectPlayer }: Props) {
           { label: 'Total Predicted Value', value: fmt(totals.predictedValue), accent: true },
           { label: 'Portfolio Upside', value: `+${Math.round((totals.predictedValue - totals.currentValue) / totals.currentValue * 100)}%`, accent: true },
         ].map(m => (
-          <div key={m.label} style={{ flex: 1, background: '#101A2C', border: '1px solid #1F2E48', borderRadius: 3, padding: '16px 20px' }}>
+          <div key={m.label} style={{ flex: 1, background: '#101A2C', border: '1px solid #1F2E48', borderRadius: 8, padding: '16px 20px' }}>
             <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#8493AD', marginBottom: 8 }}>{m.label}</div>
-            <div style={{ fontFamily: 'Saira Condensed', fontStyle: 'italic', fontSize: 34, fontWeight: 800, color: (m as any).accent ? '#C8F23C' : '#E8EEF8' }}>{m.value}</div>
+            <div style={{ fontFamily: 'Saira Condensed', fontStyle: 'italic', fontSize: 34, fontWeight: 800, color: (m as any).accent ? '#F5B82E' : '#E8EEF8' }}>{m.value}</div>
           </div>
         ))}
       </div>
@@ -117,7 +117,7 @@ export default function Watchlist({ onNavigate, onSelectPlayer }: Props) {
                 <td style={{ padding: '14px 16px', fontFamily: 'JetBrains Mono', fontSize: 13, color: '#E8EEF8' }}>{p.age}</td>
                 <td style={{ padding: '14px 16px' }}><PositionTag pos={p.position} /></td>
                 <td style={{ padding: '14px 16px', fontFamily: 'JetBrains Mono', fontSize: 13, color: '#E8EEF8' }}>{fmt(p.currentValue)}</td>
-                <td style={{ padding: '14px 16px', fontFamily: 'JetBrains Mono', fontSize: 13, color: '#C8F23C', fontWeight: 600 }}>{fmt(p.predictedValue)}</td>
+                <td style={{ padding: '14px 16px', fontFamily: 'JetBrains Mono', fontSize: 13, color: '#F5B82E', fontWeight: 600 }}>{fmt(p.predictedValue)}</td>
                 <td style={{ padding: '14px 16px' }}>
                   <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 15, fontWeight: 700, color: '#3DDC97' }}>+{p.upside}%</span>
                 </td>
