@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Card, SectionTitle, RiskBadge, Btn, Avatar, PositionTag, fmt } from '../components/ui'
 import { watchlistPlayers } from '../data/mockData'
+import SquadPitch from '../components/SquadPitch'
 import type { Page } from '../App'
 
 type SortKey = 'upside' | 'currentValue' | 'predictedValue' | 'riskScore' | 'age'
@@ -10,6 +11,7 @@ interface Props { onNavigate: (page: Page) => void; onSelectPlayer: (id: number)
 export default function Watchlist({ onNavigate, onSelectPlayer }: Props) {
   const [sortKey, setSortKey] = useState<SortKey>('upside')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
+  const [view, setView] = useState<'pitch' | 'table'>('pitch')
 
   const sorted = [...watchlistPlayers].sort((a, b) => {
     const diff = (a[sortKey] as number) - (b[sortKey] as number)
@@ -25,7 +27,7 @@ export default function Watchlist({ onNavigate, onSelectPlayer }: Props) {
 
   const SortBtn = ({ k, label }: { k: SortKey; label: string }) => (
     <button onClick={() => toggleSort(k)} style={{
-      padding: '4px 10px', borderRadius: 12, cursor: 'pointer',
+      padding: '4px 10px', borderRadius: 3, cursor: 'pointer',
       fontFamily: 'JetBrains Mono', fontSize: 9, fontWeight: 600,
       background: sortKey === k ? 'rgba(232,163,61,0.12)' : 'transparent',
       color: sortKey === k ? '#E8A33D' : '#9B9891',
@@ -47,7 +49,19 @@ export default function Watchlist({ onNavigate, onSelectPlayer }: Props) {
           <h1 style={{ fontFamily: 'IBM Plex Sans', fontSize: 28, fontWeight: 700, color: '#E8E6DF', margin: 0 }}>My Watchlist</h1>
           <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#9B9891', margin: '6px 0 0' }}>Tracked investment targets — {sorted.length} players</p>
         </div>
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+          <div role="group" aria-label="View" style={{ display: 'flex', marginRight: 8 }}>
+            {(['pitch', 'table'] as const).map(v => (
+              <button key={v} type="button" onClick={() => setView(v)} aria-pressed={view === v} style={{
+                padding: '6px 16px', cursor: 'pointer', borderRadius: 0,
+                fontFamily: 'Saira Condensed', fontSize: 15, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase',
+                background: view === v ? '#E8A33D' : 'transparent',
+                color: view === v ? '#0A0C10' : '#9B9891',
+                border: `1px solid ${view === v ? '#E8A33D' : '#2A2E37'}`,
+                marginLeft: v === 'table' ? -1 : 0,
+              }}>{v}</button>
+            ))}
+          </div>
           <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#9B9891', alignSelf: 'center' }}>Sort by:</span>
           <SortBtn k="upside" label="Upside" />
           <SortBtn k="currentValue" label="Value" />
@@ -65,14 +79,16 @@ export default function Watchlist({ onNavigate, onSelectPlayer }: Props) {
           { label: 'Total Predicted Value', value: fmt(totals.predictedValue), accent: true },
           { label: 'Portfolio Upside', value: `+${Math.round((totals.predictedValue - totals.currentValue) / totals.currentValue * 100)}%`, accent: true },
         ].map(m => (
-          <div key={m.label} style={{ flex: 1, background: '#191D24', border: '1px solid #2A2E37', borderRadius: 18, padding: '16px 20px' }}>
-            <div style={{ fontFamily: 'JetBrains Mono', fontSize: 8, color: '#3a4d62', marginBottom: 10 }}>{m.label}</div>
-            <div style={{ fontFamily: 'Space Grotesk', fontSize: 26, fontWeight: 700, color: (m as any).accent ? '#E8A33D' : '#E8E6DF', letterSpacing: '-0.02em' }}>{m.value}</div>
+          <div key={m.label} style={{ flex: 1, background: '#191D24', border: '1px solid #2A2E37', borderRadius: 3, padding: '16px 20px' }}>
+            <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#9B9891', marginBottom: 8 }}>{m.label}</div>
+            <div style={{ fontFamily: 'Saira Condensed', fontStyle: 'italic', fontSize: 34, fontWeight: 800, color: (m as any).accent ? '#E8A33D' : '#E8E6DF' }}>{m.value}</div>
           </div>
         ))}
       </div>
 
-      {/* Table */}
+      {view === 'pitch' ? (
+        <SquadPitch players={sorted} onSelectPlayer={id => { onSelectPlayer(id); onNavigate('player-profile') }} onAddToSlot={() => onNavigate('players')} />
+      ) : (
       <Card>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
@@ -117,6 +133,7 @@ export default function Watchlist({ onNavigate, onSelectPlayer }: Props) {
           </tbody>
         </table>
       </Card>
+      )}
     </div>
   )
 }

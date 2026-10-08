@@ -85,7 +85,7 @@ export default function MarketTrends() {
             { league: 'Serie A', avg: '€18.9M', growth: '+6.8%', players: 3102 },
             { league: 'Ligue 1', avg: '€14.2M', growth: '+14.7%', players: 2513 },
           ].map(l => (
-            <div key={l.league} style={{ background: '#14171D', borderRadius: 16, padding: '16px' }}>
+            <div key={l.league} style={{ background: '#14171D', borderRadius: 3, padding: '16px' }}>
               <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, fontWeight: 600, color: '#E8E6DF', marginBottom: 10 }}>{l.league}</div>
               <div style={{ fontFamily: 'JetBrains Mono', fontSize: 18, fontWeight: 700, color: '#E8E6DF', marginBottom: 4 }}>{l.avg}</div>
               <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, fontWeight: 600, color: '#E8A33D', marginBottom: 4 }}>{l.growth}</div>

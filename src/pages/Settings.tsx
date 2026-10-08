@@ -29,7 +29,7 @@ export default function Settings() {
             { source: 'Opta', status: 'Pending', color: '#D99A3D' },
             { source: 'InStat', status: 'Disconnected', color: '#C1554A' },
           ].map(s => (
-            <div key={s.source} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', background: '#14171D', borderRadius: 16 }}>
+            <div key={s.source} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', background: '#14171D', borderRadius: 3 }}>
               <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#E8E6DF' }}>{s.source}</span>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <div style={{ width: 7, height: 7, borderRadius: '50%', background: s.color }} />
@@ -52,7 +52,7 @@ export default function Settings() {
             <div key={n.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid #1d2d3d' }}>
               <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#C8D3DF' }}>{n.label}</span>
               <div style={{
-                width: 40, height: 22, borderRadius: 19, cursor: 'pointer',
+                width: 40, height: 22, borderRadius: 3, cursor: 'pointer',
                 background: n.enabled ? '#E8A33D' : '#2A2E37',
                 position: 'relative', transition: 'background 0.2s',
               }}>

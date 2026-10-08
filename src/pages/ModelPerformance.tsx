@@ -88,7 +88,7 @@ export default function ModelPerformance() {
             <StatRow label="Retraining cadence" value="Monthly" />
             <StatRow label="Data sources" value="6 integrated" />
             <StatRow label="Leagues covered" value="32" mono />
-            <div style={{ marginTop: 16, padding: '12px', background: 'rgba(232,163,61,0.06)', border: '1px solid rgba(232,163,61,0.15)', borderRadius: 16 }}>
+            <div style={{ marginTop: 16, padding: '12px', background: 'rgba(232,163,61,0.06)', border: '1px solid rgba(232,163,61,0.15)', borderRadius: 3 }}>
               <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#E8A33D', fontWeight: 600, marginBottom: 4 }}>Model Status</div>
               <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#9B9891' }}>All systems nominal. Next scheduled retraining: Sep 10, 2026.</div>
             </div>

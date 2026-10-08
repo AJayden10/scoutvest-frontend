@@ -3,7 +3,8 @@ import {
   ScatterChart, Scatter, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, ReferenceLine,
 } from 'recharts'
-import { Card, SectionTitle, Btn, Avatar, StadiumPattern, fmt } from '../components/ui'
+import { Card, SectionTitle, Btn, StadiumPattern, fmt } from '../components/ui'
+import PlayerCard from '../components/PlayerCard'
 import { players, scatterData } from '../data/mockData'
 import type { Page } from '../App'
 
@@ -14,7 +15,7 @@ const signalColor: Record<string, string> = {
   'BREAKOUT': '#5B8DBE',
   'STRONG BUY': '#4FA97C',
   'OVERVALUED': '#C1554A',
-  'MONITOR': '#D99A3D',
+  'MONITOR': '#9AA3AD',
 }
 
 const riskColorMap: Record<string, string> = {
@@ -49,7 +50,7 @@ const ChartTooltip = ({ active, payload }: any) => {
   const d = payload[0].payload
   return (
     <div style={{
-      background: '#0f1c29', border: '1px solid #2A2E37', borderRadius: 16,
+      background: '#0f1c29', border: '1px solid #2A2E37', borderRadius: 3,
       padding: '12px 16px', fontFamily: 'IBM Plex Sans', fontSize: 12,
       boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
     }}>
@@ -85,7 +86,7 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
       {/* Page Header */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: 16 }}>
         <div>
-          <h1 style={{ fontFamily: 'Space Grotesk', fontSize: 32, fontWeight: 700, color: '#E8E6DF', margin: 0, letterSpacing: '-0.02em', lineHeight: 1 }}>
+          <h1 style={{ fontFamily: 'Saira Condensed', fontSize: 32, fontWeight: 700, color: '#E8E6DF', margin: 0, letterSpacing: '-0.02em', lineHeight: 1 }}>
             Market Overview
           </h1>
           <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#9B9891', margin: '8px 0 0', lineHeight: 1.5 }}>
@@ -115,7 +116,7 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
             Avg predicted upside this quarter
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: 12 }}>
-            <div style={{ fontFamily: 'Space Grotesk', fontSize: 56, fontWeight: 700, color: '#E8A33D', letterSpacing: '-0.03em', lineHeight: 1 }}>
+            <div style={{ fontFamily: 'Saira Condensed', fontStyle: 'italic', fontSize: 76, fontWeight: 800, color: '#E8A33D', letterSpacing: '0', lineHeight: 1 }}>
               +38.7%
             </div>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontFamily: 'JetBrains Mono', fontSize: 13, fontWeight: 600, color: '#4FA97C' }}>
@@ -164,7 +165,7 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
           <div style={{ display: 'flex', gap: 5, flexShrink: 0, marginLeft: 16 }}>
             {posFilters.map(f => (
               <button key={f} onClick={() => setPosFilter(f)} style={{
-                padding: '4px 10px', borderRadius: 12, cursor: 'pointer',
+                padding: '4px 10px', borderRadius: 3, cursor: 'pointer',
                 fontFamily: 'JetBrains Mono', fontSize: 9, fontWeight: 700, letterSpacing: '0.06em',
                 background: posFilter === f ? '#E8A33D' : 'transparent',
                 color: posFilter === f ? '#0A0C10' : '#9B9891',
@@ -228,79 +229,25 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
         </ResponsiveContainer>
       </Card>
 
-      {/* Top Investment Opportunities Table */}
-      <Card>
-        <div style={{
-          padding: '18px 24px 16px',
-          borderBottom: '1px solid rgba(38,51,66,0.8)',
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        }}>
-          <SectionTitle sub="Ranked by projected upside — click any row to view full intelligence.">
-            Top Investment Opportunities
+      {/* Top targets, shown as cards ranked by projected upside */}
+      <div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 16 }}>
+          <SectionTitle sub="Ranked by projected upside. Select a card to open the full report.">
+            Top targets
           </SectionTitle>
           <Btn variant="ghost" onClick={() => onNavigate('scouting')}>
-            View All Targets
+            View all targets
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="9 18 15 12 9 6"/>
             </svg>
           </Btn>
         </div>
-
-        <div>
-          {topPlayers.map((p, i) => (
-            <div
-              key={p.id}
-              onClick={() => { onSelectPlayer(p.id); onNavigate('player-profile') }}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 16,
-                padding: '14px 24px', cursor: 'pointer',
-                background: i % 2 === 0 ? '#14171D' : 'transparent',
-                borderBottom: i < topPlayers.length - 1 ? '1px solid #191D24' : 'none',
-              }}
-            >
-              <div style={{
-                width: 26, height: 26, borderRadius: '50%', flexShrink: 0,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                background: i < 3 ? 'rgba(232,163,61,0.15)' : 'transparent',
-                fontFamily: 'JetBrains Mono', fontSize: 12, fontWeight: 700,
-                color: i < 3 ? '#E8A33D' : '#3a4d62',
-              }}>
-                {i + 1}
-              </div>
-
-              <Avatar name={p.name} size={34} />
-
-              <div style={{ flex: '1 1 200px', minWidth: 0 }}>
-                <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, fontWeight: 600, color: '#E8E6DF', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                  {p.name}
-                </div>
-                <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#9B9891', marginTop: 1 }}>
-                  {p.position} · Age {p.age} · {p.club}
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, flex: '0 0 130px' }}>
-                <span style={{ width: 6, height: 6, borderRadius: '50%', background: signalColor[p.signal], flexShrink: 0 }} />
-                <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#E8E6DF' }}>{p.signal.charAt(0) + p.signal.slice(1).toLowerCase()}</span>
-              </div>
-
-              <div style={{ flex: '0 0 90px', fontFamily: 'JetBrains Mono', fontSize: 13, color: '#9B9891', textAlign: 'right' }}>
-                {fmt(p.currentValue)}
-              </div>
-
-              <div style={{ flex: '0 0 100px', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                <span style={{ fontFamily: 'JetBrains Mono', fontSize: 13, fontWeight: 700, color: '#E8A33D' }}>{fmt(p.predictedValue)}</span>
-                <span style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: '#4FA97C' }}>↑ {p.upside}%</span>
-              </div>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, flex: '0 0 90px' }}>
-                <span style={{ width: 6, height: 6, borderRadius: '50%', background: riskColorMap[p.risk], flexShrink: 0 }} />
-                <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#9B9891' }}>{p.risk}</span>
-              </div>
-            </div>
+        <div className="scrollbar-hide" style={{ display: 'flex', gap: 20, overflowX: 'auto', padding: '22px 8px 18px' }}>
+          {topPlayers.slice(0, 5).map(p => (
+            <PlayerCard key={p.id} player={p} onClick={() => { onSelectPlayer(p.id); onNavigate('player-profile') }} />
           ))}
         </div>
-      </Card>
+      </div>
 
       {/* Quick insights strip */}
       <Card style={{ padding: 0, display: 'flex' }}>

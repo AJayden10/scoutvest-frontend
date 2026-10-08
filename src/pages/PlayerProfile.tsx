@@ -49,7 +49,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
       <div style={{
         background: 'linear-gradient(135deg, #0f1e2b 0%, #0d1a26 40%, #0b1117 100%)',
         border: '1px solid rgba(232,163,61,0.2)',
-        borderRadius: 20,
+        borderRadius: 3,
         overflow: 'hidden',
       }}>
         {/* Top accent bar */}
@@ -66,7 +66,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
                   <InvestmentBadge signal={player.signal} />
                   <RiskBadge risk={player.risk} />
                 </div>
-                <h1 style={{ fontFamily: 'Space Grotesk', fontSize: 26, fontWeight: 700, color: '#E8E6DF', margin: 0, letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+                <h1 style={{ fontFamily: 'Saira Condensed', fontSize: 26, fontWeight: 700, color: '#E8E6DF', margin: 0, letterSpacing: '-0.02em', lineHeight: 1.1 }}>
                   {player.name}
                 </h1>
                 <div style={{ display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap', alignItems: 'center' }}>
@@ -120,7 +120,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
             marginTop: 24,
             padding: '14px 18px',
             background: 'rgba(0,0,0,0.25)',
-            borderRadius: 16,
+            borderRadius: 3,
             border: '1px solid rgba(38,51,66,0.5)',
             display: 'flex', gap: 24, flexWrap: 'wrap',
           }}>
@@ -229,7 +229,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
             ].map(m => {
               const pct = Math.min(100, ((m.raw ?? +m.value) / m.max) * 100)
               return (
-                <div key={m.label} style={{ background: '#14171D', borderRadius: 16, padding: '16px' }}>
+                <div key={m.label} style={{ background: '#14171D', borderRadius: 3, padding: '16px' }}>
                   <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#9B9891', marginBottom: 10 }}>{m.label}</div>
                   <div style={{ fontFamily: 'JetBrains Mono', fontSize: 24, fontWeight: 700, color: '#E8E6DF', marginBottom: 12, letterSpacing: '-0.01em' }}>{m.value}</div>
                   <div style={{ height: 4, background: 'rgba(38,51,66,0.8)', borderRadius: 8 }}>
@@ -268,7 +268,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
               />
               <Tooltip
                 formatter={(v: any) => [`€${Number(v).toFixed(1)}M`]}
-                contentStyle={{ background: '#0f1c29', border: '1px solid #2A2E37', fontFamily: 'IBM Plex Sans', fontSize: 12, borderRadius: 16 }}
+                contentStyle={{ background: '#0f1c29', border: '1px solid #2A2E37', fontFamily: 'IBM Plex Sans', fontSize: 12, borderRadius: 3 }}
               />
               <ReferenceLine x="Jul 24" stroke="#2A2E37" strokeDasharray="4 4"
                 label={{ value: 'NOW', fill: '#3a4d62', fontSize: 9, fontFamily: 'JetBrains Mono', }}
@@ -301,7 +301,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
 
             <div style={{ marginTop: 20 }}>
               <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#9B9891', marginBottom: 4 }}>Current Value</div>
-              <div style={{ fontFamily: 'Space Grotesk', fontSize: 36, fontWeight: 700, color: '#E8E6DF', letterSpacing: '-0.02em', marginBottom: 20 }}>{fmt(player.currentValue)}</div>
+              <div style={{ fontFamily: 'Saira Condensed', fontSize: 36, fontWeight: 700, color: '#E8E6DF', letterSpacing: '-0.02em', marginBottom: 20 }}>{fmt(player.currentValue)}</div>
 
               {projections.map((p, i) => (
                 <div key={p.label} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 0', borderBottom: '1px solid rgba(38,51,66,0.5)' }}>
@@ -309,7 +309,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
                     <div style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: '#9B9891', marginBottom: 2 }}>{p.note.toUpperCase()}</div>
                     <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#C8D3DF' }}>{p.label} Projection</div>
                   </div>
-                  <div style={{ fontFamily: 'Space Grotesk', fontSize: 22, fontWeight: 700, color: '#E8A33D', letterSpacing: '-0.01em' }}>
+                  <div style={{ fontFamily: 'Saira Condensed', fontSize: 22, fontWeight: 700, color: '#E8A33D', letterSpacing: '-0.01em' }}>
                     {fmt(p.value)}
                   </div>
                 </div>
@@ -332,7 +332,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
               {player.reasons.map((r, i) => (
                 <div key={i} style={{
                   display: 'flex', gap: 12, alignItems: 'flex-start',
-                  padding: '12px 14px', borderRadius: 16,
+                  padding: '12px 14px', borderRadius: 3,
                   background: 'rgba(232,163,61,0.04)', border: '1px solid rgba(232,163,61,0.09)',
                 }}>
                   <div style={{
@@ -368,7 +368,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
                 />
               </svg>
               <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                <span style={{ fontFamily: 'Space Grotesk', fontSize: 26, fontWeight: 700, color: '#E8E6DF' }}>{player.riskScore}</span>
+                <span style={{ fontFamily: 'Saira Condensed', fontSize: 26, fontWeight: 700, color: '#E8E6DF' }}>{player.riskScore}</span>
                 <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 10, color: '#9B9891' }}>/ 100</span>
               </div>
             </div>

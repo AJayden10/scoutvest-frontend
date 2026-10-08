@@ -86,13 +86,13 @@ export default function App() {
         onClick={() => setAssistantOpen(!assistantOpen)}
         style={{
           position: 'fixed', bottom: 24, right: 24, zIndex: 50,
-          height: 44, padding: '0 18px 0 16px', borderRadius: 22,
-          background: assistantOpen ? '#2ba870' : '#E8A33D',
+          height: 44, padding: '0 22px 0 18px', borderRadius: 0,
+          clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))',
+          background: assistantOpen ? '#F2BA5E' : '#E8A33D',
           border: 'none', cursor: 'pointer',
           display: 'flex', alignItems: 'center', gap: 8,
-          boxShadow: '0 4px 16px rgba(0,0,0,0.3)',
           transition: 'all 0.2s',
-          fontFamily: 'IBM Plex Sans', fontSize: 13, fontWeight: 600, color: '#0A0C10',
+          fontFamily: 'Saira Condensed', fontSize: 17, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: '#0A0C10',
         }}
       >
         {assistantOpen ? (
@@ -112,7 +112,8 @@ export default function App() {
         <div style={{
           position: 'fixed', bottom: 88, right: 24, zIndex: 49,
           width: 360, height: 480, background: '#191D24',
-          border: '1px solid #2A2E37', borderRadius: 14,
+          border: '1px solid #2A2E37', borderRadius: 0,
+          clipPath: 'polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)',
           display: 'flex', flexDirection: 'column',
           boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
         }}>

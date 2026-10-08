@@ -57,7 +57,7 @@ export default function Scouting({ onNavigate, onSelectPlayer }: Props) {
             <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, fontWeight: 600, color: '#E8E6DF' }}>Filters</div>
             {activeFilters > 0 && (
               <button onClick={() => { setSelPositions([]); setSelRisk([]); setAgeMin(16); setAgeMax(30); setMaxValue(50); setMinUpside(0) }}
-                style={{ background: 'rgba(240,93,94,0.1)', border: '1px solid rgba(240,93,94,0.2)', borderRadius: 10, padding: '2px 8px', cursor: 'pointer', fontFamily: 'JetBrains Mono', fontSize: 9, fontWeight: 600, color: '#C1554A', letterSpacing: '0.06em' }}>
+                style={{ background: 'rgba(240,93,94,0.1)', border: '1px solid rgba(240,93,94,0.2)', borderRadius: 3, padding: '2px 8px', cursor: 'pointer', fontFamily: 'JetBrains Mono', fontSize: 9, fontWeight: 600, color: '#C1554A', letterSpacing: '0.06em' }}>
                 CLEAR ALL
               </button>
             )}
@@ -85,7 +85,7 @@ export default function Scouting({ onNavigate, onSelectPlayer }: Props) {
                 const sel = selPositions.includes(p)
                 return (
                   <button key={p} onClick={() => togglePos(p)} style={{
-                    padding: '3px 9px', borderRadius: 10, cursor: 'pointer',
+                    padding: '3px 9px', borderRadius: 3, cursor: 'pointer',
                     fontFamily: 'JetBrains Mono', fontSize: 9, fontWeight: 700, letterSpacing: '0.06em',
                     background: sel ? 'rgba(78,161,255,0.12)' : 'transparent',
                     color: sel ? '#5B8DBE' : '#9B9891',
@@ -123,9 +123,9 @@ export default function Scouting({ onNavigate, onSelectPlayer }: Props) {
                 const riskColor = { Low: '#E8A33D', Medium: '#D99A3D', High: '#C1554A' }[r]!
                 const sel = selRisk.includes(r)
                 return (
-                  <label key={r} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', padding: '5px 8px', borderRadius: 12, background: sel ? `${riskColor}0d` : 'transparent', border: `1px solid ${sel ? `${riskColor}20` : 'transparent'}` }}>
+                  <label key={r} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', padding: '5px 8px', borderRadius: 3, background: sel ? `${riskColor}0d` : 'transparent', border: `1px solid ${sel ? `${riskColor}20` : 'transparent'}` }}>
                     <div onClick={() => toggleRisk(r)} style={{
-                      width: 16, height: 16, borderRadius: 10,
+                      width: 16, height: 16, borderRadius: 3,
                       border: `1.5px solid ${sel ? riskColor : '#2A2E37'}`,
                       background: sel ? `${riskColor}22` : 'transparent',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -145,7 +145,7 @@ export default function Scouting({ onNavigate, onSelectPlayer }: Props) {
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
               {['UNDERVALUED', 'BREAKOUT', 'STRONG BUY'].map(s => (
                 <button key={s} style={{
-                  padding: '3px 8px', borderRadius: 10, cursor: 'pointer',
+                  padding: '3px 8px', borderRadius: 3, cursor: 'pointer',
                   fontFamily: 'JetBrains Mono', fontSize: 8, fontWeight: 700,
                   background: 'transparent', color: '#9B9891', border: '1px solid #2A2E37',
                 }}>
@@ -165,17 +165,17 @@ export default function Scouting({ onNavigate, onSelectPlayer }: Props) {
         <div style={{ padding: '24px 28px 0', flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 16 }}>
             <div>
-              <h1 style={{ fontFamily: 'Space Grotesk', fontSize: 28, fontWeight: 700, color: '#E8E6DF', margin: 0, letterSpacing: '-0.02em' }}>Find Your Targets</h1>
+              <h1 style={{ fontFamily: 'Saira Condensed', fontSize: 28, fontWeight: 700, color: '#E8E6DF', margin: 0, letterSpacing: '-0.02em' }}>Find Your Targets</h1>
               <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#9B9891', margin: '6px 0 0' }}>
                 Showing <strong style={{ color: '#E8E6DF' }}>{filtered.length}</strong> players matching your recruitment criteria
               </p>
             </div>
             <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
               {/* View toggle */}
-              <div style={{ display: 'flex', background: '#14171D', border: '1px solid #2A2E37', borderRadius: 15, padding: 3, gap: 2 }}>
+              <div style={{ display: 'flex', background: '#14171D', border: '1px solid #2A2E37', borderRadius: 3, padding: 3, gap: 2 }}>
                 {([['cards', 'M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z'], ['list', 'M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01']] as [string, string][]).map(([mode, path]) => (
                   <button key={mode} onClick={() => setViewMode(mode as 'cards' | 'list')} style={{
-                    padding: '5px 9px', borderRadius: 12, cursor: 'pointer', border: 'none',
+                    padding: '5px 9px', borderRadius: 3, cursor: 'pointer', border: 'none',
                     background: viewMode === mode ? '#1a2a3a' : 'transparent',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
@@ -196,7 +196,7 @@ export default function Scouting({ onNavigate, onSelectPlayer }: Props) {
             </svg>
             <input value={query} onChange={e => setQuery(e.target.value)}
               placeholder="Search players, clubs, positions..."
-              style={{ width: '100%', height: 40, paddingLeft: 38, paddingRight: 14, background: '#14171D', border: '1px solid #2A2E37', borderRadius: 16, fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#E8E6DF', outline: 'none', transition: 'border-color 0.15s' }}
+              style={{ width: '100%', height: 40, paddingLeft: 38, paddingRight: 14, background: '#14171D', border: '1px solid #2A2E37', borderRadius: 3, fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#E8E6DF', outline: 'none', transition: 'border-color 0.15s' }}
               onFocus={e => (e.target.style.borderColor = '#E8A33D60')}
               onBlur={e => (e.target.style.borderColor = '#2A2E37')}
             />
@@ -241,7 +241,7 @@ function InvestmentCard({ player: p, onView }: { player: typeof players[0]; onVi
       style={{
         background: '#191D24',
         border: `1px solid ${hovered ? 'rgba(232,163,61,0.25)' : '#2A2E37'}`,
-        borderRadius: 20,
+        borderRadius: 3,
         overflow: 'hidden',
         transition: 'border-color 0.18s, transform 0.18s',
         transform: hovered ? 'translateY(-2px)' : 'none',
@@ -287,7 +287,7 @@ function InvestmentCard({ player: p, onView }: { player: typeof players[0]; onVi
             <div style={{ fontFamily: 'JetBrains Mono', fontSize: 15, fontWeight: 700, color: '#C8D3DF' }}>{fmt(p.currentValue)}</div>
           </div>
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0 8px' }}>
-            <div style={{ fontFamily: 'Space Grotesk', fontSize: 22, fontWeight: 700, color: '#E8A33D', lineHeight: 1, letterSpacing: '-0.02em' }}>
+            <div style={{ fontFamily: 'Saira Condensed', fontSize: 22, fontWeight: 700, color: '#E8A33D', lineHeight: 1, letterSpacing: '-0.02em' }}>
               +{p.upside}%
             </div>
             <svg width="52" height="10" viewBox="0 0 52 10" fill="none" style={{ marginTop: 4 }}>
@@ -314,7 +314,7 @@ function InvestmentCard({ player: p, onView }: { player: typeof players[0]; onVi
           padding: '9px 11px',
           background: 'rgba(232,163,61,0.04)',
           border: '1px solid rgba(232,163,61,0.1)',
-          borderRadius: 15,
+          borderRadius: 3,
           marginBottom: 14,
         }}>
           <div style={{ fontFamily: 'JetBrains Mono', fontSize: 8, color: '#E8A33D', marginBottom: 4 }}>WHY SCOUTVEST RECOMMENDS</div>
@@ -342,7 +342,7 @@ function InvestmentRow({ player: p, onView }: { player: typeof players[0]; onVie
     <div
       onClick={onView}
       style={{
-        background: '#191D24', border: '1px solid #2A2E37', borderRadius: 18,
+        background: '#191D24', border: '1px solid #2A2E37', borderRadius: 3,
         padding: '14px 20px', cursor: 'pointer',
         display: 'flex', alignItems: 'center', gap: 16,
         transition: 'border-color 0.15s',
@@ -371,7 +371,7 @@ function InvestmentRow({ player: p, onView }: { player: typeof players[0]; onVie
         <div style={{ fontFamily: 'JetBrains Mono', fontSize: 13, fontWeight: 600, color: '#4FA97C' }}>{fmt(p.predictedValue)}</div>
       </div>
       <div style={{ flex: '0 0 70px', textAlign: 'center' }}>
-        <div style={{ fontFamily: 'Space Grotesk', fontSize: 18, fontWeight: 700, color: '#4FA97C', letterSpacing: '-0.01em' }}>+{p.upside}%</div>
+        <div style={{ fontFamily: 'Saira Condensed', fontSize: 18, fontWeight: 700, color: '#4FA97C', letterSpacing: '-0.01em' }}>+{p.upside}%</div>
       </div>
       <RiskBadge risk={p.risk} />
       <div style={{ marginLeft: 'auto' }} onClick={e => e.stopPropagation()}>
@@ -383,7 +383,7 @@ function InvestmentRow({ player: p, onView }: { player: typeof players[0]; onVie
 
 const inputStyle = {
   width: '100%', padding: '6px 9px',
-  background: '#14171D', border: '1px solid #2A2E37', borderRadius: 12,
+  background: '#14171D', border: '1px solid #2A2E37', borderRadius: 3,
   fontFamily: 'JetBrains Mono', fontSize: 12, color: '#E8E6DF',
 } as const
 

@@ -57,7 +57,7 @@ export default function Simulator() {
 
             <SimInput label="Target Player">
               <select value={selectedPlayer} onChange={e => { setSelectedPlayer(+e.target.value); const p = players.find(x => x.id === +e.target.value); if (p) setFee(p.currentValue) }}
-                style={{ width: '100%', padding: '8px 12px', background: '#14171D', border: '1px solid #2A2E37', borderRadius: 13, fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#E8E6DF' }}>
+                style={{ width: '100%', padding: '8px 12px', background: '#14171D', border: '1px solid #2A2E37', borderRadius: 3, fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#E8E6DF' }}>
                 {players.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
               </select>
             </SimInput>
@@ -73,7 +73,7 @@ export default function Simulator() {
               <div style={{ display: 'flex', gap: 8 }}>
                 {['Conservative', 'Base', 'Optimistic'].map(s => (
                   <button key={s} onClick={() => setScenario(s)} style={{
-                    flex: 1, padding: '7px 0', borderRadius: 13, cursor: 'pointer',
+                    flex: 1, padding: '7px 0', borderRadius: 3, cursor: 'pointer',
                     fontFamily: 'IBM Plex Sans', fontSize: 12, fontWeight: 500,
                     background: scenario === s ? 'rgba(232,163,61,0.12)' : 'transparent',
                     color: scenario === s ? '#E8A33D' : '#9B9891',
@@ -102,7 +102,7 @@ export default function Simulator() {
               {/* Main ROI */}
               <Card style={{ padding: '28px', textAlign: 'center', background: 'linear-gradient(135deg, #0f2318 0%, #191D24 100%)', border: '1px solid rgba(232,163,61,0.2)' }}>
                 <div style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: '#E8A33D', marginBottom: 8 }}>EXPECTED TRANSFER ROI</div>
-                <div style={{ fontFamily: 'Space Grotesk', fontSize: 52, fontWeight: 700, color: '#4FA97C', lineHeight: 1, marginBottom: 4 }}>+{Math.round(projectedROI)}%</div>
+                <div style={{ fontFamily: 'Saira Condensed', fontSize: 52, fontWeight: 700, color: '#4FA97C', lineHeight: 1, marginBottom: 4 }}>+{Math.round(projectedROI)}%</div>
                 <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9B9891' }}>{scenario} scenario · {holdingYears}-year hold</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginTop: 24 }}>
                   {[
@@ -111,7 +111,7 @@ export default function Simulator() {
                     { label: 'Est. Profit', value: `+${fmt(futureBase - totalCost)}`, color: '#E8A33D' },
                     { label: 'Risk-Adj. ROI', value: `+${Math.round(riskAdjustedROI)}%`, color: '#D99A3D' },
                   ].map(m => (
-                    <div key={m.label} style={{ background: 'rgba(0,0,0,0.3)', borderRadius: 16, padding: '12px 8px' }}>
+                    <div key={m.label} style={{ background: 'rgba(0,0,0,0.3)', borderRadius: 3, padding: '12px 8px' }}>
                       <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 10, color: '#9B9891', marginBottom: 6 }}>{m.label}</div>
                       <div style={{ fontFamily: 'JetBrains Mono', fontSize: 14, fontWeight: 700, color: m.color }}>{m.value}</div>
                     </div>
@@ -196,7 +196,7 @@ export default function Simulator() {
             { label: 'Expected ROI', value: `+${Math.round((portfolioFuture - portfolioTotal) / portfolioTotal * 100)}%`, color: '#E8A33D' },
             { label: 'Portfolio Risk', value: 'Medium', color: '#D99A3D' },
           ].map(m => (
-            <div key={m.label} style={{ background: '#14171D', borderRadius: 16, padding: '16px' }}>
+            <div key={m.label} style={{ background: '#14171D', borderRadius: 3, padding: '16px' }}>
               <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#9B9891', marginBottom: 6 }}>{m.label}</div>
               <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 22, fontWeight: 700, color: m.color }}>{m.value}</div>
             </div>
@@ -224,7 +224,7 @@ function NumberInput({ label, value, onChange }: { label: string; value: number;
     <div>
       <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#9B9891', marginBottom: 4 }}>{label}</div>
       <input type="number" value={value} onChange={e => onChange(+e.target.value)} step={0.5} min={0}
-        style={{ width: '100%', padding: '8px 10px', background: '#14171D', border: '1px solid #2A2E37', borderRadius: 13, fontFamily: 'JetBrains Mono', fontSize: 13, color: '#E8E6DF' }} />
+        style={{ width: '100%', padding: '8px 10px', background: '#14171D', border: '1px solid #2A2E37', borderRadius: 3, fontFamily: 'JetBrains Mono', fontSize: 13, color: '#E8E6DF' }} />
     </div>
   )
 }

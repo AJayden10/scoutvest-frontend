@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Btn, Avatar, fmt } from '../components/ui'
+import PlayerCard from '../components/PlayerCard'
 import { players } from '../data/mockData'
 import type { Page } from '../App'
 
@@ -12,7 +13,7 @@ const signalColor: Record<string, string> = {
   'BREAKOUT': '#5B8DBE',
   'STRONG BUY': '#4FA97C',
   'OVERVALUED': '#C1554A',
-  'MONITOR': '#D99A3D',
+  'MONITOR': '#9AA3AD',
 }
 
 const riskColor: Record<string, string> = {
@@ -24,6 +25,7 @@ const riskColor: Record<string, string> = {
 export default function Players({ onNavigate, onSelectPlayer }: Props) {
   const [query, setQuery] = useState('')
   const [posFilter, setPosFilter] = useState('All')
+  const [view, setView] = useState<'cards' | 'list'>('cards')
 
   const filtered = players.filter(p => {
     const matchesQuery = !query || p.name.toLowerCase().includes(query.toLowerCase()) || p.club.toLowerCase().includes(query.toLowerCase())
@@ -35,10 +37,24 @@ export default function Players({ onNavigate, onSelectPlayer }: Props) {
     <div style={{ padding: '28px 32px', display: 'flex', flexDirection: 'column', gap: 20, maxWidth: 1100 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div>
-          <h1 style={{ fontFamily: 'Space Grotesk', fontSize: 28, fontWeight: 700, color: '#E8E6DF', margin: 0 }}>Player database</h1>
+          <h1 style={{ fontFamily: 'Saira Condensed', fontSize: 28, fontWeight: 700, color: '#E8E6DF', margin: 0 }}>Player database</h1>
           <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#9B9891', margin: '6px 0 0' }}>{players.length.toLocaleString()} players tracked across 32 leagues.</p>
         </div>
-        <Btn variant="primary">+ Add Player</Btn>
+        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+          <div role="group" aria-label="View" style={{ display: 'flex' }}>
+            {(['cards', 'list'] as const).map(v => (
+              <button key={v} type="button" onClick={() => setView(v)} aria-pressed={view === v} style={{
+                padding: '7px 16px', cursor: 'pointer', borderRadius: 0,
+                fontFamily: 'Saira Condensed', fontSize: 15, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase',
+                background: view === v ? '#E8A33D' : 'transparent',
+                color: view === v ? '#0A0C10' : '#9B9891',
+                border: `1px solid ${view === v ? '#E8A33D' : '#2A2E37'}`,
+                marginLeft: v === 'list' ? -1 : 0,
+              }}>{v}</button>
+            ))}
+          </div>
+          <Btn variant="primary">Add player</Btn>
+        </div>
       </div>
 
       {/* Search + position filter row */}
@@ -49,12 +65,12 @@ export default function Players({ onNavigate, onSelectPlayer }: Props) {
             <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
           </svg>
           <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search players or clubs..."
-            style={{ width: '100%', height: 38, paddingLeft: 40, paddingRight: 14, background: '#14171D', border: '1px solid #2A2E37', borderRadius: 23, fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#E8E6DF', outline: 'none' }} />
+            style={{ width: '100%', height: 38, paddingLeft: 40, paddingRight: 14, background: '#14171D', border: '1px solid #2A2E37', borderRadius: 3, fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#E8E6DF', outline: 'none' }} />
         </div>
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
           {positions.map(pos => (
             <button key={pos} onClick={() => setPosFilter(pos)} style={{
-              padding: '7px 14px', borderRadius: 21, cursor: 'pointer',
+              padding: '7px 14px', borderRadius: 3, cursor: 'pointer',
               fontFamily: 'IBM Plex Sans', fontSize: 12, fontWeight: 600,
               background: posFilter === pos ? '#E8A33D' : 'transparent',
               color: posFilter === pos ? '#0A0C10' : '#9B9891',
@@ -64,7 +80,19 @@ export default function Players({ onNavigate, onSelectPlayer }: Props) {
         </div>
       </div>
 
-      {/* Directory list */}
+      {filtered.length === 0 && (
+        <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#9B9891', margin: '12px 0' }}>
+          No players match. Clear the search or choose All positions.
+        </p>
+      )}
+
+      {view === 'cards' ? (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, 208px)', gap: '30px 22px', justifyContent: 'center', padding: '14px 4px 10px' }}>
+          {filtered.map(p => (
+            <PlayerCard key={p.id} player={p} onClick={() => { onSelectPlayer(p.id); onNavigate('player-profile') }} />
+          ))}
+        </div>
+      ) : (
       <div>
         {/* Column labels */}
         <div style={{
@@ -88,7 +116,7 @@ export default function Players({ onNavigate, onSelectPlayer }: Props) {
               alignItems: 'center', gap: 12,
               padding: '14px 20px', cursor: 'pointer',
               background: i % 2 === 0 ? '#14171D' : 'transparent',
-              borderRadius: 18,
+              borderRadius: 3,
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
@@ -124,7 +152,7 @@ export default function Players({ onNavigate, onSelectPlayer }: Props) {
               <button
                 onClick={() => { onSelectPlayer(p.id); onNavigate('player-profile') }}
                 style={{
-                  padding: '6px 14px', borderRadius: 21, border: 'none', cursor: 'pointer',
+                  padding: '6px 14px', borderRadius: 3, border: 'none', cursor: 'pointer',
                   background: '#191D24', color: '#E8A33D',
                   fontFamily: 'IBM Plex Sans', fontSize: 12, fontWeight: 600,
                 }}
@@ -133,6 +161,7 @@ export default function Players({ onNavigate, onSelectPlayer }: Props) {
           </div>
         ))}
       </div>
+      )}
     </div>
   )
 }

@@ -66,7 +66,7 @@ export default function Compare({ onNavigate, onSelectPlayer }: Props) {
       {/* Player selector */}
       <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
         {selectedPlayers.map((p, i) => (
-          <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 12px', background: '#191D24', border: `1px solid ${COLORS[i]}40`, borderRadius: 16 }}>
+          <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 12px', background: '#191D24', border: `1px solid ${COLORS[i]}40`, borderRadius: 3 }}>
             <div style={{ width: 8, height: 8, borderRadius: '50%', background: COLORS[i] }} />
             <Avatar name={p.name} size={24} />
             <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, fontWeight: 500, color: '#E8E6DF' }}>{p.name}</span>
@@ -75,7 +75,7 @@ export default function Compare({ onNavigate, onSelectPlayer }: Props) {
         ))}
         {selected.length < 4 && (
           <select onChange={e => addPlayer(+e.target.value)} value=""
-            style={{ padding: '6px 12px', background: '#14171D', border: '1px solid #2A2E37', borderRadius: 16, fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9B9891', cursor: 'pointer' }}>
+            style={{ padding: '6px 12px', background: '#14171D', border: '1px solid #2A2E37', borderRadius: 3, fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9B9891', cursor: 'pointer' }}>
             <option value="" disabled>+ Add player</option>
             {players.filter(p => !selected.includes(p.id)).map(p => (
               <option key={p.id} value={p.id}>{p.name}</option>
