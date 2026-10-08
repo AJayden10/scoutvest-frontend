@@ -38,7 +38,7 @@ const ASSISTANT_RESPONSES = [
   },
   {
     query: '',
-    answer: `Hi, I'm ScoutVest AI. Ask me anything — for example:\n\n• "Find U23 midfielders under €15M with high upside"\n• "Who are the best value wingers in Ligue 1?"\n• "Which defenders have the lowest risk score?"`,
+    answer: `Hi, I'm Free Agent AI. Ask me anything — for example:\n\n• "Find U23 midfielders under €15M with high upside"\n• "Who are the best value wingers in Ligue 1?"\n• "Which defenders have the lowest risk score?"`,
   },
 ]
 
@@ -122,7 +122,7 @@ export default function App() {
             <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
           </svg>
         )}
-        {assistantOpen ? 'Close' : 'Ask ScoutVest'}
+        {assistantOpen ? 'Close' : 'Ask Free Agent'}
       </button>
 
       {/* AI Assistant Panel */}
@@ -141,7 +141,7 @@ export default function App() {
               </svg>
             </div>
             <div>
-              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, fontWeight: 600, color: '#F2F2F2' }}>Ask ScoutVest</div>
+              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, fontWeight: 600, color: '#F2F2F2' }}>Ask Free Agent</div>
               <div style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: '#F5B82E' }}>AI SCOUTING ASSISTANT</div>
             </div>
           </div>

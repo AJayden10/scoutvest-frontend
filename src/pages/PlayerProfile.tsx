@@ -115,7 +115,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
             </div>
           </div>
 
-          {/* Why ScoutVest strip */}
+          {/* Why Free Agent strip */}
           <div style={{
             marginTop: 24,
             padding: '14px 18px',
@@ -125,7 +125,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
             display: 'flex', gap: 24, flexWrap: 'wrap',
           }}>
             <div style={{ fontFamily: 'JetBrains Mono', fontSize: 8, color: '#F5B82E', alignSelf: 'center', flexShrink: 0 }}>
-              WHY SCOUTVEST →
+              WHY FREE AGENT →
             </div>
             <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', flex: 1 }}>
               {player.reasons.slice(0, 3).map((r, i) => (
@@ -327,7 +327,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
 
           <Card style={{ padding: '24px' }}>
             <div style={{ fontFamily: 'JetBrains Mono', fontSize: 9, fontWeight: 700, color: '#3DD6F5', marginBottom: 4 }}>EXPLAINABILITY</div>
-            <SectionTitle>Why ScoutVest Recommends</SectionTitle>
+            <SectionTitle>Why Free Agent Recommends</SectionTitle>
             <div style={{ marginTop: 20, display: 'flex', flexDirection: 'column', gap: 12 }}>
               {player.reasons.map((r, i) => (
                 <div key={i} style={{

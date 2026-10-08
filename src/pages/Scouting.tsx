@@ -317,7 +317,7 @@ function InvestmentCard({ player: p, onView }: { player: typeof players[0]; onVi
           borderRadius: 8,
           marginBottom: 14,
         }}>
-          <div style={{ fontFamily: 'JetBrains Mono', fontSize: 8, color: '#F5B82E', marginBottom: 4 }}>WHY SCOUTVEST RECOMMENDS</div>
+          <div style={{ fontFamily: 'JetBrains Mono', fontSize: 8, color: '#F5B82E', marginBottom: 4 }}>WHY FREE AGENT RECOMMENDS</div>
           <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#CFCFCF', lineHeight: 1.5 }}>
             {p.reasons[0]}
           </div>

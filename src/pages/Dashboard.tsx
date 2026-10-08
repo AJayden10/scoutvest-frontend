@@ -1,3 +1,4 @@
+import logoPoster from '../assets/logo-poster.jpg'
 import { useState } from 'react'
 import {
   ScatterChart, Scatter, XAxis, YAxis, CartesianGrid,
@@ -92,65 +93,6 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
             Identify undervalued players and simulate future transfer returns.
           </p>
         </div>
-        <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          <Btn variant="secondary" onClick={() => onNavigate('players')}>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-            </svg>
-            Add Player
-          </Btn>
-          <Btn variant="ghost">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-            </svg>
-            Export
-          </Btn>
-        </div>
-      </div>
-
-      {/* Overview: featured metric + compact supporting stats */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1.4fr', gap: 24, alignItems: 'stretch' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', justifyContent: 'center', padding: '8px 4px' }}>
-          <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#9A9A9A', marginBottom: 6 }}>
-            Avg predicted upside this quarter
-          </div>
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: 12 }}>
-            <div style={{ fontFamily: 'Saira Condensed', fontStyle: 'italic', fontSize: 76, fontWeight: 800, color: '#F5B82E', letterSpacing: '0', lineHeight: 1 }}>
-              +38.7%
-            </div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontFamily: 'JetBrains Mono', fontSize: 13, fontWeight: 600, color: '#3DDC97' }}>
-              <span>↑</span> +2.1pp
-            </div>
-          </div>
-          <div style={{ height: 1, background: '#2A2A2A', margin: '18px auto 16px', maxWidth: 220 }} />
-          <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9A9A9A', lineHeight: 1.6, maxWidth: 320 }}>
-            Across <span style={{ color: '#F2F2F2', fontWeight: 600 }}>184</span> flagged targets, spanning a recommended budget of <span style={{ color: '#F2F2F2', fontWeight: 600 }}>€74.2M</span>.
-          </div>
-        </div>
-
-        <Card style={{ padding: 0 }}>
-          {[
-            { label: 'Players analyzed', value: '12,482', trend: '+6.4%', up: true },
-            { label: 'Potential targets', value: '184', trend: null },
-            { label: 'Recommended budget', value: '€74.2M', trend: null },
-          ].map((row, i) => (
-            <div key={row.label} style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              padding: '18px 24px',
-              borderBottom: i < 2 ? '1px solid #2A2A2A' : 'none',
-            }}>
-              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9A9A9A' }}>{row.label}</div>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-                <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 22, fontWeight: 700, color: '#F2F2F2' }}>{row.value}</div>
-                {row.trend && (
-                  <div style={{ fontFamily: 'JetBrains Mono', fontSize: 11, fontWeight: 600, color: row.up ? '#3DDC97' : '#FF5A4F' }}>
-                    ↑ {row.trend}
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
-        </Card>
       </div>
 
       {/* Market Opportunity Chart */}
@@ -228,6 +170,23 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
         </ResponsiveContainer>
       </Card>
 
+      {/* Headline numbers, below the chart */}
+      <Card style={{ padding: 0, display: 'flex' }}>
+        {[
+          { label: 'Players analyzed', value: '12,482', trend: '+6.4%' },
+          { label: 'Potential targets', value: '184', trend: null },
+          { label: 'Recommended budget', value: '€74.2M', trend: null },
+        ].map((row, i) => (
+          <div key={row.label} style={{ flex: 1, padding: '20px 24px', borderLeft: i > 0 ? '1px solid #2A2A2A' : 'none' }}>
+            <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9A9A9A', marginBottom: 8 }}>{row.label}</div>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
+              <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 24, fontWeight: 700, color: '#F2F2F2' }}>{row.value}</div>
+              {row.trend && <div style={{ fontFamily: 'JetBrains Mono', fontSize: 11, fontWeight: 600, color: '#3DDC97' }}>↑ {row.trend}</div>}
+            </div>
+          </div>
+        ))}
+      </Card>
+
       {/* Top targets, shown as cards ranked by projected upside */}
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 16 }}>
@@ -293,6 +252,26 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
           </div>
         ))}
       </Card>
+
+      {/* Footer: brand and the page actions */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap' }}>
+        <img src={logoPoster} alt="Free Agent, intelligent football scouting platform"
+          style={{ width: 300, maxWidth: '100%', borderRadius: 12, border: '1px solid #2A2A2A' }} />
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+          <Btn variant="secondary" onClick={() => onNavigate('players')}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            Add Player
+          </Btn>
+          <Btn variant="ghost">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Export
+          </Btn>
+        </div>
+      </div>
       </div>
     </div>
   )

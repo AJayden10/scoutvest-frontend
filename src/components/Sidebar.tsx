@@ -1,4 +1,5 @@
 import type { Page } from '../App'
+import logoEmblem from '../assets/logo-emblem.png'
 
 const navItems: { id: Page; label: string; icon: string; group: 'main' | 'analytics' | 'system' }[] = [
   { id: 'dashboard', label: 'Dashboard', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6', group: 'main' },
@@ -24,24 +25,11 @@ export default function Sidebar({ currentPage, onNavigate }: SidebarProps) {
     }}>
       {/* Logo */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
-        <div style={{
-          width: 36, height: 36, borderRadius: 4,
-          background: 'linear-gradient(135deg, #1F1F1F 0%, #0D0D0D 100%)',
-          border: '1px solid #F5B82E',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          flexShrink: 0,
-        }}>
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <rect x="3" y="4" width="14" height="12" rx="1" stroke="#F5B82E" strokeWidth="1.2" fill="none" opacity="0.4"/>
-            <line x1="10" y1="4" x2="10" y2="16" stroke="#F5B82E" strokeWidth="0.8" opacity="0.4"/>
-            <circle cx="10" cy="10" r="2.5" stroke="#F5B82E" strokeWidth="0.8" fill="none" opacity="0.4"/>
-            <polyline points="4,14 8,10 11,12 16,6" stroke="#F5B82E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-            <polyline points="13,6 16,6 16,9" stroke="#F5B82E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-          </svg>
-        </div>
+        <img src={logoEmblem} alt="Free Agent" width={42} height={42}
+          style={{ borderRadius: '50%', flexShrink: 0, boxShadow: '0 0 0 1px rgba(245,184,46,0.5)' }} />
         <div>
-          <div style={{ fontFamily: 'Saira Condensed', fontStyle: 'italic', fontWeight: 800, fontSize: 24, color: '#F2F2F2', letterSpacing: '0.03em', lineHeight: 1 }}>SCOUTVEST</div>
-          <div style={{ fontFamily: 'Saira Condensed', fontSize: 12, color: '#F5B82E', fontWeight: 600, letterSpacing: '0.12em' }}>TRANSFER INTELLIGENCE</div>
+          <div style={{ fontFamily: 'Saira Condensed', fontStyle: 'italic', fontWeight: 800, fontSize: 24, color: '#F2F2F2', letterSpacing: '0.03em', lineHeight: 1 }}>FREE AGENT</div>
+          <div style={{ fontFamily: 'Saira Condensed', fontSize: 12, color: '#F5B82E', fontWeight: 600, letterSpacing: '0.12em' }}>INTELLIGENT SCOUTING</div>
         </div>
       </div>
 
