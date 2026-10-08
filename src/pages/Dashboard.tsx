@@ -1,4 +1,3 @@
-import logoPoster from '../assets/logo-poster.jpg'
 import { useState } from 'react'
 import {
   ScatterChart, Scatter, XAxis, YAxis, CartesianGrid,
@@ -95,8 +94,8 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
         </div>
       </div>
 
-      {/* Market Opportunity Chart */}
-      <Card style={{ padding: '24px 28px' }}>
+      {/* Market Opportunity Chart: starts lower so the banner photo shows above it */}
+      <Card style={{ padding: '24px 28px', marginTop: 190 }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 6 }}>
           <SectionTitle
             sub="Players above the diagonal represent investment opportunities — predicted value exceeds current market price."
@@ -253,10 +252,8 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
         ))}
       </Card>
 
-      {/* Footer: brand and the page actions */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap' }}>
-        <img src={logoPoster} alt="Free Agent, intelligent football scouting platform"
-          style={{ width: 300, maxWidth: '100%', borderRadius: 12, border: '1px solid #2A2A2A' }} />
+      {/* Footer: page actions */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 24, flexWrap: 'wrap' }}>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
           <Btn variant="secondary" onClick={() => onNavigate('players')}>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
