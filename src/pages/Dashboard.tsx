@@ -1,4 +1,4 @@
-import logoEmblem from '../assets/logo-emblem.png'
+import logoShield from '../assets/logo-shield.png'
 import { useState } from 'react'
 import {
   ScatterChart, Scatter, XAxis, YAxis, CartesianGrid,
@@ -85,8 +85,13 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
 
       {/* Page Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
-        <img src={logoEmblem} alt="Free Agent" width={150} height={150}
-          style={{ flexShrink: 0, borderRadius: '50%', boxShadow: '0 0 0 3px #F5B82E, 0 10px 40px rgba(0,0,0,0.7), 0 0 36px rgba(245,184,46,0.3)' }} />
+{/* The shield is blended into the photo: soft edges, slightly dimmed, no ring or glow */}
+        <img src={logoShield} alt="Free Agent" height={210}
+          style={{
+            flexShrink: 0, height: 210, width: 'auto', opacity: 0.88, filter: 'brightness(0.9) saturate(0.9)',
+            WebkitMaskImage: 'radial-gradient(ellipse 75% 72% at 50% 50%, #000 62%, transparent 100%)',
+            maskImage: 'radial-gradient(ellipse 75% 72% at 50% 50%, #000 62%, transparent 100%)',
+          }} />
         <div>
           <h1 style={{ fontFamily: 'Saira Condensed', fontSize: 32, fontWeight: 700, color: '#F2F2F2', margin: 0, letterSpacing: '-0.02em', lineHeight: 1 }}>
             Market Overview
@@ -98,7 +103,7 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
       </div>
 
       {/* Market Opportunity Chart: starts lower so the banner photo shows above it */}
-      <Card style={{ padding: '24px 28px', marginTop: 150 }}>
+      <Card style={{ padding: '24px 28px', marginTop: 110 }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 6 }}>
           <SectionTitle
             sub="Players above the diagonal represent investment opportunities — predicted value exceeds current market price."
