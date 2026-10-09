@@ -10,6 +10,7 @@ import Watchlist from './pages/Watchlist'
 import MarketTrends from './pages/MarketTrends'
 import ModelPerformance from './pages/ModelPerformance'
 import PlayerProfile from './pages/PlayerProfile'
+import { useData } from './data/DataContext'
 import nightBanner from './assets/banner-night.jpg'
 import matchBanner from './assets/banner-match.jpg'
 
@@ -43,6 +44,7 @@ const ASSISTANT_RESPONSES = [
 ]
 
 export default function App() {
+  const { source, reload } = useData()
   const [page, setPage] = useState<Page>('dashboard')
   const [selectedPlayerId, setSelectedPlayerId] = useState<number>(1)
   const [assistantOpen, setAssistantOpen] = useState(false)
@@ -66,6 +68,9 @@ export default function App() {
   }
 
   const renderPage = () => {
+    if (source === 'loading') {
+      return <div style={{ padding: '120px 32px', textAlign: 'center', fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#9A9A9A' }}>Loading players…</div>
+    }
     switch (page) {
       case 'dashboard': return <Dashboard onNavigate={navigate} onSelectPlayer={selectPlayer} />
       case 'players': return <Players onNavigate={navigate} onSelectPlayer={selectPlayer} />
@@ -86,6 +91,12 @@ export default function App() {
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'hidden' }}>
         <TopBar onNavigate={navigate} onSelectPlayer={selectPlayer} />
+        {source === 'demo' && (
+          <div role="status" style={{ background: 'rgba(245,184,46,0.1)', borderBottom: '1px solid rgba(245,184,46,0.25)', padding: '7px 24px', display: 'flex', gap: 12, alignItems: 'center', fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#F5B82E', flexShrink: 0 }}>
+            <span>Showing sample data: the Free Agent API isn't reachable or has no predictions yet.</span>
+            <button onClick={reload} style={{ background: 'none', border: '1px solid rgba(245,184,46,0.4)', borderRadius: 6, color: '#F5B82E', padding: '2px 10px', cursor: 'pointer', fontFamily: 'IBM Plex Sans', fontSize: 11 }}>Retry</button>
+          </div>
+        )}
 
         <main style={{ flex: 1, overflowY: 'auto', background: '#000000', position: 'relative' }} className="scrollbar-hide">
           {/* key restarts the short fade when the picture changes with the page */}

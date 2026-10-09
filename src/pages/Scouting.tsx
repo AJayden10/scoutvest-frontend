@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { Card, RiskBadge, InvestmentBadge, Btn, Avatar, PositionTag, fmt, ConfidenceBar } from '../components/ui'
-import { players } from '../data/mockData'
+import { Card, RiskBadge, InvestmentBadge, Btn, Avatar, PositionTag, fmt, ConfidenceBar, signed } from '../components/ui'
+import { useData } from '../data/DataContext'
+import type { Player } from '../data/mockData'
 import type { Page } from '../App'
 
 interface Props {
@@ -11,6 +12,8 @@ interface Props {
 const positions = ['GK', 'CB', 'FB', 'DM', 'CM', 'AM', 'Winger', 'ST']
 
 export default function Scouting({ onNavigate, onSelectPlayer }: Props) {
+  const { players } = useData()
+  const [shown, setShown] = useState(60)
   const [ageMin, setAgeMin] = useState(16)
   const [ageMax, setAgeMax] = useState(30)
   const [selPositions, setSelPositions] = useState<string[]>([])
@@ -100,7 +103,7 @@ export default function Scouting({ onNavigate, onSelectPlayer }: Props) {
           </FilterSection>
 
           <FilterSection label={`Current Value — up to ${fmt(maxValue)}`}>
-            <input type="range" min={0} max={100} value={maxValue} onChange={e => setMaxValue(+e.target.value)}
+            <input type="range" min={0} max={200} value={maxValue} onChange={e => setMaxValue(+e.target.value)}
               style={{ width: '100%', accentColor: '#F5B82E', height: 4 }} />
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 4 }}>
               <span style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: '#5E5E5E' }}>€0</span>
@@ -217,11 +220,16 @@ export default function Scouting({ onNavigate, onSelectPlayer }: Props) {
               flexDirection: viewMode === 'list' ? 'column' : undefined,
               gap: 14,
             }}>
-              {filtered.map(p => (
+              {filtered.slice(0, shown).map(p => (
                 viewMode === 'cards'
                   ? <InvestmentCard key={p.id} player={p} onView={() => { onSelectPlayer(p.id); onNavigate('player-profile') }} />
                   : <InvestmentRow key={p.id} player={p} onView={() => { onSelectPlayer(p.id); onNavigate('player-profile') }} />
               ))}
+            </div>
+          )}
+          {filtered.length > shown && (
+            <div style={{ display: 'flex', justifyContent: 'center', padding: '20px 0 0' }}>
+              <Btn variant="secondary" onClick={() => setShown(n => n + 60)}>Show more ({(filtered.length - shown).toLocaleString()} left)</Btn>
             </div>
           )}
         </div>
@@ -231,7 +239,7 @@ export default function Scouting({ onNavigate, onSelectPlayer }: Props) {
 }
 
 // The core investment-decision card per spec §31 & §37
-function InvestmentCard({ player: p, onView }: { player: typeof players[0]; onView: () => void }) {
+function InvestmentCard({ player: p, onView }: { player: Player; onView: () => void }) {
   const [hovered, setHovered] = useState(false)
 
   return (
@@ -288,7 +296,7 @@ function InvestmentCard({ player: p, onView }: { player: typeof players[0]; onVi
           </div>
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0 8px' }}>
             <div style={{ fontFamily: 'Saira Condensed', fontSize: 22, fontWeight: 700, color: '#F5B82E', lineHeight: 1, letterSpacing: '-0.02em' }}>
-              +{p.upside}%
+              {signed(p.upside)}%
             </div>
             <svg width="52" height="10" viewBox="0 0 52 10" fill="none" style={{ marginTop: 4 }}>
               <path d="M0 5h44M38 1l6 4-6 4" stroke="#F5B82E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"/>
@@ -337,7 +345,7 @@ function InvestmentCard({ player: p, onView }: { player: typeof players[0]; onVi
   )
 }
 
-function InvestmentRow({ player: p, onView }: { player: typeof players[0]; onView: () => void }) {
+function InvestmentRow({ player: p, onView }: { player: Player; onView: () => void }) {
   return (
     <div
       onClick={onView}
@@ -371,7 +379,7 @@ function InvestmentRow({ player: p, onView }: { player: typeof players[0]; onVie
         <div style={{ fontFamily: 'JetBrains Mono', fontSize: 13, fontWeight: 600, color: '#3DDC97' }}>{fmt(p.predictedValue)}</div>
       </div>
       <div style={{ flex: '0 0 70px', textAlign: 'center' }}>
-        <div style={{ fontFamily: 'Saira Condensed', fontSize: 18, fontWeight: 700, color: '#3DDC97', letterSpacing: '-0.01em' }}>+{p.upside}%</div>
+        <div style={{ fontFamily: 'Saira Condensed', fontSize: 18, fontWeight: 700, color: '#3DDC97', letterSpacing: '-0.01em' }}>{signed(p.upside)}%</div>
       </div>
       <RiskBadge risk={p.risk} />
       <div style={{ marginLeft: 'auto' }} onClick={e => e.stopPropagation()}>

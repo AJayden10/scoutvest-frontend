@@ -155,7 +155,7 @@ export function Btn({
   onClick?: () => void; style?: CSSProperties; disabled?: boolean
 }) {
   const map = {
-    primary:   { bg: '#F5B82E', color: '#000000', border: '#F5B82E', hoverBg: '#DCFF5E' },
+    primary:   { bg: '#F5B82E', color: '#000000', border: '#F5B82E', hoverBg: '#FFD66B' },
     secondary: { bg: '#171717', color: '#F2F2F2', border: '#2A2A2A', hoverBg: '#1F1F1F' },
     ghost:     { bg: 'transparent', color: '#9A9A9A', border: '#2A2A2A', hoverBg: 'rgba(255,255,255,0.04)' },
     danger:    { bg: 'rgba(255,90,79,0.1)', color: '#FF5A4F', border: 'rgba(255,90,79,0.25)', hoverBg: 'rgba(255,90,79,0.18)' },
@@ -262,4 +262,10 @@ export function ConfidenceBar({ pct, color = '#F5B82E' }: { pct: number; color?:
 
 export function Divider() {
   return <div style={{ height: 1, background: 'rgba(42,42,42,0.7)', margin: '0' }} />
+}
+
+/** "+12" / "-12": the sign belongs to the number, so a negative upside never shows as "+-12". */
+export function signed(n: number, digits = 0): string {
+  const v = n.toFixed(digits)
+  return n > 0 ? `+${v}` : v
 }

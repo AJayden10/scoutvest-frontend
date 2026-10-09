@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useData } from '../data/DataContext'
 import type { Page } from '../App'
 
 interface TopBarProps {
@@ -8,6 +9,9 @@ interface TopBarProps {
 
 export default function TopBar({ onNavigate, onSelectPlayer }: TopBarProps) {
   const [query, setQuery] = useState('')
+  const { players } = useData()
+  const q = query.trim().toLowerCase()
+  const matches = q.length < 2 ? [] : players.filter(p => p.name.toLowerCase().includes(q) || p.club.toLowerCase().includes(q)).slice(0, 7)
 
   return (
     <div style={{
@@ -30,6 +34,18 @@ export default function TopBar({ onNavigate, onSelectPlayer }: TopBarProps) {
             fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#F2F2F2', outline: 'none',
           }}
         />
+        {matches.length > 0 && (
+          <div style={{ position: 'absolute', top: 40, left: 0, right: 0, zIndex: 60, background: '#0D0D0D', border: '1px solid #2A2A2A', borderRadius: 10, overflow: 'hidden', boxShadow: '0 12px 40px rgba(0,0,0,0.6)' }}>
+            {matches.map(p => (
+              <button key={p.id} onClick={() => { onSelectPlayer(p.id); setQuery('') }} style={{
+                display: 'flex', width: '100%', justifyContent: 'space-between', gap: 12, padding: '9px 14px', background: 'none', border: 'none',
+                borderBottom: '1px solid #1A1A1A', cursor: 'pointer', textAlign: 'left', fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#F2F2F2',
+              }}>
+                <span>{p.name}</span><span style={{ color: '#9A9A9A', fontSize: 12 }}>{p.club} · {p.position}</span>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginLeft: 'auto' }}>

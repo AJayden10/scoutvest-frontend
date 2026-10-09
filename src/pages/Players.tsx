@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Btn, Avatar, fmt } from '../components/ui'
 import PlayerCard from '../components/PlayerCard'
-import { players } from '../data/mockData'
+import { useData } from '../data/DataContext'
 import type { Page } from '../App'
 
 interface Props { onNavigate: (page: Page) => void; onSelectPlayer: (id: number) => void }
@@ -23,6 +23,8 @@ const riskColor: Record<string, string> = {
 }
 
 export default function Players({ onNavigate, onSelectPlayer }: Props) {
+  const { players } = useData()
+  const [shown, setShown] = useState(60)
   const [query, setQuery] = useState('')
   const [posFilter, setPosFilter] = useState('All')
   const [view, setView] = useState<'cards' | 'list'>('cards')
@@ -38,7 +40,7 @@ export default function Players({ onNavigate, onSelectPlayer }: Props) {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div>
           <h1 style={{ fontFamily: 'Saira Condensed', fontSize: 28, fontWeight: 700, color: '#F2F2F2', margin: 0 }}>Player database</h1>
-          <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#9A9A9A', margin: '6px 0 0' }}>{players.length.toLocaleString()} players tracked across 32 leagues.</p>
+          <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#9A9A9A', margin: '6px 0 0' }}>{players.length.toLocaleString()} players tracked across {new Set(players.map(p => p.league)).size} leagues.</p>
         </div>
         <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
           <div role="group" aria-label="View" style={{ display: 'flex' }}>
@@ -64,12 +66,12 @@ export default function Players({ onNavigate, onSelectPlayer }: Props) {
             style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)' }}>
             <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
           </svg>
-          <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search players or clubs..."
+          <input value={query} onChange={e => { setQuery(e.target.value); setShown(60) }} placeholder="Search players or clubs..."
             style={{ width: '100%', height: 38, paddingLeft: 40, paddingRight: 14, background: '#0A0A0A', border: '1px solid #2A2A2A', borderRadius: 8, fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#F2F2F2', outline: 'none' }} />
         </div>
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
           {positions.map(pos => (
-            <button key={pos} onClick={() => setPosFilter(pos)} style={{
+            <button key={pos} onClick={() => { setPosFilter(pos); setShown(60) }} style={{
               padding: '7px 14px', borderRadius: 8, cursor: 'pointer',
               fontFamily: 'IBM Plex Sans', fontSize: 12, fontWeight: 600,
               background: posFilter === pos ? '#F5B82E' : 'transparent',
@@ -88,7 +90,7 @@ export default function Players({ onNavigate, onSelectPlayer }: Props) {
 
       {view === 'cards' ? (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, 208px)', gap: '30px 22px', justifyContent: 'center', padding: '14px 4px 10px' }}>
-          {filtered.map(p => (
+          {filtered.slice(0, shown).map(p => (
             <PlayerCard key={p.id} player={p} onClick={() => { onSelectPlayer(p.id); onNavigate('player-profile') }} />
           ))}
         </div>
@@ -107,7 +109,7 @@ export default function Players({ onNavigate, onSelectPlayer }: Props) {
           <div />
         </div>
 
-        {filtered.map((p, i) => (
+        {filtered.slice(0, shown).map((p, i) => (
           <div
             key={p.id}
             onClick={() => { onSelectPlayer(p.id); onNavigate('player-profile') }}
@@ -161,6 +163,11 @@ export default function Players({ onNavigate, onSelectPlayer }: Props) {
           </div>
         ))}
       </div>
+      )}
+      {filtered.length > shown && (
+        <div style={{ display: 'flex', justifyContent: 'center', padding: '8px 0 16px' }}>
+          <Btn variant="secondary" onClick={() => setShown(n => n + 60)}>Show more ({(filtered.length - shown).toLocaleString()} left)</Btn>
+        </div>
       )}
     </div>
   )

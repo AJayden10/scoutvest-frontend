@@ -1,13 +1,15 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   ComposedChart, Line, Area, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, ReferenceLine,
 } from 'recharts'
 import {
   Card, SectionTitle, RiskBadge, InvestmentBadge, Btn,
-  Avatar, PositionTag, fmt, StatRow, ConfidenceBar,
+  Avatar, PositionTag, fmt, StatRow, ConfidenceBar, signed,
 } from '../components/ui'
-import { players, marketValueHistory } from '../data/mockData'
+import { marketValueHistory } from '../data/mockData'
+import { useData } from '../data/DataContext'
+import { api, type PlayerDetail } from '../api/client'
 import type { Page } from '../App'
 
 const tabs = ['Overview', 'Performance', 'Market Value', 'AI Prediction', 'Risk Analysis']
@@ -19,19 +21,41 @@ interface Props {
 
 export default function PlayerProfile({ playerId, onNavigate }: Props) {
   const [tab, setTab] = useState('Overview')
+  const { players, source, inWatchlist, addToWatchlist, removeFromWatchlist } = useData()
   const player = players.find(p => p.id === playerId) ?? players[0]
+  const [detail, setDetail] = useState<PlayerDetail | null>(null)
+  useEffect(() => {
+    setDetail(null)
+    if (source !== 'live') return
+    let cancelled = false
+    api.get<PlayerDetail>(`/players/${player.id}/`).then(d => { if (!cancelled) setDetail(d) }).catch(() => {})
+    return () => { cancelled = true }
+  }, [source, player.id])
 
-  const chartData = marketValueHistory.map(d => ({
-    date: d.date,
-    actual: d.value,
-    predicted: d.predicted,
-  }))
+  // Time-based x axis: valuations are irregular, so points sit where their dates fall and labels can't collide.
+  const fmtDate = (t: number) => new Date(t).toLocaleDateString('en-GB', { month: 'short', year: '2-digit' })
+  const demoTime = (label: string) => { const [m, y] = label.split(' '); return Date.parse(`${m} 1, 20${y}`) }
+  let chartData: { t: number; actual: number | null; predicted: number | null }[]
+  let nowT: number | undefined
+  let horizonYears = 2
+  if (detail) {
+    chartData = detail.marketValueHistory.map(v => ({ t: Date.parse(v.date), actual: v.value, predicted: null as number | null }))
+    nowT = chartData[chartData.length - 1]?.t
+    if (detail.forecast.length === 2) {
+      const [a, b] = detail.forecast
+      horizonYears = Math.max(1, Math.round((Date.parse(b.date) - Date.parse(a.date)) / (365 * 864e5)))
+      if (chartData.length) chartData[chartData.length - 1].predicted = chartData[chartData.length - 1].actual
+      chartData.push({ t: Date.parse(b.date), actual: null, predicted: b.predicted })
+    }
+  } else {
+    chartData = marketValueHistory.map(d => ({ t: demoTime(d.date), actual: d.value, predicted: d.predicted }))
+    nowT = demoTime('Jul 24')
+  }
 
-  const projections = [
-    { label: '1-Year', value: player.predictedValue * 0.63, note: 'Short-term' },
-    { label: '2-Year', value: player.predictedValue * 0.88, note: 'Mid-term' },
-    { label: '3-Year', value: player.predictedValue,       note: 'Model horizon' },
-  ]
+  // The model predicts one horizon (default 2 years); intermediate years would be invented, so only that point is shown.
+  const projections = [{ label: `${horizonYears}-Year`, value: player.predictedValue, note: 'Model horizon' }]
+  const na = (v: number, d: number) => (v === 0 ? '—' : v.toFixed(d))
+  const watching = inWatchlist(player.id)
 
   return (
     <div style={{ padding: '24px 32px 40px', display: 'flex', flexDirection: 'column', gap: 20, maxWidth: 1100 }}>
@@ -78,7 +102,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
                   <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9A9A9A' }}>{player.league}</span>
                 </div>
                 <div style={{ marginTop: 16, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                  <Btn variant="primary">+ Add to Watchlist</Btn>
+                  <Btn variant={watching ? 'secondary' : 'primary'} onClick={() => (watching ? removeFromWatchlist(player.id) : addToWatchlist(player.id))}>{watching ? '✓ On Watchlist' : '+ Add to Watchlist'}</Btn>
                   <Btn variant="secondary" onClick={() => onNavigate('simulator')}>Simulate Transfer</Btn>
                   <Btn variant="ghost" onClick={() => onNavigate('compare')}>Compare</Btn>
                 </div>
@@ -90,7 +114,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
               {[
                 { label: 'CURRENT VALUE', value: fmt(player.currentValue), color: '#CFCFCF', dim: true },
                 { label: 'PREDICTED VALUE', value: fmt(player.predictedValue), color: '#3DDC97', dim: false },
-                { label: 'EXPECTED UPSIDE', value: `+${player.upside}%`, color: '#3DDC97', dim: false, big: true },
+                { label: 'EXPECTED UPSIDE', value: `${signed(player.upside)}%`, color: '#3DDC97', dim: false, big: true },
               ].map((m, i) => (
                 <div key={m.label} style={{
                   padding: '0 28px',
@@ -165,10 +189,10 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
               rows: [
                 { label: 'Goals / 90', value: player.goals90.toFixed(2) },
                 { label: 'Assists / 90', value: player.assists90.toFixed(2) },
-                { label: 'xG / 90', value: player.xG90.toFixed(2) },
-                { label: 'xA / 90', value: player.xA90.toFixed(2) },
-                { label: 'Prog. Passes / 90', value: player.progressivePasses.toFixed(1) },
-                { label: 'Prog. Carries / 90', value: player.progressiveCarries.toFixed(1) },
+                { label: 'xG / 90', value: na(player.xG90, 2) },
+                { label: 'xA / 90', value: na(player.xA90, 2) },
+                { label: 'Prog. Passes / 90', value: na(player.progressivePasses, 1) },
+                { label: 'Prog. Carries / 90', value: na(player.progressiveCarries, 1) },
                 { label: 'Minutes', value: player.minutes.toLocaleString() },
               ],
             },
@@ -177,16 +201,16 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
               rows: [
                 { label: 'Current Value', value: fmt(player.currentValue) },
                 { label: 'Peak Value', value: fmt(player.peakValue) },
-                { label: 'Value Change', value: `+€${player.valueChange.toFixed(1)}M`, hi: true },
-                { label: 'Transfer Fee', value: fmt(player.transferFee) },
-                { label: 'Contract', value: `${player.contractYears} years remaining` },
+                { label: 'Last Valuation Change', value: `${signed(player.valueChange, 1)}%`, hi: player.valueChange > 0 },
+                { label: 'Transfer Fee', value: player.transferFee ? fmt(player.transferFee) : '—' },
+                { label: 'Contract', value: player.contractYears ? `${player.contractYears} years remaining` : '—' },
               ],
             },
             {
               title: 'AI Model', color: '#F5B82E',
               rows: [
                 { label: 'Predicted Value', value: fmt(player.predictedValue), hi: true },
-                { label: 'Expected Growth', value: `+${player.upside}%`, hi: true },
+                { label: 'Expected Growth', value: `${signed(player.upside)}%`, hi: true },
                 { label: 'Confidence', value: `${player.confidence}%` },
                 { label: 'Risk Score', value: `${player.riskScore} / 100` },
               ],
@@ -221,13 +245,13 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
             {[
               { label: 'Goals / 90',        value: player.goals90.toFixed(2),         max: 0.6 },
               { label: 'Assists / 90',       value: player.assists90.toFixed(2),        max: 0.5 },
-              { label: 'xG / 90',            value: player.xG90.toFixed(2),             max: 0.6 },
-              { label: 'xA / 90',            value: player.xA90.toFixed(2),             max: 0.5 },
-              { label: 'Prog. Passes',        value: player.progressivePasses.toFixed(1), max: 12 },
-              { label: 'Prog. Carries',       value: player.progressiveCarries.toFixed(1), max: 10 },
+              { label: 'xG / 90',            value: na(player.xG90, 2),             max: 0.6 },
+              { label: 'xA / 90',            value: na(player.xA90, 2),             max: 0.5 },
+              { label: 'Prog. Passes',        value: na(player.progressivePasses, 1), max: 12 },
+              { label: 'Prog. Carries',       value: na(player.progressiveCarries, 1), max: 10 },
               { label: 'Minutes Played',      value: player.minutes.toLocaleString(),   max: 3400, raw: player.minutes },
             ].map(m => {
-              const pct = Math.min(100, ((m.raw ?? +m.value) / m.max) * 100)
+              const pct = Math.min(100, ((m.raw ?? (parseFloat(m.value) || 0)) / m.max) * 100)
               return (
                 <div key={m.label} style={{ background: '#0A0A0A', borderRadius: 8, padding: '16px' }}>
                   <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#9A9A9A', marginBottom: 10 }}>{m.label}</div>
@@ -239,13 +263,29 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
               )
             })}
           </div>
+        {detail && detail.seasonStats.length > 0 && (
+          <div style={{ marginTop: 28 }}>
+            <SectionTitle>Season by season</SectionTitle>
+            <div style={{ overflowX: 'auto', marginTop: 12 }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'JetBrains Mono', fontSize: 12 }}>
+                <thead><tr>{['Season', 'Club', 'Age', 'Apps', 'Minutes', 'Goals', 'Assists', 'xG', 'xA'].map(h => (
+                  <th key={h} style={{ textAlign: 'left', padding: '8px 10px', color: '#9A9A9A', fontWeight: 600, borderBottom: '1px solid #2A2A2A' }}>{h}</th>))}</tr></thead>
+                <tbody>{detail.seasonStats.map(s => (
+                  <tr key={s.season + (s.club ?? '')}>
+                    {[s.season, s.club ?? '—', s.age, s.matches, s.minutes.toLocaleString(), s.goals, s.assists, s.xg == null ? '—' : s.xg.toFixed(1), s.xag == null ? '—' : s.xag.toFixed(1)].map((c, k) => (
+                      <td key={k} style={{ padding: '8px 10px', color: '#CFCFCF', borderBottom: '1px solid rgba(42,42,42,0.5)' }}>{c}</td>))}
+                  </tr>))}</tbody>
+              </table>
+            </div>
+          </div>
+        )}
         </Card>
       )}
 
       {/* Tab: Market Value */}
       {tab === 'Market Value' && (
         <Card style={{ padding: '24px 28px' }}>
-          <SectionTitle sub="Historical market value and AI-projected trajectory to 2026/27">
+          <SectionTitle sub="Historical market value and the model's projection at its forecast horizon">
             Market Value Evolution
           </SectionTitle>
           <ResponsiveContainer width="100%" height={300} style={{ marginTop: 24 }}>
@@ -257,7 +297,7 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(42,42,42,0.7)" />
-              <XAxis dataKey="date"
+              <XAxis dataKey="t" type="number" scale="time" domain={['dataMin', 'dataMax']} tickFormatter={fmtDate}
                 tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#9A9A9A' }}
                 axisLine={{ stroke: '#2A2A2A' }} tickLine={false}
               />
@@ -267,15 +307,16 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
                 tickFormatter={v => `€${v}M`}
               />
               <Tooltip
+                labelFormatter={(t: any) => fmtDate(Number(t))}
                 formatter={(v: any) => [`€${Number(v).toFixed(1)}M`]}
                 contentStyle={{ background: '#0D0D0D', border: '1px solid #2A2A2A', fontFamily: 'IBM Plex Sans', fontSize: 12, borderRadius: 8 }}
               />
-              <ReferenceLine x="Jul 24" stroke="#2A2A2A" strokeDasharray="4 4"
+              {nowT !== undefined && <ReferenceLine x={nowT} stroke="#2A2A2A" strokeDasharray="4 4"
                 label={{ value: 'NOW', fill: '#5E5E5E', fontSize: 9, fontFamily: 'JetBrains Mono', }}
-              />
+              />}
               <Line dataKey="actual" stroke="#3DD6F5" strokeWidth={2.5} dot={{ fill: '#3DD6F5', r: 4, strokeWidth: 0 }} connectNulls={false} name="Historical" />
               <Area dataKey="predicted" stroke="#F5B82E" strokeWidth={2} strokeDasharray="7 4"
-                fill="url(#predAreaGrad)" dot={{ fill: '#F5B82E', r: 4, strokeWidth: 0 }} connectNulls={false} name="AI Projection"
+                fill="url(#predAreaGrad)" dot={{ fill: '#F5B82E', r: 4, strokeWidth: 0 }} connectNulls name="AI Projection"
               />
             </ComposedChart>
           </ResponsiveContainer>

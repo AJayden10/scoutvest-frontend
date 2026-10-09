@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer, Tooltip } from 'recharts'
-import { Card, SectionTitle, RiskBadge, Btn, Avatar, PositionTag, fmt } from '../components/ui'
-import { players } from '../data/mockData'
+import { Card, SectionTitle, RiskBadge, Btn, Avatar, PositionTag, fmt, signed } from '../components/ui'
+import { useData } from '../data/DataContext'
+import type { Player } from '../data/mockData'
 import type { Page } from '../App'
 
 interface Props { onNavigate: (page: Page) => void; onSelectPlayer: (id: number) => void }
@@ -10,7 +11,7 @@ const COLORS = ['#F5B82E', '#3DD6F5', '#FF8A3D', '#FF5A4F']
 
 const radarMetrics = ['Finishing', 'Passing', 'Creativity', 'Ball Progression', 'Defending', 'Physical']
 
-function getRadarData(p: typeof players[0]) {
+function getRadarData(p: Player) {
   return [
     { metric: 'Finishing', value: Math.round(p.goals90 * 250 + p.xG90 * 100) },
     { metric: 'Passing', value: Math.round(p.progressivePasses * 8 + 20) },
@@ -22,7 +23,8 @@ function getRadarData(p: typeof players[0]) {
 }
 
 export default function Compare({ onNavigate, onSelectPlayer }: Props) {
-  const [selected, setSelected] = useState([players[0].id, players[1].id, players[3].id])
+  const { players } = useData()
+  const [selected, setSelected] = useState(() => players.slice(0, 3).map(p => p.id))
 
   const selectedPlayers = selected.map(id => players.find(p => p.id === id)!).filter(Boolean)
 
@@ -42,18 +44,18 @@ export default function Compare({ onNavigate, onSelectPlayer }: Props) {
   const removePlayer = (id: number) => setSelected(selected.filter(x => x !== id))
 
   const rows = [
-    { label: 'Age', fn: (p: typeof players[0]) => String(p.age) },
-    { label: 'Position', fn: (p: typeof players[0]) => p.position },
-    { label: 'Club', fn: (p: typeof players[0]) => p.club },
-    { label: 'Current Value', fn: (p: typeof players[0]) => fmt(p.currentValue) },
-    { label: 'Predicted Value', fn: (p: typeof players[0]) => fmt(p.predictedValue) },
-    { label: 'Expected Upside', fn: (p: typeof players[0]) => `+${p.upside}%` },
-    { label: 'xG / 90', fn: (p: typeof players[0]) => p.xG90.toFixed(2) },
-    { label: 'xA / 90', fn: (p: typeof players[0]) => p.xA90.toFixed(2) },
-    { label: 'Goals / 90', fn: (p: typeof players[0]) => p.goals90.toFixed(2) },
-    { label: 'Prog. Passes', fn: (p: typeof players[0]) => p.progressivePasses.toFixed(1) },
-    { label: 'Confidence', fn: (p: typeof players[0]) => `${p.confidence}%` },
-    { label: 'Risk Score', fn: (p: typeof players[0]) => `${p.riskScore}/100` },
+    { label: 'Age', fn: (p: Player) => String(p.age) },
+    { label: 'Position', fn: (p: Player) => p.position },
+    { label: 'Club', fn: (p: Player) => p.club },
+    { label: 'Current Value', fn: (p: Player) => fmt(p.currentValue) },
+    { label: 'Predicted Value', fn: (p: Player) => fmt(p.predictedValue) },
+    { label: 'Expected Upside', fn: (p: Player) => `${signed(p.upside)}%` },
+    { label: 'xG / 90', fn: (p: Player) => p.xG90.toFixed(2) },
+    { label: 'xA / 90', fn: (p: Player) => p.xA90.toFixed(2) },
+    { label: 'Goals / 90', fn: (p: Player) => p.goals90.toFixed(2) },
+    { label: 'Prog. Passes', fn: (p: Player) => p.progressivePasses.toFixed(1) },
+    { label: 'Confidence', fn: (p: Player) => `${p.confidence}%` },
+    { label: 'Risk Score', fn: (p: Player) => `${p.riskScore}/100` },
   ]
 
   return (

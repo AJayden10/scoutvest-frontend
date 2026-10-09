@@ -1,43 +1,74 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-import { Card, SectionTitle, Btn, fmt } from '../components/ui'
-import { players } from '../data/mockData'
+import { Card, SectionTitle, Btn, fmt, signed } from '../components/ui'
+import { useData } from '../data/DataContext'
+import { api, type PortfolioResult, type SimulationResult } from '../api/client'
 
 export default function Simulator() {
+  const { players, source } = useData()
+  const live = source === 'live'
   const [budget, setBudget] = useState(50)
-  const [selectedPlayer, setSelectedPlayer] = useState(players[1].id)
-  const [fee, setFee] = useState(12.5)
-  const [salary, setSalary] = useState(2.5)
+  const [selectedPlayer, setSelectedPlayer] = useState(() => (players[1] ?? players[0]).id)
+  const [search, setSearch] = useState('')
+  const [fee, setFee] = useState(() => (players[1] ?? players[0]).currentValue)
+  const [salary, setSalary] = useState(() => Math.max(0.1, +((players[1] ?? players[0]).currentValue * 0.1).toFixed(2)))
   const [contractYears, setContractYears] = useState(4)
   const [holdingYears, setHoldingYears] = useState(3)
   const [scenario, setScenario] = useState('Base')
   const [ran, setRan] = useState(false)
+  const [apiResult, setApiResult] = useState<SimulationResult | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const [portfolio, setPortfolio] = useState<PortfolioResult | null>(null)
 
-  const player = players.find(p => p.id === selectedPlayer) ?? players[1]
+  const player = players.find(p => p.id === selectedPlayer) ?? players[0]
+  const options = (search ? players.filter(p => p.name.toLowerCase().includes(search.toLowerCase())) : players).slice(0, 100)
+  if (!options.some(p => p.id === player.id)) options.unshift(player)
 
+  // Demo mode computes locally; live mode asks the backend, so both use the same case structure.
   const multipliers = { Conservative: 0.7, Base: 1.0, Optimistic: 1.35 }
   const mult = multipliers[scenario as keyof typeof multipliers]
-  const futureBear = fee * 1.27
-  const futureBase = fee * (1 + player.upside / 100) * mult
-  const futureBull = fee * (1 + player.upside / 100) * 1.5
   const totalCost = fee + salary * Math.min(holdingYears, contractYears)
-  const projectedROI = ((futureBase - totalCost) / totalCost) * 100
-  const riskAdjustedROI = projectedROI * 0.78
+  const localCases = [
+    { case: 'Bear Case', value: fee * 1.27, color: '#FF5A4F', risk: 'High' },
+    { case: 'Base Case', value: fee * (1 + player.upside / 100) * mult, color: '#FF8A3D', risk: 'Medium' },
+    { case: 'Bull Case', value: fee * (1 + player.upside / 100) * 1.5, color: '#3DDC97', risk: 'Low' },
+  ].map(c => ({ ...c, roi: Math.round(((c.value - totalCost) / totalCost) * 100) }))
+  const palette: Record<string, { color: string; risk: string }> = {
+    'Bear Case': { color: '#FF5A4F', risk: 'High' }, 'Base Case': { color: '#FF8A3D', risk: 'Medium' }, 'Bull Case': { color: '#3DDC97', risk: 'Low' },
+  }
+  const scenarios = live && apiResult
+    ? apiResult.cases.map(c => ({ case: c.case, value: c.futureValue, roi: Math.round(c.roi), ...palette[c.case] }))
+    : localCases
+  const base = scenarios.find(c => c.case === 'Base Case') ?? scenarios[0]
+  const futureBase = base.value
+  const shownCost = live && apiResult ? apiResult.totalCost : totalCost
+  const projectedROI = live && apiResult ? apiResult.projectedROI : base.roi
+  const riskAdjustedROI = live && apiResult ? apiResult.riskAdjustedROI : projectedROI * 0.78
 
-  const scenarios = [
-    { case: 'Bear Case', value: futureBear, roi: Math.round(((futureBear - totalCost) / totalCost) * 100), risk: 'High', color: '#FF5A4F' },
-    { case: 'Base Case', value: futureBase, roi: Math.round(projectedROI), risk: 'Medium', color: '#FF8A3D' },
-    { case: 'Bull Case', value: futureBull, roi: Math.round(((futureBull - totalCost) / totalCost) * 100), risk: 'Low', color: '#3DDC97' },
-  ]
+  const run = async () => {
+    setError(null)
+    if (live) {
+      try {
+        setApiResult(await api.post<SimulationResult>('/simulator/', { playerId: player.id, fee, salary, contractYears, holdingYears, scenario: scenario.toLowerCase() }))
+      } catch (e: any) { setError(e.message ?? 'Simulation failed'); return }
+    }
+    setRan(true)
+  }
 
-  const portfolioPlayers = [
-    { name: 'Dario Montalvo', fee: 8.4 },
-    { name: 'Jonas Drechsel', fee: 6.2 },
-    { name: 'Emilio Cardona', fee: 15.0 },
-    { name: 'Sem Vandermeer', fee: 9.0 },
-  ]
-  const portfolioTotal = portfolioPlayers.reduce((s, p) => s + p.fee, 0)
-  const portfolioFuture = portfolioPlayers.map(p => players.find(x => x.name === p.name)).reduce((s, p) => s + (p?.predictedValue ?? 0), 0)
+  // Portfolio: the backend picks the best risk-adjusted set that fits the budget.
+  useEffect(() => {
+    if (!live) return
+    const t = setTimeout(() => { api.post<PortfolioResult>('/simulator/', { budget, maxPlayers: 8 }).then(setPortfolio).catch(() => setPortfolio(null)) }, 300)
+    return () => clearTimeout(t)
+  }, [live, budget])
+  const demoPortfolio = [{ name: 'Dario Montalvo', fee: 8.4 }, { name: 'Jonas Drechsel', fee: 6.2 }, { name: 'Emilio Cardona', fee: 15.0 }, { name: 'Sem Vandermeer', fee: 9.0 }]
+  const portfolioPlayers = live ? (portfolio?.players ?? []).map(p => ({ name: p.name, fee: p.fee })) : demoPortfolio
+  const portfolioTotal = live ? (portfolio?.totalCost ?? 0) : portfolioPlayers.reduce((s, p) => s + p.fee, 0)
+  const portfolioFuture = live ? (portfolio?.projectedValue ?? 0) : portfolioPlayers.map(p => players.find(x => x.name === p.name)).reduce((s, p) => s + (p?.predictedValue ?? 0), 0)
+  const portfolioROI = portfolioTotal ? Math.round(((portfolioFuture - portfolioTotal) / portfolioTotal) * 100) : 0
+  const portfolioRisk = live && portfolio && portfolio.players.length
+    ? (() => { const r = portfolio.players.reduce((s, p) => s + (p.riskScore ?? 50), 0) / portfolio.players.length; return r < 35 ? 'Low' : r < 55 ? 'Medium' : 'High' })()
+    : 'Medium'
 
   return (
     <div style={{ padding: '28px 32px', display: 'flex', flexDirection: 'column', gap: 24, maxWidth: 1100 }}>
@@ -56,9 +87,11 @@ export default function Simulator() {
             </SimInput>
 
             <SimInput label="Target Player">
-              <select value={selectedPlayer} onChange={e => { setSelectedPlayer(+e.target.value); const p = players.find(x => x.id === +e.target.value); if (p) setFee(p.currentValue) }}
+              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search by name…"
+                style={{ width: '100%', padding: '8px 12px', marginBottom: 8, background: '#0A0A0A', border: '1px solid #2A2A2A', borderRadius: 8, fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#F2F2F2', outline: 'none' }} />
+              <select value={selectedPlayer} onChange={e => { setSelectedPlayer(+e.target.value); setRan(false); const p = players.find(x => x.id === +e.target.value); if (p) { setFee(p.currentValue); setSalary(Math.max(0.1, +(p.currentValue * 0.1).toFixed(2))) } }}
                 style={{ width: '100%', padding: '8px 12px', background: '#0A0A0A', border: '1px solid #2A2A2A', borderRadius: 8, fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#F2F2F2' }}>
-                {players.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+                {options.map(p => <option key={p.id} value={p.id}>{p.name} · {p.club}</option>)}
               </select>
             </SimInput>
 
@@ -86,12 +119,13 @@ export default function Simulator() {
               </div>
             </SimInput>
 
-            <Btn variant="primary" onClick={() => setRan(true)} style={{ width: '100%', padding: '11px 0', fontSize: 14 }}>
+            <Btn variant="primary" onClick={run} style={{ width: '100%', padding: '11px 0', fontSize: 14 }}>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 8 }}>
                 <polygon points="5 3 19 12 5 21 5 3"/>
               </svg>
               Run Simulation
             </Btn>
+            {error && <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#FF5A4F' }}>{error}</div>}
           </div>
         </Card>
 
@@ -102,14 +136,14 @@ export default function Simulator() {
               {/* Main ROI */}
               <Card style={{ padding: '28px', textAlign: 'center', background: 'linear-gradient(135deg, #0D0D0D 0%, #111111 100%)', border: '1px solid rgba(245,184,46,0.2)' }}>
                 <div style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: '#F5B82E', marginBottom: 8 }}>EXPECTED TRANSFER ROI</div>
-                <div style={{ fontFamily: 'Saira Condensed', fontSize: 52, fontWeight: 700, color: '#3DDC97', lineHeight: 1, marginBottom: 4 }}>+{Math.round(projectedROI)}%</div>
+                <div style={{ fontFamily: 'Saira Condensed', fontSize: 52, fontWeight: 700, color: '#3DDC97', lineHeight: 1, marginBottom: 4 }}>{signed(Math.round(projectedROI))}%</div>
                 <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9A9A9A' }}>{scenario} scenario · {holdingYears}-year hold</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginTop: 24 }}>
                   {[
-                    { label: 'Acquisition Cost', value: fmt(totalCost), color: '#F2F2F2' },
+                    { label: 'Acquisition Cost', value: fmt(shownCost), color: '#F2F2F2' },
                     { label: 'Projected Value', value: fmt(futureBase), color: '#F5B82E' },
-                    { label: 'Est. Profit', value: `+${fmt(futureBase - totalCost)}`, color: '#F5B82E' },
-                    { label: 'Risk-Adj. ROI', value: `+${Math.round(riskAdjustedROI)}%`, color: '#FF8A3D' },
+                    { label: 'Est. Profit', value: `${futureBase - shownCost < 0 ? '-' : '+'}${fmt(Math.abs(futureBase - shownCost))}`, color: futureBase - shownCost < 0 ? '#FF5A4F' : '#F5B82E' },
+                    { label: 'Risk-Adj. ROI', value: `${signed(Math.round(riskAdjustedROI))}%`, color: '#FF8A3D' },
                   ].map(m => (
                     <div key={m.label} style={{ background: 'rgba(0,0,0,0.3)', borderRadius: 8, padding: '12px 8px' }}>
                       <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 10, color: '#9A9A9A', marginBottom: 6 }}>{m.label}</div>
@@ -125,7 +159,7 @@ export default function Simulator() {
                   <Card key={s.case} style={{ padding: '16px', borderColor: `${s.color}30`, background: `linear-gradient(135deg, ${s.color}06, #111111)` }}>
                     <div style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: s.color, marginBottom: 8 }}>{s.case.toUpperCase()}</div>
                     <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 20, fontWeight: 700, color: '#F2F2F2', marginBottom: 4 }}>{fmt(s.value)}</div>
-                    <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, fontWeight: 700, color: s.color, marginBottom: 8 }}>ROI: +{s.roi}%</div>
+                    <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, fontWeight: 700, color: s.color, marginBottom: 8 }}>ROI: {signed(s.roi)}%</div>
                     <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#9A9A9A' }}>Risk: {s.risk}</div>
                   </Card>
                 ))}
@@ -168,14 +202,14 @@ export default function Simulator() {
           </div>
           <div style={{ textAlign: 'right' }}>
             <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#9A9A9A' }}>Transfer Budget</div>
-            <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 22, fontWeight: 700, color: '#F2F2F2' }}>€50M</div>
+            <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 22, fontWeight: 700, color: '#F2F2F2' }}>€{budget}M</div>
           </div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
           {portfolioPlayers.map((p, i) => (
             <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid #1A1A1A' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <div style={{ width: 3, height: 28, borderRadius: 8, background: ['#F5B82E', '#3DD6F5', '#FF8A3D', '#FF5A4F'][i] }} />
+                <div style={{ width: 3, height: 28, borderRadius: 8, background: ['#F5B82E', '#3DD6F5', '#FF8A3D', '#FF5A4F'][i % 4] }} />
                 <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#F2F2F2' }}>{p.name}</span>
               </div>
               <span style={{ fontFamily: 'JetBrains Mono', fontSize: 13, fontWeight: 600, color: '#F2F2F2' }}>€{p.fee}M</span>
@@ -187,14 +221,14 @@ export default function Simulator() {
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9A9A9A' }}>Remaining</span>
-            <span style={{ fontFamily: 'JetBrains Mono', fontSize: 13, color: '#F5B82E' }}>€{(50 - portfolioTotal).toFixed(1)}M</span>
+            <span style={{ fontFamily: 'JetBrains Mono', fontSize: 13, color: '#F5B82E' }}>€{(budget - portfolioTotal).toFixed(1)}M</span>
           </div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
           {[
             { label: 'Projected Portfolio Value', value: fmt(portfolioFuture), color: '#F5B82E' },
-            { label: 'Expected ROI', value: `+${Math.round((portfolioFuture - portfolioTotal) / portfolioTotal * 100)}%`, color: '#F5B82E' },
-            { label: 'Portfolio Risk', value: 'Medium', color: '#FF8A3D' },
+            { label: 'Expected ROI', value: `${signed(portfolioROI)}%`, color: '#F5B82E' },
+            { label: 'Portfolio Risk', value: portfolioRisk, color: '#FF8A3D' },
           ].map(m => (
             <div key={m.label} style={{ background: '#0A0A0A', borderRadius: 8, padding: '16px' }}>
               <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#9A9A9A', marginBottom: 6 }}>{m.label}</div>

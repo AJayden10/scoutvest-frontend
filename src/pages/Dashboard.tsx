@@ -4,10 +4,11 @@ import {
   ScatterChart, Scatter, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, ReferenceLine,
 } from 'recharts'
-import { Card, SectionTitle, Btn, fmt } from '../components/ui'
+import { Card, SectionTitle, Btn, fmt, signed } from '../components/ui'
 import PlayerCard from '../components/PlayerCard'
-import { players, scatterData } from '../data/mockData'
+import { useData } from '../data/DataContext'
 import type { Page } from '../App'
+import type { Player } from '../data/mockData'
 
 const posFilters = ['All', 'GK', 'DEF', 'MID', 'FWD', 'U21', 'U23', 'U25']
 
@@ -68,7 +69,7 @@ const ChartTooltip = ({ active, payload }: any) => {
         <div style={{ height: 1, background: '#2A2A2A', margin: '4px 0' }} />
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
           <span style={{ color: '#9A9A9A' }}>Upside</span>
-          <span style={{ fontFamily: 'IBM Plex Sans', color: '#3DDC97', fontWeight: 700 }}>+{d.upside}%</span>
+          <span style={{ fontFamily: 'IBM Plex Sans', color: '#3DDC97', fontWeight: 700 }}>{signed(d.upside)}%</span>
         </div>
       </div>
     </div>
@@ -77,7 +78,30 @@ const ChartTooltip = ({ active, payload }: any) => {
 
 export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
   const [posFilter, setPosFilter] = useState('All')
-  const topPlayers = [...players].sort((a, b) => b.upside - a.upside).slice(0, 6)
+  const { players, scatterData: allDots } = useData()
+  // Headlines only feature players worth at least €1M; a €200K prospect doubling is real but not a headline target.
+  const notable = players.filter(p => p.currentValue >= 1 && p.signal !== 'OVERVALUED')
+  const topPlayers = [...notable].sort((a, b) => b.upside - a.upside).slice(0, 6)
+
+  // Chart filter: position groups and age bands apply to the dots; a big league has thousands, so cap what is drawn.
+  const byId = new Map(players.map(p => [p.id, p]))
+  const GROUPS: Record<string, (p: Player) => boolean> = {
+    GK: p => p.position === 'GK', DEF: p => ['CB', 'FB'].includes(p.position),
+    MID: p => ['DM', 'CM', 'AM'].includes(p.position), FWD: p => ['Winger', 'ST'].includes(p.position),
+    U21: p => p.age <= 21, U23: p => p.age <= 23, U25: p => p.age <= 25,
+  }
+  const matching = allDots.filter(d => { const p = byId.get(d.id); return posFilter === 'All' || !p || GROUPS[posFilter]?.(p) })
+  const dots = matching.length > 700
+    ? [...matching].sort((a, b) => b.upside - a.upside).filter((_, i) => i < 250 || i % Math.ceil((matching.length - 250) / 450) === 0)
+    : matching
+  const axisMax = Math.max(10, Math.ceil(Math.max(...dots.map(d => Math.max(d.x, d.y)), 10) * 1.08 / 5) * 5)
+
+  const targets = players.filter(p => ['STRONG BUY', 'UNDERVALUED', 'BREAKOUT'].includes(p.signal))
+  const medianConf = players.length ? [...players].map(p => p.confidence).sort((a, b) => a - b)[Math.floor(players.length / 2)] : 0
+  const bestUpside = topPlayers[0]
+  const fastest = [...notable].sort((a, b) => b.valueChange - a.valueChange)[0]
+  const bestRisk = [...notable].filter(p => p.risk === 'Low').sort((a, b) => b.upside - a.upside)[0]
+  const open = (p?: Player) => { if (p) { onSelectPlayer(p.id); onNavigate('player-profile') } }
 
   return (
     <div style={{ position: 'relative', overflow: 'hidden' }}>
@@ -153,7 +177,7 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(42,42,42,0.7)" />
             <XAxis
               dataKey="x" type="number" name="Current Value"
-              domain={[0, 65]} tickCount={7}
+              domain={[0, axisMax]} tickCount={7}
               tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#9A9A9A' }}
               axisLine={{ stroke: '#2A2A2A' }} tickLine={false}
               tickFormatter={v => `€${v}M`}
@@ -161,18 +185,18 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
             />
             <YAxis
               dataKey="y" type="number" name="Predicted Value"
-              domain={[0, 70]} tickCount={7}
+              domain={[0, axisMax]} tickCount={7}
               tick={{ fontFamily: 'JetBrains Mono', fontSize: 9, fill: '#9A9A9A' }}
               axisLine={{ stroke: '#2A2A2A' }} tickLine={false}
               tickFormatter={v => `€${v}M`}
               label={{ value: 'Predicted Future Value', angle: -90, position: 'insideLeft', offset: 14, fill: '#9A9A9A', fontFamily: 'IBM Plex Sans', fontSize: 11 }}
             />
             <ReferenceLine
-              segment={[{ x: 0, y: 0 }, { x: 65, y: 65 }]}
+              segment={[{ x: 0, y: 0 }, { x: axisMax, y: axisMax }]}
               stroke="#2A2A2A" strokeDasharray="5 4" strokeWidth={1.5}
             />
             <Tooltip content={<ChartTooltip />} />
-            <Scatter data={scatterData} shape={<CustomDot />} />
+            <Scatter data={dots} shape={<CustomDot />} />
           </ScatterChart>
         </ResponsiveContainer>
       </Card>
@@ -180,9 +204,9 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
       {/* Headline numbers, below the chart */}
       <Card style={{ padding: 0, display: 'flex' }}>
         {[
-          { label: 'Players analyzed', value: '12,482', trend: '+6.4%' },
-          { label: 'Potential targets', value: '184', trend: null },
-          { label: 'Recommended budget', value: '€74.2M', trend: null },
+          { label: 'Players analyzed', value: players.length.toLocaleString(), trend: null },
+          { label: 'Potential targets', value: targets.length.toLocaleString(), trend: null },
+          { label: 'Median model confidence', value: `${medianConf}%`, trend: null },
         ].map((row, i) => (
           <div key={row.label} style={{ flex: 1, padding: '20px 24px', borderLeft: i > 0 ? '1px solid #2A2A2A' : 'none' }}>
             <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9A9A9A', marginBottom: 8 }}>{row.label}</div>
@@ -197,7 +221,7 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
       {/* Top targets, shown as cards ranked by projected upside */}
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 16 }}>
-          <SectionTitle sub="Ranked by projected upside. Select a card to open the full report.">
+          <SectionTitle sub="Ranked by projected upside, players valued €1M and up. Select a card to open the full report.">
             Top targets
           </SectionTitle>
           <Btn variant="ghost" onClick={() => onNavigate('scouting')}>
@@ -218,22 +242,22 @@ export default function Dashboard({ onNavigate, onSelectPlayer }: Props) {
       <Card style={{ padding: 0, display: 'flex' }}>
         {[
           {
-            label: 'Highest upside this week',
-            value: 'Jonas Drechsel', sub: '+205% projected · Age 19 · AM',
+            label: 'Highest projected upside',
+            value: bestUpside?.name ?? '—', sub: bestUpside ? `${signed(bestUpside.upside)}% projected · Age ${bestUpside.age} · ${bestUpside.position}` : '',
             color: '#F5B82E',
-            onClick: () => { onSelectPlayer(3); onNavigate('player-profile') }
+            onClick: () => open(bestUpside)
           },
           {
             label: 'Fastest value growth',
-            value: 'Emilio Cardona', sub: '+€7.2M in 6 months',
+            value: fastest?.name ?? '—', sub: fastest ? `${fastest.valueChange >= 0 ? '+' : ''}${fastest.valueChange}% at last valuation` : '',
             color: '#3DD6F5',
-            onClick: () => { onSelectPlayer(4); onNavigate('player-profile') }
+            onClick: () => open(fastest)
           },
           {
             label: 'Best risk / reward',
-            value: 'Dario Montalvo', sub: 'Low risk · +194% upside',
+            value: bestRisk?.name ?? '—', sub: bestRisk ? `Low risk · ${signed(bestRisk.upside)}% upside` : '',
             color: '#FF8A3D',
-            onClick: () => { onSelectPlayer(1); onNavigate('player-profile') }
+            onClick: () => open(bestRisk)
           },
         ].map((item, i) => (
           <div

@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Card, SectionTitle, RiskBadge, Btn, Avatar, PositionTag, fmt } from '../components/ui'
-import { watchlistPlayers } from '../data/mockData'
+import { Card, SectionTitle, RiskBadge, Btn, Avatar, PositionTag, fmt, signed } from '../components/ui'
+import { useData } from '../data/DataContext'
 import SquadPitch from '../components/SquadPitch'
 import type { Page } from '../App'
 
@@ -9,6 +9,7 @@ type SortKey = 'upside' | 'currentValue' | 'predictedValue' | 'riskScore' | 'age
 interface Props { onNavigate: (page: Page) => void; onSelectPlayer: (id: number) => void }
 
 export default function Watchlist({ onNavigate, onSelectPlayer }: Props) {
+  const { watchlist: watchlistPlayers, removeFromWatchlist } = useData()
   const [sortKey, setSortKey] = useState<SortKey>('upside')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
   const [view, setView] = useState<'pitch' | 'table'>('pitch')
@@ -47,7 +48,7 @@ export default function Watchlist({ onNavigate, onSelectPlayer }: Props) {
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
         <div>
           <h1 style={{ fontFamily: 'IBM Plex Sans', fontSize: 28, fontWeight: 700, color: '#F2F2F2', margin: 0 }}>My Watchlist</h1>
-          <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#9A9A9A', margin: '6px 0 0' }}>Tracked investment targets — {sorted.length} players</p>
+          <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 14, color: '#9A9A9A', margin: '6px 0 0' }}>Tracked investment targets — {sorted.length} {sorted.length === 1 ? 'player' : 'players'}</p>
         </div>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
           <div role="group" aria-label="View" style={{ display: 'flex', marginRight: 8 }}>
@@ -119,13 +120,13 @@ export default function Watchlist({ onNavigate, onSelectPlayer }: Props) {
                 <td style={{ padding: '14px 16px', fontFamily: 'JetBrains Mono', fontSize: 13, color: '#F2F2F2' }}>{fmt(p.currentValue)}</td>
                 <td style={{ padding: '14px 16px', fontFamily: 'JetBrains Mono', fontSize: 13, color: '#F5B82E', fontWeight: 600 }}>{fmt(p.predictedValue)}</td>
                 <td style={{ padding: '14px 16px' }}>
-                  <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 15, fontWeight: 700, color: '#3DDC97' }}>+{p.upside}%</span>
+                  <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 15, fontWeight: 700, color: '#3DDC97' }}>{signed(p.upside)}%</span>
                 </td>
                 <td style={{ padding: '14px 16px' }}><RiskBadge risk={p.risk} /></td>
                 <td style={{ padding: '14px 16px' }}>
                   <div style={{ display: 'flex', gap: 6 }}>
                     <Btn variant="ghost" style={{ padding: '5px 10px', fontSize: 11 }} onClick={() => { onSelectPlayer(p.id); onNavigate('player-profile') }}>View</Btn>
-                    <Btn variant="danger" style={{ padding: '5px 10px', fontSize: 11 }}>Remove</Btn>
+                    <Btn variant="danger" style={{ padding: '5px 10px', fontSize: 11 }} onClick={() => removeFromWatchlist(p.id)}>Remove</Btn>
                   </div>
                 </td>
               </tr>

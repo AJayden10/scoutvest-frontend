@@ -1,3 +1,4 @@
+import { useData } from '../data/DataContext'
 import type { Page } from '../App'
 import logoEmblem from '../assets/logo-emblem.png'
 
@@ -18,6 +19,7 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ currentPage, onNavigate }: SidebarProps) {
+  const { source } = useData()
   return (
     <header style={{
       height: 64, minHeight: 64, background: '#050505', borderBottom: '1px solid #2A2A2A', boxShadow: 'inset 0 -2px 0 rgba(245,184,46,0.35)',
@@ -77,7 +79,7 @@ export default function Sidebar({ currentPage, onNavigate }: SidebarProps) {
       {/* Status */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
         <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#F5B82E', boxShadow: '0 0 6px #F5B82E' }} />
-        <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#9A9A9A' }}>Model v2.1 active</span>
+        <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#9A9A9A' }}>{source === 'live' ? 'Live model data' : source === 'demo' ? 'Sample data' : 'Connecting…'}</span>
       </div>
     </header>
   )

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import type { Player } from '../data/mockData'
 import { TIERS, scoutRating } from './tiers'
-import { fmt } from './ui'
+import { fmt, signed } from './ui'
 
 // Rounded shield: soft corners on top, a rounder curve toward the bottom.
 const RADIUS = '1.1em 1.1em 45% 45% / 1.1em 1.1em 14% 14%'
@@ -31,10 +31,12 @@ export default function PlayerCard({ player: p, onClick, compact = false, size }
   const nameSize = p.name.length > 17 ? 1.2 : p.name.length > 13 ? 1.4 : 1.55
 
   const stats: [string, string][] = [
-    [p.xG90.toFixed(2), 'xG'],
-    [p.xA90.toFixed(2), 'xA'],
-    [p.progressivePasses.toFixed(1), 'Pass'],
-    [p.progressiveCarries.toFixed(1), 'Carry'],
+    // Show what the data source actually provides: xG/xA only exist for Understat leagues and progressive
+    // actions for FBref-style feeds, so fall back to goals/assists and minutes rather than printing zeros.
+    p.xG90 > 0 ? [p.xG90.toFixed(2), 'xG'] : [p.goals90.toFixed(2), 'G/90'],
+    p.xA90 > 0 ? [p.xA90.toFixed(2), 'xA'] : [p.assists90.toFixed(2), 'A/90'],
+    p.progressivePasses > 0 ? [p.progressivePasses.toFixed(1), 'Pass'] : [`${(p.minutes / 1000).toFixed(1)}k`, 'Mins'],
+    p.progressiveCarries > 0 ? [p.progressiveCarries.toFixed(1), 'Carry'] : [`${signed(p.valueChange)}%`, 'Last Δ'],
     [String(p.confidence), 'Conf'],
     [String(p.riskScore), 'Risk'],
   ]
@@ -98,7 +100,7 @@ export default function PlayerCard({ player: p, onClick, compact = false, size }
           <div style={{
             marginTop: 'auto', textAlign: 'center',
             fontFamily: 'Saira Condensed', fontWeight: 800, fontSize: '1.1em',
-          }}>+{p.upside}%</div>
+          }}>{signed(p.upside)}%</div>
         ) : (
           <>
             <div style={{
@@ -124,7 +126,7 @@ export default function PlayerCard({ player: p, onClick, compact = false, size }
               fontFamily: 'Saira Condensed', fontWeight: 800, fontSize: '1.12em', lineHeight: 1.1,
             }}>
               {fmt(p.currentValue)} → {fmt(p.predictedValue)}
-              <div style={{ fontSize: '0.82em', fontWeight: 700, opacity: 0.8 }}>+{p.upside}% projected</div>
+              <div style={{ fontSize: '0.82em', fontWeight: 700, opacity: 0.8 }}>{signed(p.upside)}% projected</div>
             </div>
           </>
         )}
