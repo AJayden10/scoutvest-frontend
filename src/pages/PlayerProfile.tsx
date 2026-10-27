@@ -10,16 +10,18 @@ import {
 import { marketValueHistory } from '../data/mockData'
 import { useData } from '../data/DataContext'
 import { api, type PlayerDetail } from '../api/client'
+import SimilarPlayers from '../components/SimilarPlayers'
 import type { Page } from '../App'
 
-const tabs = ['Overview', 'Performance', 'Market Value', 'AI Prediction', 'Risk Analysis']
+const tabs = ['Overview', 'Similar Players', 'Performance', 'Market Value', 'AI Prediction', 'Risk Analysis']
 
 interface Props {
   playerId: number
   onNavigate: (page: Page) => void
+  onSelectPlayer?: (id: number) => void
 }
 
-export default function PlayerProfile({ playerId, onNavigate }: Props) {
+export default function PlayerProfile({ playerId, onNavigate, onSelectPlayer }: Props) {
   const [tab, setTab] = useState('Overview')
   const { players, source, inWatchlist, addToWatchlist, removeFromWatchlist } = useData()
   const player = players.find(p => p.id === playerId) ?? players[0]
@@ -56,6 +58,16 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
   const projections = [{ label: `${horizonYears}-Year`, value: player.predictedValue, note: 'Model horizon' }]
   const na = (v: number, d: number) => (v === 0 ? '—' : v.toFixed(d))
   const watching = inWatchlist(player.id)
+  const range = player.predictedLow != null && player.predictedHigh != null
+    ? `${fmt(player.predictedLow)}–${fmt(player.predictedHigh)}` : null
+  // Only open players the app has loaded (scored by the model); others have no profile to show.
+  const openPlayer = onSelectPlayer && ((id: number) => { if (players.some(p => p.id === id)) { setTab('Overview'); onSelectPlayer(id) } })
+  // Live: the factors the backend actually added up. Demo: the same rules applied to the sample player.
+  const riskFactors = detail?.riskFactors?.length ? detail.riskFactors : [
+    { factor: 'Playing time', points: Math.round(25 * Math.max(0, Math.min(1, (1500 - player.minutes) / 1200))), detail: `${player.minutes.toLocaleString()} minutes last season` },
+    { factor: 'Age', points: player.age >= 30 ? 12 : player.age >= 28 ? 6 : 0, detail: `Age ${player.age}` },
+    { factor: 'Contract', points: player.contractYears <= 1 ? 15 : player.contractYears <= 2 ? 6 : 0, detail: `${player.contractYears} year(s) left` },
+  ]
 
   return (
     <div style={{ padding: '24px 32px 40px', display: 'flex', flexDirection: 'column', gap: 20, maxWidth: 1100 }}>
@@ -134,6 +146,12 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
                   }}>
                     {m.value}
                   </div>
+                  {m.label === 'PREDICTED VALUE' && range && (
+                    <div title="10th-90th percentile range from the model's errors on seasons it never saw"
+                      style={{ fontFamily: 'JetBrains Mono', fontSize: 10, color: '#9A9A9A', marginTop: 6 }}>
+                      80% range {range}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -236,6 +254,9 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
           ))}
         </div>
       )}
+
+      {/* Tab: Similar Players */}
+      {tab === 'Similar Players' && <SimilarPlayers playerId={player.id} onSelectPlayer={openPlayer} />}
 
       {/* Tab: Performance */}
       {tab === 'Performance' && (
@@ -419,18 +440,19 @@ export default function PlayerProfile({ playerId, onNavigate }: Props) {
             </div>
           </Card>
           <Card style={{ padding: '24px' }}>
-            <div style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: '#9A9A9A', marginBottom: 20 }}>RISK FACTORS</div>
-            {[
-              { factor: 'Age Profile',             level: 'Low'    as const },
-              { factor: 'Injury History',           level: player.riskScore > 35 ? 'Medium' as const : 'Low' as const },
-              { factor: 'Performance Volatility',   level: 'Low'    as const },
-              { factor: 'League Transition',        level: player.riskScore > 30 ? 'Medium' as const : 'Low' as const },
-              { factor: 'Contract Status',          level: 'Low'    as const },
-              { factor: 'Model Uncertainty',        level: player.confidence > 80 ? 'Low' as const : 'Medium' as const },
-            ].map(f => (
-              <div key={f.factor} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '11px 0', borderBottom: '1px solid rgba(42,42,42,0.5)' }}>
-                <span style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#CFCFCF' }}>{f.factor}</span>
-                <RiskBadge risk={f.level} />
+            <div style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: '#9A9A9A', marginBottom: 6 }}>WHAT THE RISK SCORE IS MADE OF</div>
+            <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#5E5E5E', marginBottom: 14 }}>
+              {detail?.riskFactors?.length ? 'Points the model added for each factor; they sum to the score.' : 'Sample breakdown using the same rules (connect the API for the real one).'}
+            </div>
+            {riskFactors.map(f => (
+              <div key={f.factor} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, padding: '10px 0', borderBottom: '1px solid rgba(42,42,42,0.5)' }}>
+                <div>
+                  <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#CFCFCF' }}>{f.factor}</div>
+                  <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 11, color: '#9A9A9A' }}>{f.detail}</div>
+                </div>
+                <span style={{ fontFamily: 'JetBrains Mono', fontSize: 13, fontWeight: 700, color: f.points >= 10 ? '#FF8A3D' : f.points > 0 ? '#F5B82E' : '#3DDC97' }}>
+                  +{f.points.toFixed(0)}
+                </span>
               </div>
             ))}
           </Card>

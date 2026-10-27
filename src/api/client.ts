@@ -32,7 +32,7 @@ export const api = {
 export interface ApiPlayer {
   id: number; name: string; age: number | null; position: string | null; club: string | null
   league: string | null; nationality: string | null; currentValue: number | null
-  predictedValue: number | null; upside: number | null; risk: string | null; riskScore: number | null
+  predictedValue: number | null; predictedLow: number | null; predictedHigh: number | null; upside: number | null; risk: string | null; riskScore: number | null
   signal: string | null; xG90: number | null; xA90: number | null; goals90: number | null
   assists90: number | null; progressivePasses: number | null; progressiveCarries: number | null
   minutes: number; peakValue: number | null; valueChange: number | null; transferFee: number | null
@@ -55,6 +55,7 @@ export function normalizePlayer(p: ApiPlayer): (Player & { hasXg: boolean }) | n
     minutes: p.minutes, peakValue: p.peakValue ?? p.currentValue, valueChange: p.valueChange ?? 0,
     transferFee: p.transferFee ?? 0, contractYears: p.contractYears ?? 0,
     confidence: p.confidence ?? 0, reasons: p.reasons ?? [],
+    predictedLow: p.predictedLow, predictedHigh: p.predictedHigh,
     hasXg: p.xG90 != null,
   }
 }
@@ -74,6 +75,9 @@ export interface PlayerDetail extends ApiPlayer {
   marketValueHistory: { date: string; value: number }[]
   forecast: { date: string; predicted: number }[]
   modelVersion: string | null
+  predictedAt: string | null
+  riskFactors: { factor: string; points: number; detail: string }[]
+  seasonMetrics: { season: string; source: string; team: string; positionGroup: string; matches: number; metrics: Record<string, number> }[]
   seasonStats: { season: string; club: string | null; age: number; matches: number; minutes: number; goals: number; assists: number; xg: number | null; xag: number | null }[]
 }
 
@@ -85,13 +89,38 @@ export interface MarketTrends {
   averageValueByMonth: { month: string; value: number }[]
 }
 
+export interface Segment { segment: string; n: number; mae: number; baseline_mae: number; median_abs_pct_error: number }
+
 export interface ModelInfo {
-  trained: boolean; version?: string; horizon_years?: number; features?: string[]
+  trained: boolean; version?: string; horizon_years?: number; features?: string[]; trained_at?: string
   metrics?: {
     train_rows: number; test_rows: number; cutoff_year: number; mae: number; rmse: number; r2: number
     median_abs_pct_error: number; mean_abs_log_error: number; baseline_mae: number; beats_baseline: boolean
+    // Added by the embargoed evaluation; older models don't have them.
+    test_year?: number; train_years?: number[]; embargo?: boolean; beats_all_baselines?: boolean
+    baselines?: { no_change: number; median_growth: number; age_curve: number }
+    interval?: { log_low: number; log_high: number; nominal_coverage: number; checked_coverage: number | null; checked_on_rows: number }
+    segments?: { league: Segment[]; position: Segment[]; value_band: Segment[]; confidence_band: Segment[] }
   }
   importances?: Record<string, number>
+}
+
+/** GET /health/: what the API holds and which model produced the predictions. */
+export interface Health {
+  status: string; database: string; players: number; playersWithPrediction: number
+  dataSources: { name: string; rows: number; latest: string | null }[]
+  predictions: { modelVersion: string | null; createdAt: string | null }
+  model: { trained: boolean; version?: string; trainedAt?: string; horizonYears?: number; testYear?: number; beatsBaseline?: boolean; beatsAllBaselines?: boolean }
+}
+
+export interface SimilarStat { feature: string; label: string; reference: number; candidate: number; gap: number }
+export interface SimilarResponse {
+  season: string; positionGroup: string; positionGroupLabel: string; poolSize: number; minMinutes: number
+  referenceMinutes: number; referenceBelowMinMinutes: boolean; method: string
+  features: { key: string; label: string; reference: number }[]
+  reference: ApiPlayer
+  results: { playerId: number; similarity: number; distance: number; sharedFeatures: number; minutes: number
+    closest: SimilarStat[]; differences: SimilarStat[]; player: ApiPlayer }[]
 }
 
 export interface SimulationResult {
