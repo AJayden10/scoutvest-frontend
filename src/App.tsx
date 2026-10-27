@@ -44,7 +44,7 @@ const ASSISTANT_RESPONSES = [
 ]
 
 export default function App() {
-  const { source, reload } = useData()
+  const { source, reload, demoReason } = useData()
   const [page, setPage] = useState<Page>('dashboard')
   const [selectedPlayerId, setSelectedPlayerId] = useState<number>(1)
   const [assistantOpen, setAssistantOpen] = useState(false)
@@ -74,7 +74,7 @@ export default function App() {
     switch (page) {
       case 'dashboard': return <Dashboard onNavigate={navigate} onSelectPlayer={selectPlayer} />
       case 'players': return <Players onNavigate={navigate} onSelectPlayer={selectPlayer} />
-      case 'player-profile': return <PlayerProfile playerId={selectedPlayerId} onNavigate={navigate} />
+      case 'player-profile': return <PlayerProfile playerId={selectedPlayerId} onNavigate={navigate} onSelectPlayer={selectPlayer} />
       case 'scouting': return <Scouting onNavigate={navigate} onSelectPlayer={selectPlayer} />
       case 'compare': return <Compare onNavigate={navigate} onSelectPlayer={selectPlayer} />
       case 'simulator': return <Simulator />
@@ -93,7 +93,7 @@ export default function App() {
         <TopBar onNavigate={navigate} onSelectPlayer={selectPlayer} />
         {source === 'demo' && (
           <div role="status" style={{ background: 'rgba(245,184,46,0.1)', borderBottom: '1px solid rgba(245,184,46,0.25)', padding: '7px 24px', display: 'flex', gap: 12, alignItems: 'center', fontFamily: 'IBM Plex Sans', fontSize: 12, color: '#F5B82E', flexShrink: 0 }}>
-            <span>Showing sample data: the Free Agent API isn't reachable or has no predictions yet.</span>
+            <span><strong>Demo data:</strong> every player and number on screen is an invented example{demoReason ? `, because ${demoReason}` : ''}.</span>
             <button onClick={reload} style={{ background: 'none', border: '1px solid rgba(245,184,46,0.4)', borderRadius: 6, color: '#F5B82E', padding: '2px 10px', cursor: 'pointer', fontFamily: 'IBM Plex Sans', fontSize: 11 }}>Retry</button>
           </div>
         )}
@@ -153,7 +153,7 @@ export default function App() {
             </div>
             <div>
               <div style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, fontWeight: 600, color: '#F2F2F2' }}>Ask Free Agent</div>
-              <div style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: '#F5B82E' }}>AI SCOUTING ASSISTANT</div>
+              <div style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: '#FF8A3D' }}>PREVIEW · SAMPLE ANSWERS, NOT CONNECTED TO THE MODEL</div>
             </div>
           </div>
 

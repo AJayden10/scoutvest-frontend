@@ -29,6 +29,9 @@ export interface Player {
   contractYears: number
   confidence: number
   reasons: string[]
+  /** 10th-90th percentile range from the model's held-out errors (live data only). */
+  predictedLow?: number | null
+  predictedHigh?: number | null
 }
 
 export const players: Player[] = [

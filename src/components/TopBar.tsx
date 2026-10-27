@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useData } from '../data/DataContext'
 import type { Page } from '../App'
+import DataStatus from './DataStatus'
 
 interface TopBarProps {
   onNavigate: (page: Page) => void
@@ -49,6 +50,7 @@ export default function TopBar({ onNavigate, onSelectPlayer }: TopBarProps) {
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginLeft: 'auto' }}>
+        <DataStatus />
         {/* Notifications */}
         <button style={{ position: 'relative', background: 'none', border: 'none', cursor: 'pointer', padding: 4, display: 'flex' }}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9A9A9A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">

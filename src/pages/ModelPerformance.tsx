@@ -68,21 +68,26 @@ export default function ModelPerformance() {
           </div>
 
           <Card style={{ padding: '24px' }}>
-            <SectionTitle>Model vs. "value stays the same"</SectionTitle>
+            <SectionTitle>Model vs. simple baselines</SectionTitle>
             <p style={{ fontFamily: 'IBM Plex Sans', fontSize: 13, color: '#9A9A9A', margin: '4px 0 12px' }}>
-              Average error in €M on {m.test_rows.toLocaleString()} player-seasons after {m.cutoff_year}. Lower is better.{' '}
-              <strong style={{ color: m.beats_baseline ? '#3DDC97' : '#FF8A3D' }}>
-                {m.beats_baseline ? 'The model beats the baseline.' : 'The model does not beat the baseline yet; treat predictions with caution.'}
+              Average error in €M on {m.test_rows.toLocaleString()} player-seasons from {m.test_year ?? `after ${m.cutoff_year}`}, a season the model never saw
+              {m.embargo ? `; it only trained on seasons up to ${m.cutoff_year}, whose outcomes were already known by then` : ''}. Lower is better.{' '}
+              <strong style={{ color: (m.beats_all_baselines ?? m.beats_baseline) ? '#3DDC97' : '#FF8A3D' }}>
+                {(m.beats_all_baselines ?? m.beats_baseline) ? 'The model beats every baseline.' : 'The model does not beat every baseline yet; treat predictions with caution.'}
               </strong>
             </p>
-            <ResponsiveContainer width="100%" height={150}>
-              <BarChart data={[{ name: 'Free Agent model', v: m.mae }, { name: 'Value stays the same', v: m.baseline_mae }]} layout="vertical" margin={{ left: 20, right: 30 }}>
+            <ResponsiveContainer width="100%" height={m.baselines ? 210 : 150}>
+              <BarChart data={[
+                { name: 'Free Agent model', v: m.mae },
+                { name: 'Value stays the same', v: m.baselines?.no_change ?? m.baseline_mae },
+                ...(m.baselines ? [{ name: 'Same growth for all', v: m.baselines.median_growth }, { name: 'Age curve', v: m.baselines.age_curve }] : []),
+              ]} layout="vertical" margin={{ left: 20, right: 30 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#1A1A1A" horizontal={false} />
                 <XAxis type="number" tick={{ fontFamily: 'JetBrains Mono', fontSize: 10, fill: '#9A9A9A' }} axisLine={false} tickLine={false} tickFormatter={v => `€${v}M`} />
                 <YAxis type="category" dataKey="name" width={140} tick={{ fontFamily: 'IBM Plex Sans', fontSize: 12, fill: '#CFCFCF' }} axisLine={false} tickLine={false} />
                 <Tooltip formatter={(v: any) => [`€${v}M`, 'MAE']} contentStyle={{ background: '#171717', border: '1px solid #2A2A2A', fontFamily: 'IBM Plex Sans', fontSize: 12 }} />
                 <Bar dataKey="v" radius={[0, 4, 4, 0]}>
-                  <Cell fill="#F5B82E" /><Cell fill="#3A3A3A" />
+                  <Cell fill="#F5B82E" /><Cell fill="#3A3A3A" /><Cell fill="#3A3A3A" /><Cell fill="#3A3A3A" />
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
@@ -114,11 +119,43 @@ export default function ModelPerformance() {
                 <StatRow label="Predicts" value={`Value ${model.horizon_years} years ahead`} />
                 <StatRow label="Training samples" value={m.train_rows.toLocaleString()} mono />
                 <StatRow label="Test samples" value={m.test_rows.toLocaleString()} mono />
-                <StatRow label="Validation" value={`Time split at ${m.cutoff_year}`} mono />
+                <StatRow label="Validation" value={m.test_year ? `Train ≤${m.cutoff_year}, test ${m.test_year}${m.embargo ? ' (embargoed)' : ''}` : `Time split at ${m.cutoff_year}`} mono />
                 <StatRow label="Features" value={String(model.features?.length ?? '—')} mono />
+                {m.interval && m.interval.checked_coverage != null && (
+                  <StatRow label="80% range really covers" value={`${(m.interval.checked_coverage * 100).toFixed(0)}% (${m.interval.checked_on_rows} rows)`} mono />
+                )}
+                {model.trained_at && <StatRow label="Trained" value={new Date(model.trained_at).toLocaleDateString('en-GB')} mono />}
               </div>
             </Card>
           </div>
+
+          {m.segments && (
+            <Card style={{ padding: '24px' }}>
+              <SectionTitle sub="The same held-out season, split up. A model can look good on average and still fail one group; the confidence rows check whether higher confidence really means smaller errors.">
+                Where the model is weaker
+              </SectionTitle>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 20, marginTop: 16 }}>
+                {([['By value band', m.segments.value_band], ['By position', m.segments.position], ['By confidence', m.segments.confidence_band], ['By league', m.segments.league]] as const)
+                  .filter(([, rows]) => rows.length > 0)
+                  .map(([title, rows]) => (
+                    <div key={title}>
+                      <div style={{ fontFamily: 'JetBrains Mono', fontSize: 9, color: '#9A9A9A', marginBottom: 8 }}>{title.toUpperCase()}</div>
+                      <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'JetBrains Mono', fontSize: 11 }}>
+                        <thead><tr>{['', 'n', 'MAE', 'base', 'med %'].map(h => <th key={h} style={{ textAlign: h ? 'right' : 'left', color: '#5E5E5E', fontWeight: 500, padding: '4px 0' }}>{h}</th>)}</tr></thead>
+                        <tbody>{rows.map(r => (
+                          <tr key={r.segment} style={{ borderTop: '1px solid #1A1A1A' }}>
+                            <td style={{ color: '#CFCFCF', padding: '5px 0', fontFamily: 'IBM Plex Sans' }}>{r.segment}</td>
+                            <td style={{ textAlign: 'right', color: '#9A9A9A' }}>{r.n}</td>
+                            <td style={{ textAlign: 'right', color: r.mae <= r.baseline_mae ? '#3DDC97' : '#FF8A3D' }}>{r.mae.toFixed(2)}</td>
+                            <td style={{ textAlign: 'right', color: '#9A9A9A' }}>{r.baseline_mae.toFixed(2)}</td>
+                            <td style={{ textAlign: 'right', color: '#9A9A9A' }}>{r.median_abs_pct_error.toFixed(0)}</td>
+                          </tr>))}</tbody>
+                      </table>
+                    </div>
+                  ))}
+              </div>
+            </Card>
+          )}
         </>
       )}
     </div>
